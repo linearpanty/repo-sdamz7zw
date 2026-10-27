@@ -1,79 +1,71 @@
-export type Settings = {
-  dailyNewCount: number
-}
+import { WORDS } from '../data/words'
+import {
+  addDays,
+  blankProgress,
+  dateKey,
+  PROGRESS_KEY,
+  type Memory,
+  type Progress,
+} from './model'
+import { ensureToday, sanitizeProgress } from './queue'
 
-export type Progress = {
-  userId: string
-  tipSeen: boolean
-  settings: Settings
-  learnedIds: string[]
-  dueIds: string[] // fake FSRS stubs
-  answers: { wordId: string; type: string; ok: boolean; at: string }[]
-  todayKey: string
-  todayNewIds: string[]
-  todayDone: boolean
-  extraRounds: number
-}
+const LEGACY_KEY = 'clawwords.progress.v2'
 
-const KEY = 'clawwords.progress.v2'
-
-function uuid(): string {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID()
-  return 'u-' + Math.random().toString(36).slice(2) + Date.now().toString(36)
-}
-
-function todayKey(): string {
-  const d = new Date()
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
-}
-
-export function defaultProgress(): Progress {
-  return {
-    userId: uuid(),
-    tipSeen: true,
-    settings: { dailyNewCount: 10 },
-    learnedIds: [],
-    dueIds: [],
-    answers: [],
-    todayKey: todayKey(),
-    todayNewIds: [],
-    todayDone: false,
-    extraRounds: 0,
-  }
-}
-
-export function loadProgress(): Progress {
+function readJson(key: string): unknown {
   try {
-    const raw = localStorage.getItem(KEY)
-    if (!raw) return defaultProgress()
-    const p = JSON.parse(raw) as Progress
-    if (!p.userId) p.userId = uuid()
-    p.tipSeen = true
-    if (!p.settings) p.settings = { dailyNewCount: 10 }
-    if (!Array.isArray(p.learnedIds)) p.learnedIds = []
-    if (!Array.isArray(p.dueIds)) p.dueIds = []
-    if (!Array.isArray(p.answers)) p.answers = []
-    if (p.todayKey !== todayKey()) {
-      p.todayKey = todayKey()
-      p.todayNewIds = []
-      p.todayDone = false
-      p.extraRounds = 0
-    }
-    return p
+    const raw = localStorage.getItem(key)
+    if (!raw) return null
+    return JSON.parse(raw) as unknown
   } catch {
-    return defaultProgress()
+    return null
   }
 }
 
-export function saveProgress(p: Progress): void {
-  localStorage.setItem(KEY, JSON.stringify(p))
+/** Map a previous save into today's queue without copying any of its labels. */
+export function migrateLegacy(raw: unknown, today: string): Progress | null {
+  if (!raw || typeof raw !== 'object') return null
+  const row = raw as {
+    learnedIds?: unknown
+    dueIds?: unknown
+    todayKey?: unknown
+    todayDone?: unknown
+  }
+  const learned = Array.isArray(row.learnedIds)
+    ? row.learnedIds.filter((id): id is string => typeof id === 'string')
+    : []
+  const due = Array.isArray(row.dueIds)
+    ? row.dueIds.filter((id): id is string => typeof id === 'string')
+    : []
+  if (learned.length === 0 && due.length === 0 && row.todayDone !== true) return null
+
+  const known = new Set(WORDS.map((w) => w.id))
+  const memory: Record<string, Memory> = {}
+  const tomorrow = addDays(today, 1)
+  for (const id of learned) {
+    if (!known.has(id)) continue
+    memory[id] = { interval: 3, next: tomorrow, misses: 0 }
+  }
+  for (const id of due) {
+    if (!known.has(id)) continue
+    memory[id] = { interval: 1, next: today, misses: 1 }
+  }
+
+  const base = blankProgress(today)
+  base.memory = memory
+  if (row.todayKey === today && row.todayDone === true) {
+    return { ...base, finished: true }
+  }
+  return ensureToday(base, today)
 }
 
-export function exportProgress(p: Progress): string {
-  return JSON.stringify(p, null, 2)
+export function loadProgress(today = dateKey()): Progress {
+  const current = sanitizeProgress(readJson(PROGRESS_KEY), today)
+  if (current) return ensureToday(current, today)
+  const legacy = migrateLegacy(readJson(LEGACY_KEY), today)
+  if (legacy) return legacy
+  return ensureToday(blankProgress(today), today)
 }
 
-export function clearProgress(): Progress {
-  localStorage.removeItem(KEY)
-  return defaultProgress()
+export function saveProgress(progress: Progress): void {
+  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress))
 }

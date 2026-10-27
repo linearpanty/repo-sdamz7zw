@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/check-copy.mjs",
     "lint": "oxlint",
+    "test": "node scripts/queue.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -22,5 +23,5 @@
     "typescript": "~6.0.3",
     "vite": "^8.3.4"
   },
-  "description": "ClawWords light illustrated dual-column (Gemini 4) for Pages"
+  "description": "ClawWords · 词卡 — three-screen study flow"
 }

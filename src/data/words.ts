@@ -71,31 +71,8 @@ export function getWord(id: string): Word | undefined {
   return WORDS.find((w) => w.id === id)
 }
 
-export function primaryZh(w: Word): string {
-  return w.senses.map((s) => s.zh).join('；')
-}
-
-function escapeRegExp(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
-
 /** Public URL for a text-free poster, honoring the Vite base path. */
 export function illustrationUrl(word: Word): string | null {
   if (!word.illustration) return null
   return import.meta.env.BASE_URL + word.illustration.replace(/^\//, '')
-}
-
-/**
- * True when the scene caption contains the headword or a listed variant.
- * Review and Boss hints hide that caption so the spell gate stays closed.
- */
-export function captionRevealsHeadword(word: Word): boolean {
-  const candidates = new Set<string>([word.word, ...(word.variants ?? [])])
-  if (word.word.length >= 5 && (word.word.endsWith('e') || word.word.endsWith('y'))) {
-    candidates.add(word.word.slice(0, -1))
-  }
-  const stems = [...candidates].filter(Boolean).sort((a, b) => b.length - a.length)
-  if (stems.length === 0 || !word.sceneHook) return false
-  const pattern = new RegExp(`\\b(?:${stems.map(escapeRegExp).join('|')})\\w*`, 'i')
-  return pattern.test(word.sceneHook)
 }
