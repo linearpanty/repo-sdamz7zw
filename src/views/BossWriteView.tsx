@@ -68,12 +68,9 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
 
   return (
     <section className="cw-card" aria-label="默写">
-      <div className="cw-card-top">
-        <span>默写</span>
-        <span>
-          {cursor + 1} / {words.length}
-        </span>
-      </div>
+      <span className="cw-badge">
+        默写 {cursor + 1}/{words.length}
+      </span>
 
       <p className="cw-kicker">按中文写出英文</p>
       <h1 className="cw-prompt-zh">{primaryZh(currentWord)}</h1>
@@ -148,10 +145,7 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
 
       <div className="cw-actions">
         <button ref={nextRef} type="button" className="cw-btn cw-btn-block" onClick={handleSubmit}>
-          <span>
-            {verdict?.ok ? (cursor + 1 >= words.length ? '完成' : '下一个') : '提交'}
-          </span>
-          <kbd className="cw-kbd">Enter</kbd>
+          {verdict?.ok ? (cursor + 1 >= words.length ? '完成' : '下一个') : '提交'}
         </button>
       </div>
     </section>

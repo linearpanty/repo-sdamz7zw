@@ -9,8 +9,6 @@ type StudioSettingsProps = {
   onClose: () => void
 }
 
-const PRESETS = [5, 10, 15, 20]
-
 export function StudioSettingsView({
   progress,
   onUpdateDailyCount,
@@ -42,98 +40,59 @@ export function StudioSettingsView({
   }
 
   return (
-    <section className="cw-sheet cw-sheet-pad" aria-label="设置">
-      <div className="cw-row-head">
-        <h1 className="cw-title">设置</h1>
-        <button type="button" className="cw-text-btn" onClick={onClose}>
-          返回
+    <section className="cw-sheet" aria-label="设置">
+      <button type="button" className="cw-pill" onClick={onClose}>
+        ← 返回
+      </button>
+      <h1 className="cw-title">设置</h1>
+
+      <label className="cw-field-label" htmlFor="daily-count">
+        每日新词数
+      </label>
+      <input
+        id="daily-count"
+        className="cw-num"
+        type="number"
+        min={5}
+        max={20}
+        value={progress.settings.dailyNewCount}
+        onChange={(e) => onUpdateDailyCount(Number(e.target.value) || 10)}
+      />
+
+      <p className="cw-id">匿名 ID：{progress.userId.slice(0, 8)}…</p>
+
+      <button type="button" className="cw-ink" onClick={handleDownloadJson}>
+        导出进度 JSON
+      </button>
+
+      {!confirmingClear ? (
+        <button type="button" className="cw-danger-btn" onClick={() => setConfirmingClear(true)}>
+          清除进度
         </button>
-      </div>
-
-      <div className="cw-block">
-        <div className="cw-row-head">
-          <h2>每关新词</h2>
-          <span className="cw-count">每 5 个词后做一次选择和默写</span>
-        </div>
-        <div className="cw-presets" role="group" aria-label="每关新词">
-          {PRESETS.map((count) => (
-            <button
-              key={count}
-              type="button"
-              className={`cw-preset ${progress.settings.dailyNewCount === count ? 'is-active' : ''}`}
-              onClick={() => onUpdateDailyCount(count)}
-            >
-              {count}
-            </button>
-          ))}
-        </div>
-        <label className="cw-stepper">
-          <span>数量（5–20）</span>
-          <input
-            type="number"
-            min={5}
-            max={20}
-            value={progress.settings.dailyNewCount}
-            onChange={(e) => onUpdateDailyCount(Number(e.target.value) || 10)}
-          />
-        </label>
-      </div>
-
-      <div className="cw-block">
-        <div className="cw-row-head">
-          <h2>进度</h2>
-        </div>
-        <div className="cw-rows">
-          <div className="cw-line">
-            <span>已学</span>
-            <strong>
-              {progress.learnedIds.length} / {WORDS.length}
-            </strong>
-          </div>
-          <div className="cw-line">
-            <span>待复习</span>
-            <strong>{progress.dueIds.length}</strong>
-          </div>
-          <div className="cw-line">
-            <span>作答</span>
-            <strong>{progress.answers.length}</strong>
-          </div>
-        </div>
-        <div className="cw-actions">
-          <button type="button" className="cw-btn" onClick={handleDownloadJson}>
-            导出 JSON
+      ) : (
+        <>
+          <button
+            type="button"
+            className="cw-danger-btn"
+            onClick={() => {
+              setConfirmingClear(false)
+              onResetAll()
+            }}
+          >
+            确认清除
           </button>
-          <button type="button" className="cw-btn-ghost" onClick={handleCopyJson}>
-            {copied ? '已复制' : '复制'}
+          <button type="button" className="cw-cancel" onClick={() => setConfirmingClear(false)}>
+            取消
           </button>
-        </div>
-        <p className="cw-note">进度存在本机浏览器（clawwords.progress.v2）。</p>
-      </div>
+        </>
+      )}
 
-      <div className="cw-danger">
-        {!confirmingClear ? (
-          <button type="button" className="cw-danger-link" onClick={() => setConfirmingClear(true)}>
-            清除进度
-          </button>
-        ) : (
-          <>
-            <span>清空本机进度？</span>{' '}
-            <button
-              type="button"
-              className="cw-danger-yes"
-              onClick={() => {
-                setConfirmingClear(false)
-                onResetAll()
-              }}
-            >
-              确认
-            </button>
-            <button type="button" className="cw-danger-link" onClick={() => setConfirmingClear(false)}>
-              取消
-            </button>
-          </>
-        )}
-      </div>
+      <p className="cw-foot">
+        无微信入口 · 无云同步（原型） · 已学 {progress.learnedIds.length}/{WORDS.length}
+      </p>
+      <button type="button" className="cw-text-btn" onClick={handleCopyJson}>
+        {copied ? '已复制' : '复制 JSON'}
+      </button>
     </section>
   )
 }

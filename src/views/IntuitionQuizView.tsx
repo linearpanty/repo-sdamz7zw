@@ -55,16 +55,13 @@ export function IntuitionQuizView({ words, onComplete }: IntuitionQuizProps) {
 
   return (
     <section className="cw-card" aria-label="选义">
-      <div className="cw-card-top">
-        <span>选义</span>
-        <span>
-          {cursor + 1} / {words.length}
-        </span>
-      </div>
+      <span className="cw-badge">
+        选义 {cursor + 1}/{words.length}
+      </span>
 
       <LemmaRow word={currentWord.word} ipa={currentWord.ipa} />
-      <p className="cw-lead" style={{ marginTop: 12, marginBottom: 0 }}>
-        {selectedId ? currentWord.sceneHook : '选词义。按 1–4。'}
+      <p className="cw-hint">
+        {selectedId ? currentWord.sceneHook : '选择中文意思 · 键盘 1–4，Enter 确认'}
       </p>
 
       <div className="cw-options" role="group" aria-label="词义选项">
@@ -97,9 +94,8 @@ export function IntuitionQuizView({ words, onComplete }: IntuitionQuizProps) {
             <p className="cw-example-en">{highlightLexeme(currentWord.examples[0].en, currentWord)}</p>
           )}
           <div className="cw-actions">
-            <button type="button" className="cw-btn" onClick={handleNext}>
-              <span>{cursor + 1 >= words.length ? '去默写' : '下一题'}</span>
-              <kbd className="cw-kbd">Enter</kbd>
+            <button type="button" className="cw-btn cw-btn-block" onClick={handleNext}>
+              {cursor + 1 >= words.length ? '去默写' : '下一题'}
             </button>
           </div>
         </div>

@@ -3,7 +3,7 @@
   "short_name": "ClawWords",
   "start_url": "/repo-sdamz7zw/",
   "display": "standalone",
-  "background_color": "#1a1917",
-  "theme_color": "#1a1917",
+  "background_color": "#f4f2ed",
+  "theme_color": "#f4f2ed",
   "lang": "zh-CN"
 }

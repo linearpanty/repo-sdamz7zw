@@ -230,87 +230,26 @@ export default function App() {
     setStep({ kind: 'done', mode: isDailyMain ? 'daily' : 'extra' })
   }
 
-  // Compute Flow progress percentage & active stage label
-  const flowPercent = (() => {
-    if (step.kind === 'review') {
-      const doneRev = Math.max(0, reviewTotal - reviewQueue.length)
-      return Math.round(((doneRev + 1) / Math.max(1, reviewTotal)) * 18)
-    }
-    if (step.kind === 'learn') {
-      return 20 + Math.round(((step.index + 1) / Math.max(1, step.total)) * 45)
-    }
-    if (step.kind === 'quiz-mcq') return 76
-    if (step.kind === 'quiz-write') return 90
-    if (step.kind === 'done') return 100
-    return 0
-  })()
-
   const canDoMoreRounds =
     pickNewWords(progress, 5).length > 0 || dueWords(progress).length > 0
 
   return (
-    <div className={`cw-desk ${route === 'flow' ? 'is-wide' : ''}`}>
-      <header className="cw-bar">
-        <button
-          type="button"
-          className="cw-brand"
-          onClick={() => {
-            setStep({ kind: 'home' })
-            navigate('today')
-          }}
-        >
-          ClawWords
-        </button>
-
-        {route === 'flow' && step.kind !== 'home' ? (
-          <div className="cw-hud">
-            {reviewTotal > 0 && (
-              <span className={`cw-hud-step ${step.kind === 'review' ? 'is-active' : 'is-done'}`}>
-                复习
-              </span>
-            )}
-            <span className={`cw-hud-step ${step.kind === 'learn' ? 'is-active' : ''}`}>词</span>
-            <span className={`cw-hud-step ${step.kind === 'quiz-mcq' ? 'is-active' : ''}`}>选义</span>
-            <span className={`cw-hud-step ${step.kind === 'quiz-write' ? 'is-active' : ''}`}>默写</span>
-            <span className={`cw-hud-step ${step.kind === 'done' ? 'is-active' : ''}`}>完成</span>
-            <button
-              type="button"
-              className="cw-leave"
-              onClick={() => {
-                setStep({ kind: 'home' })
-                navigate('today')
-              }}
-            >
-              离开
-            </button>
-          </div>
-        ) : (
-          <nav className="cw-nav" aria-label="导航">
-            <button
-              type="button"
-              className={`cw-nav-btn ${route === 'today' ? 'is-active' : ''}`}
-              onClick={() => navigate('today')}
-            >
-              今日
-            </button>
-            <button
-              type="button"
-              className={`cw-nav-btn ${route === 'settings' ? 'is-active' : ''}`}
-              onClick={() => navigate('settings')}
-            >
-              设置
-            </button>
-          </nav>
-        )}
-      </header>
-
-      {route === 'flow' && step.kind !== 'home' && (
-        <div className="cw-track" role="progressbar" aria-valuenow={flowPercent} aria-valuemin={0} aria-valuemax={100}>
-          <div className="cw-track-bar" style={{ width: `${flowPercent}%` }} />
-        </div>
-      )}
-
-      <main className="cw-main">
+    <div className="cw-app">
+      <main className="cw-col">
+          {route === 'flow' && step.kind !== 'home' && (
+            <div className="cw-flow-bar">
+              <button
+                type="button"
+                className="cw-pill"
+                onClick={() => {
+                  setStep({ kind: 'home' })
+                  navigate('today')
+                }}
+              >
+                ← 离开
+              </button>
+            </div>
+          )}
           {route === 'tip' && (
             <ManifestoView
               onEnter={() => {
@@ -358,7 +297,11 @@ export default function App() {
                   word={step.word}
                   isReview
                   modeLabel="复习"
-                  subProgressLabel={`还剩 ${reviewQueue.length}`}
+                  subProgressLabel={
+                    reviewTotal > 0
+                      ? `${reviewTotal - reviewQueue.length + 1}/${reviewTotal}`
+                      : '1/1'
+                  }
                   nextButtonText={
                     reviewQueue.length === 1 && batchQueue.length > 0 ? '去新词' : '下一个'
                   }
@@ -370,7 +313,7 @@ export default function App() {
                 <LexiconStageView
                   word={step.word}
                   modeLabel="新词"
-                  subProgressLabel={`${step.index + 1} / ${step.total}`}
+                  subProgressLabel={`${step.index + 1}/${step.total}`}
                   nextButtonText={
                     (step.index + 1) % 5 === 0 || step.index + 1 === step.total
                       ? '去做题'
