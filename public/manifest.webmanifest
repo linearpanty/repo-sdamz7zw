@@ -1,0 +1,17 @@
+{
+  "name": "ClawWords · 词卡",
+  "short_name": "词卡",
+  "start_url": "/repo-sdamz7zw/",
+  "scope": "/repo-sdamz7zw/",
+  "display": "standalone",
+  "background_color": "#f6f5f2",
+  "theme_color": "#f6f5f2",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "/repo-sdamz7zw/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
