@@ -36,9 +36,7 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
   const currentWord = words[cursor]
 
   useEffect(() => {
-    if (!verdict) {
-      inputRef.current?.focus()
-    }
+    if (!verdict) inputRef.current?.focus()
   }, [cursor, verdict])
 
   useEffect(() => {
@@ -72,144 +70,100 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
       advanceStep()
       return
     }
-    const res = gradeTranslation(draft, currentWord.word, currentWord.variants ?? [])
-    setVerdict(res)
+    setVerdict(gradeTranslation(draft, currentWord.word, currentWord.variants ?? []))
   }
 
   const example = currentWord.examples[0]
-  const posList = currentWord.senses
-    .map((s) => s.pos)
-    .filter(Boolean)
-    .join(' / ')
 
   return (
-    <section
-      className="cw-quiz-stage cw-boss-stage"
-      style={{ '--cw-word-accent': currentWord.color } as React.CSSProperties}
-      aria-label="中译英 Boss 检定"
-    >
-      <header className="cw-quiz-header">
-        <div className="cw-quiz-top-row">
-          <span className="cw-phase-pill is-boss">
-            BOSS STAGE · 中译英主动提取
-          </span>
-          <div className="cw-step-dots" aria-label={`第 ${cursor + 1} 题，共 ${words.length} 题`}>
-            {words.map((w, idx) => {
-              let dotState = 'is-upcoming'
-              if (idx < cursor) {
-                dotState = log[idx]?.ok ? 'is-done-ok' : 'is-done-err'
-              } else if (idx === cursor) {
-                dotState = 'is-current'
-              }
-              return <span key={w.id} className={`cw-mini-node ${dotState}`} />
-            })}
-            <span className="cw-subprogress-mono">
-              {cursor + 1} / {words.length}
-            </span>
-          </div>
-        </div>
+    <section className="cw-card" aria-label="默写">
+      <div className="cw-card-top">
+        <span>默写</span>
+        <span>
+          {cursor + 1} / {words.length}
+        </span>
+      </div>
 
-        <div className="cw-boss-prompt-card">
-          <div className="cw-boss-kicker">
-            <span>请根据中文词义与语境，拼写对应英文单词</span>
-            {posList && <span className="cw-pos-tag">{posList}</span>}
-          </div>
+      <p className="cw-kicker">按中文写出英文</p>
+      <h1 className="cw-prompt-zh">{primaryZh(currentWord)}</h1>
 
-          <h1 className="cw-boss-zh-prompt">{primaryZh(currentWord)}</h1>
-
-          {example && (
-            <div className="cw-cloze-box">
-              <p className="cw-cloze-en">
-                {verdict
-                  ? highlightLexeme(example.en, currentWord)
-                  : maskTargetInSentence(example.en, currentWord)}
-              </p>
-              <p className="cw-cloze-zh">{example.zh}</p>
-            </div>
-          )}
-
-          <div className="cw-boss-hint-row">
-            {showHint || verdict ? (
-              <div className="cw-hint-revealed">
-                <span>画面钩子：“{currentWord.sceneHook}”</span>
-                <span>·</span>
-                <span>
-                  首字母 <strong>{currentWord.word[0]}</strong>（{currentWord.word.length} 个字母）
-                </span>
-              </div>
-            ) : (
-              <button
-                type="button"
-                className="cw-inline-link"
-                onClick={() => {
-                  setShowHint(true)
-                  inputRef.current?.focus()
-                }}
-              >
-                需要一点线索？查看画面钩子与首字母
-              </button>
-            )}
-          </div>
-        </div>
-      </header>
-
-      <div className="cw-boss-input-zone">
-        <div className={`cw-spelling-shell ${verdict ? (verdict.ok ? 'is-ok' : 'is-bad') : ''}`}>
-          <span className="cw-input-prefix">EN &gt;</span>
-          <input
-            ref={inputRef}
-            type="text"
-            className="cw-spelling-input"
-            value={draft}
-            disabled={!!verdict}
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck={false}
-            placeholder="输入英文单词，按 Enter 交卷…"
-            onChange={(e) => setDraft(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault()
-                e.stopPropagation()
-                handleSubmit()
-              }
-            }}
-          />
-          <span className="cw-char-counter">
-            {draft.trim().length}/{currentWord.word.length}
-          </span>
-        </div>
-
-        {verdict && (
-          <div className={`cw-tutor-verdict ${verdict.ok ? 'is-ok' : 'is-bad'}`}>
-            <div className="cw-verdict-headline">
-              <span>{verdict.ok ? '✓ ' : '✗ '}</span>
-              <span>{verdict.feedback}</span>
-              {!verdict.ok && (
-                <span className="cw-verdict-expected">
-                  标准拼写：<strong>{verdict.correct}</strong>{' '}
-                  <span className="cw-ipa-inline">{currentWord.ipa}</span>
-                </span>
-              )}
-            </div>
-            {verdict.ok && (
-              <p className="cw-verdict-sub">
-                标准词形：<strong>{currentWord.word}</strong> {currentWord.ipa} — 主动提取通过！
-              </p>
-            )}
-          </div>
-        )}
-
-        <button type="button" className="cw-cta-primary cw-cta-wide" onClick={handleSubmit}>
-          <span>
+      {example && (
+        <div className="cw-cloze">
+          <p className="cw-example-en">
             {verdict
-              ? cursor + 1 >= words.length
-                ? '签收本关战报'
-                : '下一题'
-              : '提交拼写检定'}
+              ? highlightLexeme(example.en, currentWord)
+              : maskTargetInSentence(example.en, currentWord)}
+          </p>
+          <p className="cw-example-zh">{example.zh}</p>
+        </div>
+      )}
+
+      <p className="cw-label">
+        {showHint || verdict ? (
+          <>
+            {currentWord.sceneHook} · 首字母 {currentWord.word[0]} · {currentWord.word.length} 个字母
+          </>
+        ) : (
+          <button
+            type="button"
+            className="cw-text-btn"
+            onClick={() => {
+              setShowHint(true)
+              inputRef.current?.focus()
+            }}
+          >
+            提示
+          </button>
+        )}
+      </p>
+
+      <div className={`cw-field ${verdict ? (verdict.ok ? 'is-ok' : 'is-bad') : ''}`}>
+        <input
+          ref={inputRef}
+          type="text"
+          className="cw-input"
+          value={draft}
+          disabled={!!verdict}
+          autoCapitalize="off"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
+          placeholder="英文"
+          aria-label="英文拼写"
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              e.stopPropagation()
+              handleSubmit()
+            }
+          }}
+        />
+        <span className="cw-counter">
+          {draft.trim().length}/{currentWord.word.length}
+        </span>
+      </div>
+
+      {verdict && (
+        <div className={`cw-feedback ${verdict.ok ? 'is-ok' : 'is-bad'}`}>
+          <p>
+            {verdict.feedback}
+            {!verdict.ok && (
+              <>
+                {' '}
+                <strong>{verdict.correct}</strong> {currentWord.ipa}
+              </>
+            )}
+          </p>
+        </div>
+      )}
+
+      <div className="cw-actions">
+        <button type="button" className="cw-btn" onClick={handleSubmit}>
+          <span>
+            {verdict ? (cursor + 1 >= words.length ? '完成' : '下一题') : '提交'}
           </span>
-          <kbd className="cw-kbd-hint">Enter ↵</kbd>
+          <kbd className="cw-kbd">Enter</kbd>
         </button>
       </div>
     </section>

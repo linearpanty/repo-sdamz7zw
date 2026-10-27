@@ -9,12 +9,7 @@ type StudioSettingsProps = {
   onClose: () => void
 }
 
-const PRESETS = [
-  { count: 5, label: '5 词', tag: '轻量半关' },
-  { count: 10, label: '10 词', tag: '私教推荐' },
-  { count: 15, label: '15 词', tag: '稳步进阶' },
-  { count: 20, label: '20 词', tag: '深度精读' },
-]
+const PRESETS = [5, 10, 15, 20]
 
 export function StudioSettingsView({
   progress,
@@ -31,7 +26,7 @@ export function StudioSettingsView({
     const url = URL.createObjectURL(blob)
     const anchor = document.createElement('a')
     anchor.href = url
-    anchor.download = `clawwords-v2-archive-${progress.todayKey}.json`
+    anchor.download = `clawwords-${progress.todayKey}.json`
     anchor.click()
     URL.revokeObjectURL(url)
   }
@@ -47,132 +42,98 @@ export function StudioSettingsView({
   }
 
   return (
-    <section className="cw-settings-shell" aria-label="私教案头设置">
-      <article className="cw-settings-card">
-        <header className="cw-settings-header">
-          <div>
-            <span className="cw-kicker-pill">STUDIO PREFERENCES · 案头偏好</span>
-            <h1 className="cw-settings-title">私教节奏与本机档案</h1>
+    <section aria-label="设置">
+      <div className="cw-row-head">
+        <h1 className="cw-title">设置</h1>
+        <button type="button" className="cw-text-btn" onClick={onClose}>
+          返回
+        </button>
+      </div>
+
+      <div className="cw-block">
+        <div className="cw-row-head">
+          <h2>每关新词</h2>
+          <span className="cw-count">每 5 个词后做一次选择和默写</span>
+        </div>
+        <div className="cw-presets" role="group" aria-label="每关新词">
+          {PRESETS.map((count) => (
+            <button
+              key={count}
+              type="button"
+              className={`cw-preset ${progress.settings.dailyNewCount === count ? 'is-active' : ''}`}
+              onClick={() => onUpdateDailyCount(count)}
+            >
+              {count}
+            </button>
+          ))}
+        </div>
+        <label className="cw-stepper">
+          <span>数量（5–20）</span>
+          <input
+            type="number"
+            min={5}
+            max={20}
+            value={progress.settings.dailyNewCount}
+            onChange={(e) => onUpdateDailyCount(Number(e.target.value) || 10)}
+          />
+        </label>
+      </div>
+
+      <div className="cw-block">
+        <div className="cw-row-head">
+          <h2>进度</h2>
+        </div>
+        <div className="cw-rows">
+          <div className="cw-line">
+            <span>已学</span>
+            <strong>
+              {progress.learnedIds.length} / {WORDS.length}
+            </strong>
           </div>
-          <button type="button" className="cw-ghost-chip" onClick={onClose}>
-            ← 返回今日便签
+          <div className="cw-line">
+            <span>待复习</span>
+            <strong>{progress.dueIds.length}</strong>
+          </div>
+          <div className="cw-line">
+            <span>作答</span>
+            <strong>{progress.answers.length}</strong>
+          </div>
+        </div>
+        <div className="cw-actions">
+          <button type="button" className="cw-btn" onClick={handleDownloadJson}>
+            导出 JSON
           </button>
-        </header>
+          <button type="button" className="cw-btn-ghost" onClick={handleCopyJson}>
+            {copied ? '已复制' : '复制'}
+          </button>
+        </div>
+        <p className="cw-note">进度存在本机浏览器（clawwords.progress.v2）。</p>
+      </div>
 
-        {/* Section 1: Stage Rhythm Capacity */}
-        <section className="cw-settings-group">
-          <div className="cw-section-header">
-            <span className="cw-section-kicker">STAGE CAPACITY · 每关新词容量（5–20 词）</span>
-            <span className="cw-section-hint">每 5 词触发一轮选义与 Boss 默写</span>
-          </div>
-
-          <div className="cw-preset-rack" role="group" aria-label="每关新词预设">
-            {PRESETS.map((p) => {
-              const active = progress.settings.dailyNewCount === p.count
-              return (
-                <button
-                  key={p.count}
-                  type="button"
-                  className={`cw-preset-tile ${active ? 'is-active' : ''}`}
-                  onClick={() => onUpdateDailyCount(p.count)}
-                >
-                  <strong className="cw-preset-num">{p.label}</strong>
-                  <span className="cw-preset-tag">{p.tag}</span>
-                </button>
-              )
-            })}
-          </div>
-
-          <label className="cw-custom-stepper">
-            <span>自定义每关新词数量（5–20）</span>
-            <input
-              type="number"
-              min={5}
-              max={20}
-              className="cw-stepper-input"
-              value={progress.settings.dailyNewCount}
-              onChange={(e) => onUpdateDailyCount(Number(e.target.value) || 10)}
-            />
-          </label>
-        </section>
-
-        {/* Section 2: Local Archive & Export */}
-        <section className="cw-settings-group">
-          <div className="cw-section-header">
-            <span className="cw-section-kicker">LOCAL ARCHIVE · 本机学习档案</span>
-            <span className="cw-section-hint">STORAGE KEY: clawwords.progress.v2</span>
-          </div>
-
-          <div className="cw-archive-ledger">
-            <div className="cw-ledger-row">
-              <span>档案标识 (Local UUID)</span>
-              <code>{progress.userId.slice(0, 12)}…</code>
-            </div>
-            <div className="cw-ledger-row">
-              <span>馆藏累计掌握</span>
-              <strong>
-                {progress.learnedIds.length} / {WORDS.length} 词
-              </strong>
-            </div>
-            <div className="cw-ledger-row">
-              <span>待温故队列 (Due Stubs)</span>
-              <strong>{progress.dueIds.length} 词</strong>
-            </div>
-            <div className="cw-ledger-row">
-              <span>历史检定作答记录</span>
-              <strong>{progress.answers.length} 条</strong>
-            </div>
-          </div>
-
-          <div className="cw-export-actions">
-            <button type="button" className="cw-cta-primary" onClick={handleDownloadJson}>
-              <span>导出进度 JSON 备份</span>
-              <kbd className="cw-kbd-hint">.JSON</kbd>
-            </button>
-            <button type="button" className="cw-cta-secondary" onClick={handleCopyJson}>
-              <span>{copied ? '✓ 已复制到剪贴板' : '复制 JSON 文本'}</span>
-            </button>
-          </div>
-        </section>
-
-        {/* De-emphasized Footer for Danger Reset */}
-        <footer className="cw-settings-footer">
-          <div className="cw-privacy-note">
-            本机离线存储 · 无微信绑定、无云端打扰、无排行榜焦虑
-          </div>
-
-          {!confirmingClear ? (
+      <div className="cw-danger">
+        {!confirmingClear ? (
+          <button type="button" className="cw-danger-link" onClick={() => setConfirmingClear(true)}>
+            清除进度
+          </button>
+        ) : (
+          <>
+            <span>清空本机进度？</span>{' '}
             <button
               type="button"
-              className="cw-danger-ghost-link"
-              onClick={() => setConfirmingClear(true)}
+              className="cw-danger-yes"
+              onClick={() => {
+                setConfirmingClear(false)
+                onResetAll()
+              }}
             >
-              清除本机学习进度…
+              确认
             </button>
-          ) : (
-            <div className="cw-danger-confirm-inline">
-              <span className="cw-danger-warn">确认清空本机所有进度？此操作不可撤销：</span>
-              <button
-                type="button"
-                className="cw-danger-confirm-btn"
-                onClick={() => {
-                  setConfirmingClear(false)
-                  onResetAll()
-                }}
-              >
-                确认清空
-              </button>
-              <button
-                type="button"
-                className="cw-ghost-cancel-btn"
-                onClick={() => setConfirmingClear(false)}
-              >
-                取消
-              </button>
-            </div>
-          )}
-        </footer>
-      </article>
+            <button type="button" className="cw-danger-link" onClick={() => setConfirmingClear(false)}>
+              取消
+            </button>
+          </>
+        )}
+      </div>
     </section>
   )
 }

@@ -50,105 +50,59 @@ export function IntuitionQuizView({ words, onComplete }: IntuitionQuizProps) {
   }, [selectedId, choices, cursor, currentWord, log])
 
   const isCorrect = selectedId === currentWord.id
+  const answer = currentWord.senses.map((s) => s.zh).join('；')
 
   return (
-    <section
-      className="cw-quiz-stage"
-      style={{ '--cw-word-accent': currentWord.color } as React.CSSProperties}
-      aria-label="前哨选义检定"
-    >
-      <header className="cw-quiz-header">
-        <div className="cw-quiz-top-row">
-          <span className="cw-phase-pill is-mcq">
-            CHECKPOINT I · 直觉选义
-          </span>
-          <div className="cw-step-dots" aria-label={`第 ${cursor + 1} 题，共 ${words.length} 题`}>
-            {words.map((w, idx) => {
-              let dotState = 'is-upcoming'
-              if (idx < cursor) {
-                dotState = log[idx]?.ok ? 'is-done-ok' : 'is-done-err'
-              } else if (idx === cursor) {
-                dotState = 'is-current'
-              }
-              return <span key={w.id} className={`cw-mini-node ${dotState}`} />
-            })}
-            <span className="cw-subprogress-mono">
-              {cursor + 1} / {words.length}
-            </span>
-          </div>
-        </div>
+    <section className="cw-card" aria-label="选义">
+      <div className="cw-card-top">
+        <span>选义</span>
+        <span>
+          {cursor + 1} / {words.length}
+        </span>
+      </div>
 
-        <div className="cw-quiz-prompt-box">
-          <div className="cw-quiz-word-line">
-            <h1 className="cw-headword-serif">{currentWord.word}</h1>
-            <span className="cw-ipa-pill">{currentWord.ipa}</span>
-          </div>
+      <h1 className="cw-headword">{currentWord.word}</h1>
+      <p className="cw-ipa">{currentWord.ipa}</p>
+      <p className="cw-lead" style={{ marginTop: 12, marginBottom: 0 }}>
+        {selectedId ? currentWord.sceneHook : '选词义。按 1–4。'}
+      </p>
 
-          <div className={`cw-hook-reveal-bar ${selectedId ? 'is-revealed' : 'is-veiled'}`}>
-            {selectedId ? (
-              <>
-                <span className="cw-hook-tag">画面锚点</span>
-                <em className="cw-hook-text">“{currentWord.sceneHook}”</em>
-              </>
-            ) : (
-              <span className="cw-hook-placeholder">
-                凭第一直觉锁定词义 · 键盘按 <kbd>1</kbd>–<kbd>4</kbd> 选择
-              </span>
-            )}
-          </div>
-        </div>
-      </header>
-
-      <div className="cw-keycap-grid" role="group" aria-label="词义选项">
+      <div className="cw-options" role="group" aria-label="词义选项">
         {choices.map((item, idx) => {
           let stateCls = ''
           if (selectedId) {
-            if (item.id === currentWord.id) stateCls = 'is-correct'
-            else if (item.id === selectedId) stateCls = 'is-wrong'
-            else stateCls = 'is-dimmed'
+            if (item.id === currentWord.id) stateCls = 'is-ok'
+            else if (item.id === selectedId) stateCls = 'is-bad'
+            else stateCls = 'is-dim'
           }
-
           return (
             <button
               key={item.id}
               type="button"
-              className={`cw-keycap-option ${stateCls}`}
+              className={`cw-option ${stateCls}`}
               disabled={!!selectedId}
               onClick={() => setSelectedId(item.id)}
             >
-              <kbd className="cw-keycap-badge">{idx + 1}</kbd>
-              <span className="cw-option-text">{item.zh}</span>
-              {selectedId && item.id === currentWord.id && (
-                <span className="cw-option-verdict">✓ 命中</span>
-              )}
-              {selectedId && item.id === selectedId && item.id !== currentWord.id && (
-                <span className="cw-option-verdict">✗ 误选</span>
-              )}
+              <span className="cw-opt-num">{idx + 1}</span>
+              <span>{item.zh}</span>
             </button>
           )
         })}
       </div>
 
       {selectedId && (
-        <footer className="cw-quiz-feedback-bar">
-          <div className={`cw-tutor-verdict ${isCorrect ? 'is-ok' : 'is-bad'}`}>
-            <div className="cw-verdict-headline">
-              {isCorrect ? '✓ 直觉准确，画面已锁定' : `✗ 刚才选偏了 · 正确词义为「${currentWord.senses.map((s) => s.zh).join('；')}」`}
-            </div>
-            {currentWord.examples[0] && (
-              <p className="cw-verdict-example">
-                {highlightLexeme(currentWord.examples[0].en, currentWord)}
-              </p>
-            )}
+        <div className={`cw-feedback ${isCorrect ? 'is-ok' : 'is-bad'}`}>
+          <p>{isCorrect ? '对。' : `答案：${answer}`}</p>
+          {currentWord.examples[0] && (
+            <p className="cw-example-en">{highlightLexeme(currentWord.examples[0].en, currentWord)}</p>
+          )}
+          <div className="cw-actions">
+            <button type="button" className="cw-btn" onClick={handleNext}>
+              <span>{cursor + 1 >= words.length ? '去默写' : '下一题'}</span>
+              <kbd className="cw-kbd">Enter</kbd>
+            </button>
           </div>
-
-          <button type="button" className="cw-cta-primary cw-cta-wide" onClick={handleNext}>
-            <span>
-              {cursor + 1 >= words.length ? '进入中译英 Boss 默写检定' : '下一题'}
-            </span>
-            <kbd className="cw-kbd-hint">Enter ↵</kbd>
-          </button>
-        </footer>
+        </div>
       )}
     </section>
   )

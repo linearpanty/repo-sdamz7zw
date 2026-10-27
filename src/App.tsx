@@ -22,20 +22,17 @@ import { StudioSettingsView } from './views/StudioSettingsView'
 
 type StudioRoute = 'tip' | 'today' | 'flow' | 'settings'
 
-function parseHash(tipSeen: boolean): StudioRoute {
+function parseHash(): StudioRoute {
   const raw = (window.location.hash.replace(/^#\/?/, '') || '').split('?')[0]
   if (raw === 'tip') return 'tip'
   if (raw === 'settings') return 'settings'
   if (raw === 'flow') return 'flow'
-  if (raw === 'today') return 'today'
-  return tipSeen ? 'today' : 'tip'
+  return 'today'
 }
 
 export default function App() {
   const [progress, setProgress] = useState<Progress>(() => loadProgress())
-  const [route, setRouteState] = useState<StudioRoute>(() =>
-    parseHash(loadProgress().tipSeen),
-  )
+  const [route, setRouteState] = useState<StudioRoute>(() => parseHash())
 
   const [step, setStep] = useState<FlowStep>({ kind: 'home' })
   const [reviewQueue, setReviewQueue] = useState<Word[]>([])
@@ -59,12 +56,19 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    const raw = (window.location.hash.replace(/^#\/?/, '') || '').split('?')[0]
+    if (raw !== 'tip' && raw !== 'today' && raw !== 'flow' && raw !== 'settings') {
+      window.location.hash = '/today'
+    }
+  }, [])
+
+  useEffect(() => {
     const onHashChange = () => {
-      setRouteState(parseHash(progress.tipSeen))
+      setRouteState(parseHash())
     }
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
-  }, [progress.tipSeen])
+  }, [])
 
   const beginRound = useCallback(
     (isExtra = false) => {
@@ -245,97 +249,68 @@ export default function App() {
     pickNewWords(progress, 5).length > 0 || dueWords(progress).length > 0
 
   return (
-    <div className="cw-viewport">
-      {/* Ambient Studio Lighting Layers */}
-      <div className="cw-ambient-lamp" aria-hidden="true" />
-      <div className="cw-ambient-grid" aria-hidden="true" />
+    <div className="cw-app">
+      <header className="cw-top">
+        <button
+          type="button"
+          className="cw-brand"
+          onClick={() => {
+            setStep({ kind: 'home' })
+            navigate('today')
+          }}
+        >
+          ClawWords
+        </button>
 
-      <div className="cw-studio-container">
-        {/* Top Studio Instrument Console */}
-        <header className="cw-console-bar">
-          <button
-            type="button"
-            className="cw-brand-mark"
-            onClick={() => {
-              setStep({ kind: 'home' })
-              navigate('today')
-            }}
-          >
-            <span className="cw-brand-emblem" aria-hidden="true">
-              ◈
-            </span>
-            <span className="cw-brand-name">ClawWords</span>
-            <span className="cw-brand-sub">词光私教馆</span>
-          </button>
-
-          {route === 'flow' && step.kind !== 'home' ? (
-            <div className="cw-flow-hud">
-              <div className="cw-hud-phases" aria-hidden="true">
-                {reviewTotal > 0 && (
-                  <span className={step.kind === 'review' ? 'is-active' : 'is-passed'}>
-                    温故
-                  </span>
-                )}
-                <span className={step.kind === 'learn' ? 'is-active' : ''}>
-                  图鉴
-                </span>
-                <span className={step.kind === 'quiz-mcq' ? 'is-active' : ''}>
-                  选义
-                </span>
-                <span className={step.kind === 'quiz-write' ? 'is-active' : ''}>
-                  Boss默写
-                </span>
-                <span className={step.kind === 'done' ? 'is-active' : ''}>
-                  日签
-                </span>
-              </div>
-              <button
-                type="button"
-                className="cw-hud-exit"
-                onClick={() => {
-                  setStep({ kind: 'home' })
-                  navigate('today')
-                }}
-              >
-                暂离本关
-              </button>
-            </div>
-          ) : (
-            <nav className="cw-console-nav" aria-label="私教馆导航">
-              <button
-                type="button"
-                className={`cw-nav-tab ${route === 'tip' ? 'is-active' : ''}`}
-                onClick={() => navigate('tip')}
-              >
-                私教序言
-              </button>
-              <button
-                type="button"
-                className={`cw-nav-tab ${route === 'today' ? 'is-active' : ''}`}
-                onClick={() => navigate('today')}
-              >
-                今日一关
-              </button>
-              <button
-                type="button"
-                className={`cw-nav-tab ${route === 'settings' ? 'is-active' : ''}`}
-                onClick={() => navigate('settings')}
-              >
-                案头设置
-              </button>
-            </nav>
-          )}
-        </header>
-
-        {/* Continuous Hairline Flow Progress Beam */}
-        {route === 'flow' && step.kind !== 'home' && (
-          <div className="cw-flow-rail" role="progressbar" aria-valuenow={flowPercent} aria-valuemin={0} aria-valuemax={100}>
-            <div className="cw-flow-beam" style={{ width: `${flowPercent}%` }} />
+        {route === 'flow' && step.kind !== 'home' ? (
+          <div className="cw-hud">
+            {reviewTotal > 0 && (
+              <span className={`cw-hud-step ${step.kind === 'review' ? 'is-active' : 'is-done'}`}>
+                复习
+              </span>
+            )}
+            <span className={`cw-hud-step ${step.kind === 'learn' ? 'is-active' : ''}`}>词</span>
+            <span className={`cw-hud-step ${step.kind === 'quiz-mcq' ? 'is-active' : ''}`}>选义</span>
+            <span className={`cw-hud-step ${step.kind === 'quiz-write' ? 'is-active' : ''}`}>默写</span>
+            <span className={`cw-hud-step ${step.kind === 'done' ? 'is-active' : ''}`}>完成</span>
+            <button
+              type="button"
+              className="cw-leave"
+              onClick={() => {
+                setStep({ kind: 'home' })
+                navigate('today')
+              }}
+            >
+              离开
+            </button>
           </div>
+        ) : (
+          <nav className="cw-nav" aria-label="导航">
+            <button
+              type="button"
+              className={`cw-nav-btn ${route === 'today' ? 'is-active' : ''}`}
+              onClick={() => navigate('today')}
+            >
+              今日
+            </button>
+            <button
+              type="button"
+              className={`cw-nav-btn ${route === 'settings' ? 'is-active' : ''}`}
+              onClick={() => navigate('settings')}
+            >
+              设置
+            </button>
+          </nav>
         )}
+      </header>
 
-        {/* Main Vertically Centered Stage */}
-        <main className="cw-stage-main">
+      {route === 'flow' && step.kind !== 'home' && (
+        <div className="cw-track" role="progressbar" aria-valuenow={flowPercent} aria-valuemin={0} aria-valuemax={100}>
+          <div className="cw-track-bar" style={{ width: `${flowPercent}%` }} />
+        </div>
+      )}
+
+      <main className="cw-main">
           {route === 'tip' && (
             <ManifestoView
               onEnter={() => {
@@ -370,7 +345,7 @@ export default function App() {
                 const fresh = clearProgress()
                 commitProgress(fresh)
                 setStep({ kind: 'home' })
-                navigate('tip')
+                navigate('today')
               }}
               onClose={() => navigate('today')}
             />
@@ -382,12 +357,10 @@ export default function App() {
                 <LexiconStageView
                   word={step.word}
                   isReview
-                  modeLabel="WARM-UP · 温故唤醒"
-                  subProgressLabel={`剩余 ${reviewQueue.length} 词`}
+                  modeLabel="复习"
+                  subProgressLabel={`还剩 ${reviewQueue.length}`}
                   nextButtonText={
-                    reviewQueue.length === 1 && batchQueue.length > 0
-                      ? '旧词已唤醒 · 进入新词图鉴'
-                      : '记起来了 · 下一张'
+                    reviewQueue.length === 1 && batchQueue.length > 0 ? '去新词' : '下一个'
                   }
                   onAdvance={advanceReview}
                 />
@@ -396,12 +369,12 @@ export default function App() {
               {step.kind === 'learn' && (
                 <LexiconStageView
                   word={step.word}
-                  modeLabel="LEXICON · 一词一画"
-                  subProgressLabel={`知新 ${String(step.index + 1).padStart(2, '0')} / ${String(step.total).padStart(2, '0')}`}
+                  modeLabel="新词"
+                  subProgressLabel={`${step.index + 1} / ${step.total}`}
                   nextButtonText={
                     (step.index + 1) % 5 === 0 || step.index + 1 === step.total
-                      ? '满 5 词 · 进入本节检定'
-                      : '记入脑海 · 下一词'
+                      ? '去做题'
+                      : '下一个'
                   }
                   onAdvance={advanceLearnCard}
                 />
@@ -441,7 +414,6 @@ export default function App() {
             </>
           )}
         </main>
-      </div>
     </div>
   )
 }

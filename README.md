@@ -1,15 +1,15 @@
 # ClawWords v2 · 词光私教馆
 
-Static demo of the ClawWords prototype (Obsidian Atelier): a local-first vocabulary studio. Amber lamp light on an obsidian desk, hash routes only — no account and no WeChat.
+A local-first vocabulary desk. Open it and study: review, a short scene line, a meaning choice, then Chinese-to-English spelling. Progress stays in the browser. No account and no WeChat.
 
 Live site: https://linearpanty.github.io/repo-sdamz7zw/
 
 | Route | Screen |
 | --- | --- |
-| `#/tip` | 私教序言 |
-| `#/today` | 今日一关 |
-| `#/flow` | 闯关（图鉴、选义、Boss 默写、日签） |
-| `#/settings` | 案头设置 |
+| `#/today` | 今日 |
+| `#/flow` | 词、选义、默写、完成 |
+| `#/settings` | 设置 |
+| `#/tip` | 一句说明 |
 
 ```bash
 npm ci
