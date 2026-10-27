@@ -1,0 +1,10 @@
+{
+  "name": "ClawWords 词私教 Lab",
+  "short_name": "ClawWords",
+  "start_url": "/repo-sdamz7zw/",
+  "scope": "/repo-sdamz7zw/",
+  "display": "standalone",
+  "background_color": "#f6f5f2",
+  "theme_color": "#f6f5f2",
+  "lang": "zh-CN"
+}
