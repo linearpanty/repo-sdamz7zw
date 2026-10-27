@@ -240,7 +240,7 @@ button:focus-visible {
 
 .cw-lexicon-folio {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 340px 1fr;
   background: var(--cw-surface-1);
   border-radius: var(--cw-radius-lg);
   overflow: hidden;
@@ -326,19 +326,23 @@ button:focus-visible {
   font-weight: 600;
   line-height: 1.35;
   color: var(--cw-text-primary);
-  background: rgba(246, 245, 242, 0.94);
-  border: 1px solid rgba(26, 26, 26, 0.08);
+  background: var(--cw-bg-void);
+  border: 1px solid var(--cw-border-hairline);
   border-radius: 8px;
   padding: 8px 10px;
+  box-shadow: none;
 }
 
 .cw-target-hl,
 mark.cw-target-hl {
-  background: color-mix(in srgb, var(--cw-word-accent, #243b55) 14%, #eef2f6);
-  color: var(--cw-accent-hover);
-  font-weight: 650;
-  padding: 1px 5px;
-  border-radius: 4px;
+  background: color-mix(in srgb, var(--cw-word-accent, #243b55) 12%, transparent);
+  color: inherit;
+  font-weight: inherit;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 .cw-dossier-pane {
