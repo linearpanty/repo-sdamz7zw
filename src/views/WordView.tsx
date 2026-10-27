@@ -14,6 +14,34 @@ type WordViewProps = {
   onExit: () => void
 }
 
+function SpeakIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        d="M4.5 9.5h3.2L12 6.2v11.6l-4.3-3.3H4.5v-5z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M15.2 9.2a3.6 3.6 0 0 1 0 5.6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M17.6 7a6.4 6.4 0 0 1 0 10"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
 function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
@@ -78,7 +106,7 @@ export function WordView({
     <div className="cw-folio-wrap">
       <div className="cw-word-bar">
         <button type="button" className="cw-word-brand" onClick={onExit}>
-          词卡
+          ClawWords
         </button>
         <span className="cw-count" aria-label={fraction}>
           {fraction}
@@ -146,7 +174,7 @@ export function WordView({
                   onClick={() => speakWord(word.word, word.id)}
                   aria-label="听发音"
                 >
-                  听
+                  <SpeakIcon />
                 </button>
               </div>
             ) : (
@@ -158,7 +186,7 @@ export function WordView({
                   onClick={() => speakWord(word.word, word.id)}
                   aria-label="听发音"
                 >
-                  听
+                  <SpeakIcon />
                 </button>
               </div>
             )}
