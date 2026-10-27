@@ -335,10 +335,11 @@ button:focus-visible {
 
 .cw-target-hl,
 mark.cw-target-hl {
-  background: color-mix(in srgb, var(--cw-word-accent, #243b55) 12%, transparent);
+  background: none;
   color: inherit;
-  font-weight: inherit;
+  font-weight: 600;
   padding: 0;
+  margin: 0;
   border: 0;
   border-radius: 0;
   box-shadow: none;
@@ -350,6 +351,7 @@ mark.cw-target-hl {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  background: var(--cw-surface-3);
 }
 
 .cw-headword-block {
@@ -361,7 +363,7 @@ mark.cw-target-hl {
 .cw-headword-row,
 .headword-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
   gap: 10px;
 }
@@ -380,10 +382,11 @@ mark.cw-target-hl {
 .ipa {
   font-family: var(--cw-font-serif);
   font-size: 0.94rem;
+  line-height: 1.2;
   color: var(--cw-text-secondary);
-  background: var(--cw-surface-2);
+  background: var(--cw-bg-void);
   border: 1px solid var(--cw-border-hairline);
-  padding: 2px 9px;
+  padding: 4px 9px;
   border-radius: 6px;
 }
 
@@ -394,11 +397,13 @@ mark.cw-target-hl {
   align-items: center;
   justify-content: center;
   align-self: center;
-  background: var(--cw-surface-2);
+  width: 28px;
+  height: 28px;
+  background: var(--cw-bg-void);
   border: 1px solid var(--cw-border-gleam);
   color: var(--cw-text-secondary);
   border-radius: 6px;
-  padding: 5px;
+  padding: 0;
   line-height: 0;
   cursor: pointer;
 }
@@ -423,7 +428,7 @@ mark.cw-target-hl {
   gap: 10px;
   padding: 10px 13px;
   border-radius: var(--cw-radius-sm);
-  background: var(--cw-surface-2);
+  background: #efece6;
   border: 1px solid var(--cw-border-hairline);
 }
 
@@ -460,7 +465,7 @@ mark.cw-target-hl {
 .cw-example-slate {
   padding: 10px 13px;
   border-radius: var(--cw-radius-sm);
-  background: var(--cw-surface-2);
+  background: #efece6;
   border: 1px solid var(--cw-border-hairline);
 }
 
@@ -490,7 +495,7 @@ mark.cw-target-hl {
   padding: 11px 12px;
   border-radius: 8px;
   border: 1px solid var(--cw-border-gleam);
-  background: var(--cw-surface-1);
+  background: var(--cw-bg-void);
   color: var(--cw-text-primary);
   font-family: var(--cw-font-mono);
   font-size: 1rem;
