@@ -1,55 +1,36 @@
-# ClawWords prototype-v2 — Gemini 4 free redesign
+# ClawWords Light — Gemini 4 redesign (Owner lock)
 
-You are redesigning ClawWords as a **new clickable Vite+React+TS prototype** in THIS directory (`~/clawwords-proto-v2`). Owner approved **full creative freedom** — do NOT reuse v1 CSS structure / class names / page layout. Old code is only reference for product loop + mock lexicon.
+Work ONLY in `/Users/zettareinger/clawwords-light`. This is a Vite+React+TS clickable prototype for GitHub Pages.
 
-## Product lock (must keep)
-ClawWords = **暗色私教图鉴 × 短关卡通关 × 中译英 Boss**
-- Face: 词光画廊感 — 一词一画舞台、实体卡
-- Rhythm: Duo 关卡骨架 but **no green bird skin** — 今日一关 / 再来一关; **NO XP, streaks, leaderboard, badge wall**
-- Tone: Babbel adult private tutor (中文 UI 文案)
-- Context: keep/strengthen examples + collocations; highlight target word in examples
-- Discipline: due-review first (stub ok via `dueIds`)
-- **Still no WeChat**
+## Absolute locks
+1. **浅色主题**：纸白 / 浅灰底、深墨字、细线边框；扁平、素雅、高端。**禁止**暗色黑曜石、铜光、霓虹电光蓝、深色渐变海报。参考：Apple Notes / Notion light / Linear light / 纸质教材。
+2. **第一版排版（手机友好卡片栈）**：保持/回归 pages：`Today` / `WordCard` / `QuizMCQ` / `QuizWrite` / `Done` / `Settings`。窄栏卡片纵向堆叠（~420–460px），**不要**双栏 atelier、不要 Manifesto/StudioSettings/LexiconStage 那套 v2 命名与宽屏画册。
+3. 参照 `audit-shots/{today,card,quiz,settings}.png` 的信息结构与页面分镜，但**换成浅色精致排版**（那些截图是暗色旧稿，只当布局骨架）。
+4. **默认进 `#/today`**：去掉 Tip / 序言 / AI 卖点开场；`tipSeen` 可直接 true，或删除 Tip 路由强制。打开即 Today。
+5. **每个词必须手打英文拼对才能进下一个**：在 `WordCard`（learn + review）加入拼写输入；用 `gradeTranslation`（`src/lib/grader.ts`）校验；拼对前禁用「下一个」；拼错给温和反馈。可保留显示词头（这是学习卡，不是默写 Boss）——但 Owner 要求「手打英文拼对才能进下一个」，所以仍要打对才放行。
+6. **词头旁 IPA +「朗读」按钮**：`speechSynthesis` Web Speech，读 `word.word`（en-US）；按钮文案「朗读」。
+7. 保留：**中译英 Boss**（QuizWrite）、选义 MCQ、今日一关→通关→再来一关、hash 路由、`clawwords.progress.v2`、无微信、无 XP/连胜/排行榜。
+8. **GitHub Pages**：`vite.config.ts` 设 `base: '/repo-sdamz7zw/'`；确认 hash 路由在子路径下可用。
+9. 中文 UI 文案，成人私教语气，克制。
 
-## Learning loop (keep working; reuse data/lib)
-Already present (keep & wire):
-- `src/data/words.ts` — mock lexicon (~50 words)
-- `src/lib/storage.ts` — localStorage progress (use new key `clawwords.progress.v2` to avoid clobbering v1)
-- `src/lib/session.ts` — pickNewWords / dueWords / mcqOptions / markLearned
-- `src/lib/grader.ts` — 中译英 grader
+## Loop (keep)
+- Today → startDaily → review cards → learn cards (每 5 词 quiz-mcq → quiz-write) → Done（再来一关 5 词）
+- data/words.ts、lib/session.ts、lib/storage.ts、lib/grader.ts 保留逻辑；可微调 UI 接线。
+- Settings：导出 JSON；清除进度降权。
 
-Flow must be clickable:
-1. Tip (first open, skippable) → Today「今日一关」私教便签 (温故/知新)
-2. Start → optional review cards → learn cards (一词一画) → every 5 words: Quiz MCQ (选义) → Quiz Write (中译英 Boss)
-3. Done → 通关战报/日签卡 +「再来一关（5 词）」
-4. Settings → export JSON; dangerous clear de-emphasized
-
-Hash routes ok: `#/tip` `#/today` `#/flow` `#/settings`
-
-Reference only (do not copy CSS structure): `_ref/v1-src/` and `AUDIT_aesthetic.md`
-
-## Visual freedom (Owner wants Gemini 4 taste)
-Invent a fresh design system. Inspiration directions (pick boldly, not clone):
-- Obsidian / ink black + electric blue OR amber gold (Linear / Raycast / Readwise Reader vibe)
-- Desktop vertically centered stage; entity card with soft depth
-- Typographic poster “illus” frame (≥220px) using sceneHook — not a broken skeleton bar
-- Serif/display headword; keycap-style quiz options; flow progress
-- Done page = ceremony / day-stamp report, not “不错收工了”
-- Today = tutor sticky note, not CRM three-stat strip
-- Settings: clear progress as ghost/danger text, not full-width peer of Export
-
-Chinese copy throughout. Adult tutor voice.
+## Visual direction (invent lightly)
+- `--bg: #f6f5f2` or paper `#faf9f7`; `--ink: #1a1a1a`; hairline `#e6e4df`; accent one restrained ink-blue or soft charcoal (not neon).
+- Soft white card with 1px border, subtle shadow optional but flat-first.
+- Headword clear serif or system display; IPA muted; 朗读 as small text button.
+- Illus: light pastel wash / soft color chip from word.color at low opacity — not dark poster.
+- Quiz options: clean rows with thin borders (key numbers ok, not 3D neon keycaps).
+- Done: calm day-complete card, not game stamp chrome.
 
 ## Deliverables
-1. Replace stub `App.tsx` / `index.css`; create pages/components as you like (new names OK)
-2. `npm run build` must pass
-3. Write `README.md` — how to run (`npm run dev` → localhost:5173), positioning one-liner, highlight list
-4. Write `HIGHLIGHTS.md` — 5–10 bullet visual/UX highlights for the owner
-5. Do NOT touch WeChat; do NOT change anything outside this directory
+1. Implement all UI/CSS/pages; build green: `npm run build`
+2. Self-smoke: ensure routes work with base path conceptually; no Tip wall
+3. `README.md` — how to run locally + note Pages base
+4. `HIGHLIGHTS.md` — 6–10 bullets for Owner/Hoppi (浅色、v1 栈、拼写过关、朗读、Pages base…)
+5. Do not push GitHub yourself; Hoppi pushes gh-pages
 
-## Done criteria
-- Open → tip/today → complete a short round (or navigate all screens) without crash
-- Build green
-- Visually distinct from v1 (new layout language)
-
-Start implementing now. Prefer complete working UI over half-finished polish.
+Start now. Prefer complete working light UI over half polish.

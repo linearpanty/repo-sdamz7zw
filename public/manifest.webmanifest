@@ -1,9 +1,9 @@
 {
-  "name": "ClawWords",
+  "name": "ClawWords 词私教 Lab",
   "short_name": "ClawWords",
-  "start_url": "/repo-sdamz7zw/",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#f4f2ed",
-  "theme_color": "#f4f2ed",
+  "background_color": "#f6f5f2",
+  "theme_color": "#f6f5f2",
   "lang": "zh-CN"
 }

@@ -1,362 +1,268 @@
 import { useCallback, useEffect, useState } from 'react'
-import { WORDS, type Word } from './data/words'
+import { Today } from './pages/Today'
+import { WordCardView } from './pages/WordCard'
+import { QuizMCQ } from './pages/QuizMCQ'
+import { QuizWrite } from './pages/QuizWrite'
+import { Done } from './pages/Done'
+import { Settings } from './pages/Settings'
 import {
   clearProgress,
   loadProgress,
   saveProgress,
   type Progress,
 } from './lib/storage'
-import {
-  dueWords,
-  markLearned,
-  pickNewWords,
-  type FlowStep,
-} from './lib/session'
-import { ManifestoView } from './views/ManifestoView'
-import { TutorDeskView } from './views/TutorDeskView'
-import { LexiconStageView } from './views/LexiconStageView'
-import { IntuitionQuizView } from './views/IntuitionQuizView'
-import { BossWriteView } from './views/BossWriteView'
-import { DayStampView } from './views/DayStampView'
-import { StudioSettingsView } from './views/StudioSettingsView'
+import { dueWords, markLearned, pickNewWords, type FlowStep } from './lib/session'
+import type { Word } from './data/words'
 
-type StudioRoute = 'tip' | 'today' | 'flow' | 'settings'
+type Route = 'today' | 'flow' | 'settings'
 
-function parseHash(): StudioRoute {
-  const raw = (window.location.hash.replace(/^#\/?/, '') || '').split('?')[0]
-  if (raw === 'tip') return 'tip'
-  if (raw === 'settings') return 'settings'
-  if (raw === 'flow') return 'flow'
+function parseHashRoute(): Route {
+  const h = (location.hash.replace(/^#\/?/, '') || '').split('?')[0]
+  if (h === 'settings') return 'settings'
+  if (h === 'flow') return 'flow'
   return 'today'
 }
 
-export default function App() {
-  const [progress, setProgress] = useState<Progress>(() => loadProgress())
-  const [route, setRouteState] = useState<StudioRoute>(() => parseHash())
-
-  const [step, setStep] = useState<FlowStep>({ kind: 'home' })
-  const [reviewQueue, setReviewQueue] = useState<Word[]>([])
-  const [reviewTotal, setReviewTotal] = useState(0)
-  const [batchQueue, setBatchQueue] = useState<Word[]>([])
-  const [learnCursor, setLearnCursor] = useState(0)
-  const [sessionWords, setSessionWords] = useState<Word[]>([])
-  const [quizMetrics, setQuizMetrics] = useState({ correct: 0, total: 0 })
-
-  const commitProgress = useCallback((next: Progress) => {
-    saveProgress(next)
-    setProgress(next)
-  }, [])
-
-  const navigate = useCallback((target: StudioRoute) => {
-    const desiredHash = `#/${target}`
-    if (window.location.hash !== desiredHash) {
-      window.location.hash = `/${target}`
-    }
-    setRouteState(target)
-  }, [])
+function useHashRoute(): [Route, (r: Route) => void] {
+  const [route, setRouteState] = useState<Route>(() => parseHashRoute())
 
   useEffect(() => {
-    const raw = (window.location.hash.replace(/^#\/?/, '') || '').split('?')[0]
-    if (raw !== 'tip' && raw !== 'today' && raw !== 'flow' && raw !== 'settings') {
-      window.location.hash = '/today'
+    const raw = (location.hash.replace(/^#\/?/, '') || '').split('?')[0]
+    if (!raw || raw === 'tip') {
+      location.hash = '/today'
     }
-  }, [])
-
-  useEffect(() => {
     const onHashChange = () => {
-      setRouteState(parseHash())
+      setRouteState(parseHashRoute())
     }
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
 
-  const beginRound = useCallback(
-    (isExtra = false) => {
-      const reviews = isExtra ? [] : dueWords(progress)
-      const targetCount = isExtra ? 5 : progress.settings.dailyNewCount
-      const freshWords = pickNewWords(progress, targetCount)
+  const setRoute = useCallback((r: Route) => {
+    location.hash = '/' + r
+    setRouteState(r)
+  }, [])
 
-      setReviewQueue(reviews)
-      setReviewTotal(reviews.length)
-      setBatchQueue(freshWords)
-      setLearnCursor(0)
-      setSessionWords([...reviews, ...freshWords])
-      setQuizMetrics({ correct: 0, total: 0 })
-      navigate('flow')
+  return [route, setRoute]
+}
 
-      if (reviews.length > 0) {
-        setStep({ kind: 'review', word: reviews[0] })
-      } else if (freshWords.length > 0) {
-        setStep({
-          kind: 'learn',
-          word: freshWords[0],
-          index: 0,
-          total: freshWords.length,
-        })
-      } else {
-        setStep({ kind: 'done', mode: isExtra ? 'extra' : 'daily' })
-      }
-    },
-    [navigate, progress],
-  )
+export default function App() {
+  const [progress, setProgress] = useState<Progress>(() => loadProgress())
+  const [route, setRoute] = useHashRoute()
+  const [step, setStep] = useState<FlowStep>({ kind: 'home' })
+  const [sessionLearned, setSessionLearned] = useState<string[]>([])
+  const [quizStats, setQuizStats] = useState({ correct: 0, total: 0 })
+  const [batchQueue, setBatchQueue] = useState<Word[]>([])
+  const [reviewQueue, setReviewQueue] = useState<Word[]>([])
+  const [learnIndex, setLearnIndex] = useState(0)
 
-  // If user directly visits #/flow while step is 'home', auto-bootstrap the session
+  const persist = useCallback((p: Progress) => {
+    saveProgress(p)
+    setProgress(p)
+  }, [])
+
   useEffect(() => {
     if (route === 'flow' && step.kind === 'home') {
-      beginRound(progress.todayDone)
+      startDaily(false)
     }
-  }, [route, step.kind, beginRound, progress.todayDone])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route, step.kind])
 
-  function handleSeedDueDemo() {
-    const sampleIds = WORDS.slice(0, 2).map((w) => w.id)
-    const nextDue = Array.from(new Set([...progress.dueIds, ...sampleIds]))
-    commitProgress({ ...progress, dueIds: nextDue })
+  function startDaily(extra = false) {
+    const reviews = extra ? [] : dueWords(progress)
+    const count = extra ? 5 : progress.settings.dailyNewCount
+    const news = pickNewWords(progress, count)
+    setReviewQueue(reviews)
+    setBatchQueue(news)
+    setLearnIndex(0)
+    setSessionLearned([])
+    setQuizStats({ correct: 0, total: 0 })
+    setRoute('flow')
+    if (reviews.length > 0) {
+      setStep({ kind: 'review', word: reviews[0] })
+    } else if (news.length > 0) {
+      setStep({ kind: 'learn', word: news[0], index: 0, total: news.length })
+    } else {
+      setStep({ kind: 'done', mode: extra ? 'extra' : 'daily' })
+    }
   }
 
-  function advanceReview() {
-    const remaining = reviewQueue.slice(1)
-    setReviewQueue(remaining)
-    if (remaining.length > 0) {
-      setStep({ kind: 'review', word: remaining[0] })
+  function afterReview() {
+    const rest = reviewQueue.slice(1)
+    setReviewQueue(rest)
+    if (rest.length > 0) {
+      setStep({ kind: 'review', word: rest[0] })
       return
-    }
-    // Clear reviewed dueIds
-    if (progress.dueIds.length > 0) {
-      commitProgress({ ...progress, dueIds: [] })
     }
     if (batchQueue.length > 0) {
-      setStep({
-        kind: 'learn',
-        word: batchQueue[0],
-        index: 0,
-        total: batchQueue.length,
-      })
+      setStep({ kind: 'learn', word: batchQueue[0], index: 0, total: batchQueue.length })
     } else {
-      concludeSession(false)
+      finishSession(false)
     }
   }
 
-  function advanceLearnCard() {
-    const nextIndex = learnCursor + 1
-    if (nextIndex % 5 === 0 || nextIndex >= batchQueue.length) {
-      const checkpointStart = Math.floor((nextIndex - 1) / 5) * 5
-      const slice = batchQueue.slice(checkpointStart, nextIndex)
-      setStep({ kind: 'quiz-mcq', words: slice, batchIndex: nextIndex })
+  function afterLearnCard() {
+    const nextIdx = learnIndex + 1
+    setSessionLearned((prev) => [...prev, batchQueue[learnIndex].id])
+
+    // quiz every 5 words, or at end of batch
+    if (nextIdx % 5 === 0 || nextIdx >= batchQueue.length) {
+      const start = Math.floor((nextIdx - 1) / 5) * 5
+      const words = batchQueue.slice(start, nextIdx)
+      setStep({ kind: 'quiz-mcq', words, batchIndex: nextIdx })
       return
     }
-    setLearnCursor(nextIndex)
-    setStep({
-      kind: 'learn',
-      word: batchQueue[nextIndex],
-      index: nextIndex,
-      total: batchQueue.length,
-    })
+    setLearnIndex(nextIdx)
+    setStep({ kind: 'learn', word: batchQueue[nextIdx], index: nextIdx, total: batchQueue.length })
   }
 
-  function recordQuizAnswers(
-    results: { wordId: string; ok: boolean }[],
-    quizType: 'mcq' | 'write',
-  ) {
-    const timestamp = new Date().toISOString()
-    setProgress((prev) => {
-      const mergedAnswers = [
-        ...prev.answers,
-        ...results.map((r) => ({
-          wordId: r.wordId,
-          type: quizType,
-          ok: r.ok,
-          at: timestamp,
-        })),
-      ].slice(-500)
-      const updated = { ...prev, answers: mergedAnswers }
-      saveProgress(updated)
-      return updated
-    })
+  function afterMcq(results: { wordId: string; ok: boolean }[]) {
+    const ok = results.filter((r) => r.ok).length
+    setQuizStats((s) => ({ correct: s.correct + ok, total: s.total + results.length }))
+    const words = (step.kind === 'quiz-mcq' ? step.words : []) as Word[]
+    setStep({ kind: 'quiz-write', words, batchIndex: step.kind === 'quiz-mcq' ? step.batchIndex : 0 })
+    recordAnswers(results, 'mcq')
   }
 
-  function completeMcqCheckpoint(results: { wordId: string; ok: boolean }[]) {
-    const passed = results.filter((r) => r.ok).length
-    setQuizMetrics((m) => ({
-      correct: m.correct + passed,
-      total: m.total + results.length,
-    }))
-    recordQuizAnswers(results, 'mcq')
-
-    const checkpointWords = step.kind === 'quiz-mcq' ? step.words : []
-    const batchIdx = step.kind === 'quiz-mcq' ? step.batchIndex : learnCursor + 1
-    setStep({
-      kind: 'quiz-write',
-      words: checkpointWords,
-      batchIndex: batchIdx,
-    })
-  }
-
-  function completeWriteCheckpoint(results: { wordId: string; ok: boolean }[]) {
-    const passed = results.filter((r) => r.ok).length
-    setQuizMetrics((m) => ({
-      correct: m.correct + passed,
-      total: m.total + results.length,
-    }))
-    recordQuizAnswers(results, 'write')
-
-    const batchIdx = step.kind === 'quiz-write' ? step.batchIndex : learnCursor + 1
-    if (batchIdx >= batchQueue.length) {
-      concludeSession(!progress.todayDone)
+  function afterWrite(results: { wordId: string; ok: boolean }[]) {
+    const ok = results.filter((r) => r.ok).length
+    setQuizStats((s) => ({ correct: s.correct + ok, total: s.total + results.length }))
+    recordAnswers(results, 'write')
+    const batchIndex = step.kind === 'quiz-write' ? step.batchIndex : learnIndex + 1
+    if (batchIndex >= batchQueue.length) {
+      finishSession(true)
     } else {
-      setLearnCursor(batchIdx)
+      setLearnIndex(batchIndex)
       setStep({
         kind: 'learn',
-        word: batchQueue[batchIdx],
-        index: batchIdx,
+        word: batchQueue[batchIndex],
+        index: batchIndex,
         total: batchQueue.length,
       })
     }
   }
 
-  function concludeSession(isDailyMain: boolean) {
-    const newIds = batchQueue.map((w) => w.id)
+  function recordAnswers(results: { wordId: string; ok: boolean }[], type: string) {
+    const now = new Date().toISOString()
     setProgress((prev) => {
-      const clearedDue = { ...prev, dueIds: [] }
-      const marked = markLearned(clearedDue, newIds)
-      const next: Progress = {
-        ...marked,
-        todayNewIds: Array.from(new Set([...prev.todayNewIds, ...newIds])),
-        todayDone: isDailyMain || prev.todayDone,
-        extraRounds: prev.extraRounds + (isDailyMain ? 0 : 1),
-      }
+      const answers = [
+        ...prev.answers,
+        ...results.map((r) => ({ wordId: r.wordId, type, ok: r.ok, at: now })),
+      ].slice(-500)
+      const next = { ...prev, answers }
       saveProgress(next)
       return next
     })
-    setStep({ kind: 'done', mode: isDailyMain ? 'daily' : 'extra' })
   }
 
-  const canDoMoreRounds =
-    pickNewWords(progress, 5).length > 0 || dueWords(progress).length > 0
+  function finishSession(markToday: boolean) {
+    const ids = batchQueue.map((w) => w.id)
+    setProgress((prev) => {
+      let p = markLearned(prev, ids)
+      p = {
+        ...p,
+        todayNewIds: [...new Set([...p.todayNewIds, ...ids])],
+        todayDone: markToday || p.todayDone,
+        extraRounds: p.extraRounds + (markToday ? 0 : 1),
+      }
+      saveProgress(p)
+      return p
+    })
+    setSessionLearned(ids)
+    setStep({ kind: 'done', mode: markToday ? 'daily' : 'extra' })
+  }
+
+  if (route === 'settings') {
+    return (
+      <div className="app">
+        <Settings
+          progress={progress}
+          onChangeDaily={(n) => {
+            const dailyNewCount = Math.min(20, Math.max(5, n))
+            persist({ ...progress, settings: { ...progress.settings, dailyNewCount } })
+          }}
+          onClear={() => {
+            const p = clearProgress()
+            persist(p)
+            setStep({ kind: 'home' })
+            setRoute('today')
+          }}
+          onBack={() => setRoute('today')}
+        />
+      </div>
+    )
+  }
+
+  if (route === 'flow' && step.kind !== 'home') {
+    const flowPct =
+      step.kind === 'review'
+        ? 15
+        : step.kind === 'learn'
+          ? 20 + Math.round(((step.index + 1) / Math.max(1, step.total)) * 45)
+          : step.kind === 'quiz-mcq'
+            ? 75
+            : step.kind === 'quiz-write'
+              ? 90
+              : 100
+
+    return (
+      <div className="app">
+        <div className="flow-progress" aria-label="本关进度">
+          <div className="flow-progress-bar" style={{ width: `${flowPct}%` }} />
+        </div>
+        <div className="stage-card">
+          {step.kind === 'review' && (
+            <WordCardView
+              key={`review-${step.word.id}-${reviewQueue.length}`}
+              word={step.word}
+              badge={`复习 · 剩余 ${reviewQueue.length}`}
+              onNext={afterReview}
+              onBackHome={() => {
+                setStep({ kind: 'home' })
+                setRoute('today')
+              }}
+              nextLabel="下一个"
+            />
+          )}
+          {step.kind === 'learn' && (
+            <WordCardView
+              key={`learn-${step.word.id}-${step.index}`}
+              word={step.word}
+              badge={`新词 ${step.index + 1}/${step.total}`}
+              onNext={afterLearnCard}
+              onBackHome={() => {
+                setStep({ kind: 'home' })
+                setRoute('today')
+              }}
+              nextLabel="下一个"
+            />
+          )}
+          {step.kind === 'quiz-mcq' && <QuizMCQ words={step.words} onDone={afterMcq} />}
+          {step.kind === 'quiz-write' && <QuizWrite words={step.words} onDone={afterWrite} />}
+          {step.kind === 'done' && (
+            <Done
+              learnedCount={sessionLearned.length || batchQueue.length}
+              correct={quizStats.correct}
+              total={quizStats.total}
+              onMore={() => startDaily(true)}
+              onHome={() => {
+                setStep({ kind: 'home' })
+                setRoute('today')
+              }}
+            />
+          )}
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="cw-app">
-      <main className="cw-col">
-          {route === 'flow' && step.kind !== 'home' && (
-            <div className="cw-flow-bar">
-              <button
-                type="button"
-                className="cw-pill"
-                onClick={() => {
-                  setStep({ kind: 'home' })
-                  navigate('today')
-                }}
-              >
-                ← 离开
-              </button>
-            </div>
-          )}
-          {route === 'tip' && (
-            <ManifestoView
-              onEnter={() => {
-                if (!progress.tipSeen) {
-                  commitProgress({ ...progress, tipSeen: true })
-                }
-                navigate('today')
-              }}
-            />
-          )}
-
-          {route === 'today' && (
-            <TutorDeskView
-              progress={progress}
-              onStartStage={(extra) => beginRound(extra)}
-              onSeedDueDemo={handleSeedDueDemo}
-              onOpenSettings={() => navigate('settings')}
-            />
-          )}
-
-          {route === 'settings' && (
-            <StudioSettingsView
-              progress={progress}
-              onUpdateDailyCount={(n) => {
-                const clamped = Math.min(20, Math.max(5, n))
-                commitProgress({
-                  ...progress,
-                  settings: { ...progress.settings, dailyNewCount: clamped },
-                })
-              }}
-              onResetAll={() => {
-                const fresh = clearProgress()
-                commitProgress(fresh)
-                setStep({ kind: 'home' })
-                navigate('today')
-              }}
-              onClose={() => navigate('today')}
-            />
-          )}
-
-          {route === 'flow' && (
-            <>
-              {step.kind === 'review' && (
-                <LexiconStageView
-                  word={step.word}
-                  isReview
-                  modeLabel="复习"
-                  subProgressLabel={
-                    reviewTotal > 0
-                      ? `${reviewTotal - reviewQueue.length + 1}/${reviewTotal}`
-                      : '1/1'
-                  }
-                  nextButtonText={
-                    reviewQueue.length === 1 && batchQueue.length > 0 ? '去新词' : '下一个'
-                  }
-                  onAdvance={advanceReview}
-                />
-              )}
-
-              {step.kind === 'learn' && (
-                <LexiconStageView
-                  word={step.word}
-                  modeLabel="新词"
-                  subProgressLabel={`${step.index + 1}/${step.total}`}
-                  nextButtonText={
-                    (step.index + 1) % 5 === 0 || step.index + 1 === step.total
-                      ? '去做题'
-                      : '下一个'
-                  }
-                  onAdvance={advanceLearnCard}
-                />
-              )}
-
-              {step.kind === 'quiz-mcq' && (
-                <IntuitionQuizView
-                  words={step.words}
-                  onComplete={completeMcqCheckpoint}
-                />
-              )}
-
-              {step.kind === 'quiz-write' && (
-                <BossWriteView
-                  words={step.words}
-                  onComplete={completeWriteCheckpoint}
-                />
-              )}
-
-              {step.kind === 'done' && (
-                <DayStampView
-                  todayKey={progress.todayKey}
-                  mode={step.mode}
-                  sessionWords={sessionWords}
-                  correctCount={quizMetrics.correct}
-                  totalChecks={quizMetrics.total}
-                  totalMastered={progress.learnedIds.length}
-                  lexiconSize={WORDS.length}
-                  canMore={canDoMoreRounds}
-                  onMore={() => beginRound(true)}
-                  onHome={() => {
-                    setStep({ kind: 'home' })
-                    navigate('today')
-                  }}
-                />
-              )}
-            </>
-          )}
-        </main>
+    <div className="app">
+      <Today
+        progress={progress}
+        onStart={() => startDaily(false)}
+        onSettings={() => setRoute('settings')}
+      />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 {
-  "name": "clawwords-proto-v2",
+  "name": "clawwords-light",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -22,5 +22,5 @@
     "typescript": "~6.0.3",
     "vite": "^8.3.4"
   },
-  "description": "ClawWords v2 — free visual redesign (Gemini 4)"
+  "description": "ClawWords light v1 card-stack for GitHub Pages"
 }

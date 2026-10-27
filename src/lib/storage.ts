@@ -30,7 +30,7 @@ function todayKey(): string {
 export function defaultProgress(): Progress {
   return {
     userId: uuid(),
-    tipSeen: false,
+    tipSeen: true,
     settings: { dailyNewCount: 10 },
     learnedIds: [],
     dueIds: [],
@@ -48,6 +48,7 @@ export function loadProgress(): Progress {
     if (!raw) return defaultProgress()
     const p = JSON.parse(raw) as Progress
     if (!p.userId) p.userId = uuid()
+    p.tipSeen = true
     if (!p.settings) p.settings = { dailyNewCount: 10 }
     if (!Array.isArray(p.learnedIds)) p.learnedIds = []
     if (!Array.isArray(p.dueIds)) p.dueIds = []

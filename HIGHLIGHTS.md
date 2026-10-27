@@ -1,31 +1,11 @@
-# ClawWords v2 — 视觉与体验重构亮点 (Owner Brief)
+# HIGHLIGHTS — ClawWords Light (Gemini 4 Redesign)
 
-本次 v2 重构完全摒弃了 v1 的 DOM/CSS 结构与窄条表单布局，围绕 **「黑曜石图鉴 × 琥珀私教台灯 (Obsidian Codex & Brass Lamp)」** 重新发明了一套兼具 Readwise Reader 阅读质感与 Linear 键盘操控精度的设计系统：
-
-1. **桌面端双栏画册舞台（告别 420px 手机草稿感）**
-   - 视口采用 100dvh 垂直居中舞台 (`max-width: 820px`)，顶部悬浮毛玻璃控制台 (`cw-console-bar`) 与连续流光进度轨 (`cw-flow-rail`)。
-   - 词卡页 (`LexiconStageView`) 在桌面端呈现为 **「左幅视觉海报 + 右幅语言学档案」** 的实体双栏图鉴，移动端自适应为上下画廊卡。
-
-2. **海报级 `sceneHook` 视觉画框（≥250px，消灭裂图占位感）**
-   - 每个单词的 `color` 动态驱动多层径向聚光与氛围柔光，叠加 28px 建筑基准网格、四角工程对位标 (`FIG // SCENE HOOK`)、巨型半透明衬线词首雕塑水印，以及大号斜体衬线呈现的 `“sceneHook”`，让纯文本画面钩子拥有艺术海报般的记忆张力。
-
-3. **「今日一关」私教案头便签 + 50 词交互式点阵图 (`TutorDeskView`)**
-   - 摒弃 v1 冰冷的 CRM 三格统计条，重塑为带黄铜压条与撕票虚线的「私教备课便签」：
-     - **Step 01 温故 · 到期唤醒**：优先展示待复习词条胶囊；当无到期词时，提供 **「+ 放入 2 个演示到期词」** 快捷入口，方便随时验证「温故优先」闭环。
-     - **Step 02 知新 · 图鉴与 Boss**：直接预览本关即将解锁的新词胶囊与短关节奏。
-     - **底部 50 词馆藏矩阵 (`Lexicon Atlas`)**：50 枚微缩状态方格（琥珀金=已掌握、电光蓝=待温故、黑曜石=待解锁），鼠标掠过即可实时预览任意词条的音标、释义与画面钩子。
-
-4. **智能词干高亮与语境聚光灯 (`highlightLexeme`)**
-   - 不仅匹配原形，还能自动匹配 `variants` 及常见屈折词干（如 `category → categories`、`collapse → collapsed`、`allocate → allocated`），在语境例句与核心搭配芯片中以琥珀金底色+下划线精准锚定视线。
-
-5. **机械键帽选义 (`IntuitionQuizView`)：盲测直觉 + 画面复盘**
-   - 4 个选项采用双层 3D 机械键帽 (`[1]`–`[4]`) 设计；作答前隐去 `sceneHook`，落子瞬间揭晓画面钩子与高亮例句，即便选错也能当场完成一次视觉纠偏。
-
-6. **中译英 Boss 主动提取舞台 (`BossWriteView`)：真句挖空 + 私教线索**
-   - 除中文释义与词性外，自动将当前词的真实例句转化为挖空填空题 (`They had to _______ the project.`)，并提供按需展开的「画面钩子 + 首字母与词长」私教提示；内置实时字符计数与 `grader.ts` 变体容错批改。
-
-7. **仪式感拉满的「通关日签战报」(`DayStampView`)**
-   - 结课时呈现专属 SVG 矢量印章 (`STAGE CLEAR`)、三大核心检定指标、私教结课寄语，以及 **「本关收录清单」**（完整陈列本轮攻克的词条、音标与画面钩子），支持一键开启「再来一关（5 词）」。
-
-8. **数据主权优先 & 危险操作彻底降权 (`StudioSettingsView`)**
-   - 提供 5 / 10 / 15 / 20 词四档卡片式容量切换，使用独立存储键 `clawwords.progress.v2` 保护 v1 数据；突出「导出进度 JSON」与「复制 JSON 文本」，而将「清除本机学习进度」弱化为页脚右下角的低对比度幽灵链接，并内置行内二次确认，杜绝误触。
+- **浅色纸感高定主题（告别暗色海报与霓虹）**：全站切换为纸白/暖灰底（`--bg: #f6f5f2`、内嵌纸卡 `#faf9f7`、主卡 `#ffffff`）、深墨字（`--ink: #1a1a1a`）、`1px` 细线边框（`--hairline: #e6e4df`）与克制钢笔墨蓝强调色（`--accent: #243b55`），扁平素雅，对齐 Apple Notes / Notion Light / 纸质教材质感。
+- **回归 v1 手机友好单栏卡片栈**：采用 `440px` 窄栏纵向堆叠舞台，保留 `Today` / `WordCard` / `QuizMCQ` / `QuizWrite` / `Done` / `Settings` 六大经典页面结构，对齐 `audit-shots/{today,card,quiz,settings}.png` 骨架，摒弃双栏画册与冗余包装。
+- **零门槛直达 `#/today`（移除 Tip 拦截墙）**：`defaultProgress` 与 `loadProgress` 默认 `tipSeen: true`，路由层移除 Tip 强制跳转，空 hash 或旧 `#/tip` 自动归一至 `#/today`，打开即见今日看板。
+- **词卡强制「手打英文拼对过关」**：在 `WordCard`（同时覆盖 `learn` 新词卡与 `review` 复习卡）底部加入手打英文拼写区，接入 `gradeTranslation`（`src/lib/grader.ts`）校验；拼对前禁用「下一个」按钮，拼错或失焦时提供温和私教反馈，拼对后支持一键或回车放行。
+- **词头旁 IPA + 原生「朗读」按钮**：在词头与音标旁并排提供「朗读」轻量文字按钮，基于浏览器 Web Speech API（`window.speechSynthesis`，`en-US`）朗读 `word.word`，并对无语音环境做安全容错。
+- **轻柔水彩感画面锚点（`.illus`）**：将原有的暗黑渐变海报块改为基于 `word.color` 的低透明度浅色纸面晕染（`color-mix` 柔和粉彩底 + 圆点色标 + 衬线斜体 `sceneHook`），轻盈不抢词头视觉中心。
+- **完整保留小节检定与中译英 Boss 闭环**：每学完 5 词进入选义 `QuizMCQ`（支持键盘 `1–4` 与 `Enter`）与主动默写 `QuizWrite`（中译英 Boss），通关后呈现素雅日结卡（`Done`），支持「再来一关（5 词）」加练。
+- **本地存储与设置页降权设计**：完整保留 `clawwords.progress.v2` 本地进度结构；`Settings` 页支持调整每日新词数（5–20）与导出 JSON 备份，「清除进度」置于底部细线分割区并以弱化描边按钮降权展示。
+- **GitHub Pages 子路径就绪**：`vite.config.ts` 已锁定 `base: '/repo-sdamz7zw/'`，静态资源与相对 manifest/icon 引用均适配子路径，Hash 路由（`#/today`、`#/flow`、`#/settings`）在 GitHub Pages 下开箱可用。
