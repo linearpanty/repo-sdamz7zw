@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { primaryZh, type Word } from '../data/words'
+import { captionRevealsHeadword, illustrationUrl, primaryZh, type Word } from '../data/words'
 import { gradeTranslation, maskWordHint, type GradeResult } from '../lib/grader'
 import { highlightLexeme } from './LexiconStageView'
 
@@ -81,6 +81,9 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
     .map((s) => s.pos)
     .filter(Boolean)
     .join(' / ')
+  const hintLeaks = captionRevealsHeadword(currentWord)
+  const hintIllus = illustrationUrl(currentWord)
+  const showHintCaption = !hintLeaks || verdict != null
 
   return (
     <section
@@ -129,7 +132,14 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
           <div className="cw-boss-hint-row">
             {showHint || verdict ? (
               <div className="cw-hint-revealed">
-                <span>画面提示：“{currentWord.sceneHook}”</span>
+                {hintIllus && hintLeaks && !verdict && (
+                  <img className="cw-hint-illus" src={hintIllus} alt="" width={640} height={800} />
+                )}
+                {showHintCaption ? (
+                  <span>画面提示：“{currentWord.sceneHook}”</span>
+                ) : (
+                  <span>看画面回忆，英文提示已隐藏</span>
+                )}
                 <span>·</span>
                 <span>首字母提示：{maskWordHint(currentWord.word)}</span>
               </div>

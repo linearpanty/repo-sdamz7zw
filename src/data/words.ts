@@ -8,12 +8,14 @@ export type Word = {
   collocations: string[]
   variants?: string[]
   sceneHook: string
+  /** Text-free poster under Vite `public/`, e.g. `illus/abandon.webp`. */
+  illustration?: string
   color: string
 }
 
 /** ~40 green-book / IELTS style mock words for ClawWords prototype */
 export const WORDS: Word[] = [
-  { id: 'abandon', word: 'abandon', ipa: '/əˈbændən/', senses: [{ pos: 'v.', zh: '放弃；抛弃' }], examples: [{ en: 'They had to abandon the project.', zh: '他们不得不放弃这个项目。' }], collocations: ['abandon hope', 'abandon a plan'], sceneHook: 'walk away forever', color: '#5B8DEF', variants: ['abandons', 'abandoned', 'abandoning'] },
+  { id: 'abandon', word: 'abandon', ipa: '/əˈbændən/', senses: [{ pos: 'v.', zh: '放弃；抛弃' }], examples: [{ en: 'They had to abandon the project.', zh: '他们不得不放弃这个项目。' }], collocations: ['abandon hope', 'abandon a plan'], sceneHook: 'abandon the car', illustration: 'illus/abandon.webp', color: '#5B8DEF', variants: ['abandons', 'abandoned', 'abandoning'] },
   { id: 'abstract', word: 'abstract', ipa: '/ˈæbstrækt/', senses: [{ pos: 'adj.', zh: '抽象的' }, { pos: 'n.', zh: '摘要' }], examples: [{ en: 'Love is an abstract idea.', zh: '爱是一个抽象概念。' }], collocations: ['abstract concept', 'in the abstract'], sceneHook: 'idea not object', color: '#7C5CFC' },
   { id: 'accelerate', word: 'accelerate', ipa: '/əkˈseləreɪt/', senses: [{ pos: 'v.', zh: '加速；促进' }], examples: [{ en: 'The car began to accelerate.', zh: '汽车开始加速。' }], collocations: ['accelerate growth', 'accelerate the process'], sceneHook: 'speed up now', color: '#E85D4C', variants: ['accelerates', 'accelerated', 'accelerating'] },
   { id: 'access', word: 'access', ipa: '/ˈækses/', senses: [{ pos: 'n.', zh: '通道；使用权' }, { pos: 'v.', zh: '进入；访问' }], examples: [{ en: 'Students have free access to the library.', zh: '学生可免费使用图书馆。' }], collocations: ['gain access', 'access to information'], sceneHook: 'get through door', color: '#2BB0A6' },
@@ -24,8 +26,8 @@ export const WORDS: Word[] = [
   { id: 'acknowledge', word: 'acknowledge', ipa: '/əkˈnɒlɪdʒ/', senses: [{ pos: 'v.', zh: '承认；告知收到' }], examples: [{ en: 'He refused to acknowledge the mistake.', zh: '他拒绝承认错误。' }], collocations: ['acknowledge receipt', 'acknowledge the fact'], sceneHook: 'admit it openly', color: '#9B59B6', variants: ['acknowledges', 'acknowledged', 'acknowledging'] },
   { id: 'acquire', word: 'acquire', ipa: '/əˈkwaɪə/', senses: [{ pos: 'v.', zh: '获得；习得' }], examples: [{ en: 'Children acquire language naturally.', zh: '儿童自然习得语言。' }], collocations: ['acquire knowledge', 'acquire skills'], sceneHook: 'get and keep', color: '#1ABC9C', variants: ['acquires', 'acquired', 'acquiring'] },
   { id: 'adapt', word: 'adapt', ipa: '/əˈdæpt/', senses: [{ pos: 'v.', zh: '适应；改编' }], examples: [{ en: 'We must adapt to the new environment.', zh: '我们必须适应新环境。' }], collocations: ['adapt to change', 'adapt a novel'], sceneHook: 'fit the new', color: '#3498DB', variants: ['adapts', 'adapted', 'adapting'] },
-  { id: 'adequate', word: 'adequate', ipa: '/ˈædɪkwət/', senses: [{ pos: 'adj.', zh: '足够的；适当的' }], examples: [{ en: 'The food supply is adequate for a week.', zh: '食物供应够一周。' }], collocations: ['adequate supply', 'adequate preparation'], sceneHook: 'just enough', color: '#16A085' },
-  { id: 'adjacent', word: 'adjacent', ipa: '/əˈdʒeɪsnt/', senses: [{ pos: 'adj.', zh: '邻近的；毗连的' }], examples: [{ en: 'Our office is adjacent to the park.', zh: '我们的办公室紧挨着公园。' }], collocations: ['adjacent to', 'adjacent rooms'], sceneHook: 'next door side', color: '#E67E22' },
+  { id: 'adequate', word: 'adequate', ipa: '/ˈædɪkwət/', senses: [{ pos: 'adj.', zh: '足够的；适当的' }], examples: [{ en: 'The food supply is adequate for a week.', zh: '食物供应够一周。' }], collocations: ['adequate supply', 'adequate preparation'], sceneHook: 'adequate supply', illustration: 'illus/adequate.webp', color: '#16A085' },
+  { id: 'adjacent', word: 'adjacent', ipa: '/əˈdʒeɪsnt/', senses: [{ pos: 'adj.', zh: '邻近的；毗连的' }], examples: [{ en: 'Our office is adjacent to the park.', zh: '我们的办公室紧挨着公园。' }], collocations: ['adjacent to', 'adjacent rooms'], sceneHook: 'adjacent rooms', illustration: 'illus/adjacent.webp', color: '#E67E22' },
   { id: 'adjust', word: 'adjust', ipa: '/əˈdʒʌst/', senses: [{ pos: 'v.', zh: '调整；适应' }], examples: [{ en: 'Please adjust the volume.', zh: '请调节音量。' }], collocations: ['adjust to', 'adjust the settings'], sceneHook: 'fine tune dial', color: '#2980B9', variants: ['adjusts', 'adjusted', 'adjusting'] },
   { id: 'advocate', word: 'advocate', ipa: '/ˈædvəkeɪt/', senses: [{ pos: 'v.', zh: '提倡；拥护' }, { pos: 'n.', zh: '倡导者' }], examples: [{ en: 'She advocates for clean energy.', zh: '她倡导清洁能源。' }], collocations: ['advocate for', 'strong advocate'], sceneHook: 'speak for cause', color: '#C0392B', variants: ['advocates', 'advocated', 'advocating'] },
   { id: 'affect', word: 'affect', ipa: '/əˈfekt/', senses: [{ pos: 'v.', zh: '影响；打动' }], examples: [{ en: 'The weather can affect your mood.', zh: '天气会影响你的心情。' }], collocations: ['affect the outcome', 'negatively affect'], sceneHook: 'change the result', color: '#8E44AD', variants: ['affects', 'affected', 'affecting'] },
@@ -37,7 +39,7 @@ export const WORDS: Word[] = [
   { id: 'apparent', word: 'apparent', ipa: '/əˈpærənt/', senses: [{ pos: 'adj.', zh: '明显的；表面上的' }], examples: [{ en: 'It was apparent that she was tired.', zh: '很明显她累了。' }], collocations: ['become apparent', 'apparent reason'], sceneHook: 'clear on surface', color: '#148F77' },
   { id: 'approach', word: 'approach', ipa: '/əˈprəʊtʃ/', senses: [{ pos: 'n.', zh: '方法；接近' }, { pos: 'v.', zh: '靠近；着手' }], examples: [{ en: 'We need a new approach to teaching.', zh: '我们需要新的教学方法。' }], collocations: ['approach to', 'approach the problem'], sceneHook: 'come near way', color: '#6C5CE7', variants: ['approaches', 'approached', 'approaching'] },
   { id: 'appropriate', word: 'appropriate', ipa: '/əˈprəʊpriət/', senses: [{ pos: 'adj.', zh: '合适的；恰当的' }], examples: [{ en: 'Wear appropriate clothes for the interview.', zh: '面试要穿合适的衣服。' }], collocations: ['appropriate for', 'appropriate response'], sceneHook: 'right for moment', color: '#00B894' },
-  { id: 'arbitrary', word: 'arbitrary', ipa: '/ˈɑːbɪtrəri/', senses: [{ pos: 'adj.', zh: '任意的；武断的' }], examples: [{ en: 'The decision seemed completely arbitrary.', zh: '这个决定显得完全武断。' }], collocations: ['arbitrary decision', 'arbitrary rule'], sceneHook: 'no clear reason', color: '#636E72' },
+  { id: 'arbitrary', word: 'arbitrary', ipa: '/ˈɑːbɪtrəri/', senses: [{ pos: 'adj.', zh: '任意的；武断的' }], examples: [{ en: 'The decision seemed completely arbitrary.', zh: '这个决定显得完全武断。' }], collocations: ['arbitrary decision', 'arbitrary rule'], sceneHook: 'arbitrary decision', illustration: 'illus/arbitrary.webp', color: '#636E72' },
   { id: 'assess', word: 'assess', ipa: '/əˈses/', senses: [{ pos: 'v.', zh: '评估；评定' }], examples: [{ en: 'Teachers assess students every term.', zh: '老师每学期评估学生。' }], collocations: ['assess the risk', 'assess damage'], sceneHook: 'judge the value', color: '#0984E3', variants: ['assesses', 'assessed', 'assessing'] },
   { id: 'assume', word: 'assume', ipa: '/əˈsjuːm/', senses: [{ pos: 'v.', zh: '假定；承担' }], examples: [{ en: 'Don\'t assume that everyone agrees.', zh: '别以为人人都同意。' }], collocations: ['assume responsibility', 'assume that'], sceneHook: 'take as true', color: '#A29BFE', variants: ['assumes', 'assumed', 'assuming'] },
   { id: 'attach', word: 'attach', ipa: '/əˈtætʃ/', senses: [{ pos: 'v.', zh: '附上；连接；重视' }], examples: [{ en: 'Please attach the file to your email.', zh: '请把文件附在邮件里。' }], collocations: ['attach to', 'attach importance'], sceneHook: 'clip it on', color: '#FD79A8', variants: ['attaches', 'attached', 'attaching'] },
@@ -57,7 +59,7 @@ export const WORDS: Word[] = [
   { id: 'clarify', word: 'clarify', ipa: '/ˈklærɪfaɪ/', senses: [{ pos: 'v.', zh: '澄清；阐明' }], examples: [{ en: 'Could you clarify what you mean?', zh: '你能澄清一下你的意思吗？' }], collocations: ['clarify a point', 'clarify the situation'], sceneHook: 'make meaning clear', color: '#00B894', variants: ['clarifies', 'clarified', 'clarifying'] },
   { id: 'coherent', word: 'coherent', ipa: '/kəʊˈhɪərənt/', senses: [{ pos: 'adj.', zh: '连贯的；一致的' }], examples: [{ en: 'Write a coherent argument.', zh: '写一段连贯的论证。' }], collocations: ['coherent argument', 'coherent policy'], sceneHook: 'holds together well', color: '#0984E3' },
   { id: 'coincide', word: 'coincide', ipa: '/ˌkəʊɪnˈsaɪd/', senses: [{ pos: 'v.', zh: '同时发生；相符' }], examples: [{ en: 'Our holidays coincide this year.', zh: '我们今年的假期碰巧一样。' }], collocations: ['coincide with', 'opinions coincide'], sceneHook: 'happen same time', color: '#FDCB6E', variants: ['coincides', 'coincided', 'coinciding'] },
-  { id: 'collapse', word: 'collapse', ipa: '/kəˈlæps/', senses: [{ pos: 'v.', zh: '倒塌；崩溃' }, { pos: 'n.', zh: '倒塌；失败' }], examples: [{ en: 'The bridge collapsed after the storm.', zh: '暴风雨后桥塌了。' }], collocations: ['collapse under', 'economic collapse'], sceneHook: 'fall apart suddenly', color: '#D63031', variants: ['collapses', 'collapsed', 'collapsing'] },
+  { id: 'collapse', word: 'collapse', ipa: '/kəˈlæps/', senses: [{ pos: 'v.', zh: '倒塌；崩溃' }, { pos: 'n.', zh: '倒塌；失败' }], examples: [{ en: 'The bridge collapsed after the storm.', zh: '暴风雨后桥塌了。' }], collocations: ['collapse under', 'economic collapse'], sceneHook: 'the bridge collapsed', illustration: 'illus/collapse.webp', color: '#D63031', variants: ['collapses', 'collapsed', 'collapsing'] },
   { id: 'commit', word: 'commit', ipa: '/kəˈmɪt/', senses: [{ pos: 'v.', zh: '承诺；犯（罪）；投入' }], examples: [{ en: 'He committed himself to the project.', zh: '他全身心投入这个项目。' }], collocations: ['commit a crime', 'commit to'], sceneHook: 'promise and stick', color: '#2D3436', variants: ['commits', 'committed', 'committing'] },
   { id: 'compatible', word: 'compatible', ipa: '/kəmˈpætəbl/', senses: [{ pos: 'adj.', zh: '兼容的；合得来的' }], examples: [{ en: 'Is this software compatible with Mac?', zh: '这款软件和 Mac 兼容吗？' }], collocations: ['compatible with', 'mutually compatible'], sceneHook: 'works well together', color: '#00CEC9' },
   { id: 'compile', word: 'compile', ipa: '/kəmˈpaɪl/', senses: [{ pos: 'v.', zh: '汇编；编译；编纂' }], examples: [{ en: 'She compiled a list of useful links.', zh: '她汇编了一份有用链接清单。' }], collocations: ['compile data', 'compile a report'], sceneHook: 'gather into one', color: '#6C5CE7', variants: ['compiles', 'compiled', 'compiling'] },
@@ -71,4 +73,29 @@ export function getWord(id: string): Word | undefined {
 
 export function primaryZh(w: Word): string {
   return w.senses.map((s) => s.zh).join('；')
+}
+
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+/** Public URL for a text-free poster, honoring the Vite base path. */
+export function illustrationUrl(word: Word): string | null {
+  if (!word.illustration) return null
+  return import.meta.env.BASE_URL + word.illustration.replace(/^\//, '')
+}
+
+/**
+ * True when the scene caption contains the headword or a listed variant.
+ * Review and Boss hints hide that caption so the spell gate stays closed.
+ */
+export function captionRevealsHeadword(word: Word): boolean {
+  const candidates = new Set<string>([word.word, ...(word.variants ?? [])])
+  if (word.word.length >= 5 && (word.word.endsWith('e') || word.word.endsWith('y'))) {
+    candidates.add(word.word.slice(0, -1))
+  }
+  const stems = [...candidates].filter(Boolean).sort((a, b) => b.length - a.length)
+  if (stems.length === 0 || !word.sceneHook) return false
+  const pattern = new RegExp(`\\b(?:${stems.map(escapeRegExp).join('|')})\\w*`, 'i')
+  return pattern.test(word.sceneHook)
 }

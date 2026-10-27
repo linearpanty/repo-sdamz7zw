@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
-import type { Word } from '../data/words'
+import { captionRevealsHeadword, illustrationUrl, type Word } from '../data/words'
 import { gradeExact, maskWordHint } from '../lib/grader'
 
 type LexiconStageProps = {
@@ -183,6 +183,8 @@ export function LexiconStageView({
 
   const initialGlyph = word.word.slice(0, 2).toUpperCase()
   const hintMask = maskWordHint(word.word)
+  const illusSrc = illustrationUrl(word)
+  const showCaption = !isReview || !captionRevealsHeadword(word)
 
   return (
     <article
@@ -191,61 +193,82 @@ export function LexiconStageView({
       aria-label={isReview ? '温故默写' : `词条图鉴 ${word.word}`}
     >
       {/* Left / Top Illustrated Gallery Poster Frame (>= 240px height) */}
-      <div className="cw-poster-frame">
-        <div className="cw-poster-grid-overlay" aria-hidden="true" />
-
-        {/* Engraved Botanical / Atlas Specimen Line Art */}
-        <svg
-          className="cw-poster-art-svg"
-          viewBox="0 0 260 260"
-          fill="none"
-          aria-hidden="true"
-        >
-          <circle
-            cx="130"
-            cy="130"
-            r="96"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeDasharray="3 5"
+      <div className={`cw-poster-frame${illusSrc ? ' has-illus' : ''}`}>
+        {illusSrc ? (
+          <img
+            className="cw-poster-photo"
+            src={illusSrc}
+            alt=""
+            width={640}
+            height={800}
+            draggable={false}
           />
-          <circle cx="130" cy="130" r="68" stroke="currentColor" strokeWidth="0.75" />
-          <line x1="20" y1="130" x2="240" y2="130" stroke="currentColor" strokeWidth="0.6" />
-          <line x1="130" y1="20" x2="130" y2="240" stroke="currentColor" strokeWidth="0.6" />
-        </svg>
+        ) : (
+          <>
+            <div className="cw-poster-grid-overlay" aria-hidden="true" />
+
+            {/* Engraved Botanical / Atlas Specimen Line Art */}
+            <svg
+              className="cw-poster-art-svg"
+              viewBox="0 0 260 260"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle
+                cx="130"
+                cy="130"
+                r="96"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeDasharray="3 5"
+              />
+              <circle cx="130" cy="130" r="68" stroke="currentColor" strokeWidth="0.75" />
+              <line x1="20" y1="130" x2="240" y2="130" stroke="currentColor" strokeWidth="0.6" />
+              <line x1="130" y1="20" x2="130" y2="240" stroke="currentColor" strokeWidth="0.6" />
+            </svg>
+
+            {!isReview && (
+              <div className="cw-poster-glyph" aria-hidden="true">
+                {initialGlyph}
+              </div>
+            )}
+          </>
+        )}
 
         <div className="cw-poster-top-rail">
           <span className="cw-poster-reg">视觉锚点</span>
         </div>
 
-        {!isReview && (
-          <div className="cw-poster-glyph" aria-hidden="true">
-            {initialGlyph}
+        {showCaption && (
+          <div className="cw-poster-centerpiece">
+            {!illusSrc && (
+              <span className="cw-quote-mark" aria-hidden="true">
+                “
+              </span>
+            )}
+            <p className="cw-poster-hook">{highlightLexeme(word.sceneHook, word)}</p>
+            {!illusSrc && (
+              <div className="cw-poster-caption">
+                <span
+                  className="cw-poster-swatch"
+                  style={{ backgroundColor: word.color }}
+                  aria-hidden="true"
+                />
+                <span>先记画面，再记词义</span>
+              </div>
+            )}
           </div>
         )}
 
-        <div className="cw-poster-centerpiece">
-          <span className="cw-quote-mark" aria-hidden="true">
-            “
-          </span>
-          <p className="cw-poster-hook">{word.sceneHook}</p>
-          <div className="cw-poster-caption">
-            <span
-              className="cw-poster-swatch"
-              style={{ backgroundColor: word.color }}
-              aria-hidden="true"
-            />
-            <span>先记画面，再记词义</span>
+        {!illusSrc && (
+          <div className="cw-poster-bottom-rail">
+            {!isReview && (
+              <span className="cw-poster-watermark" aria-hidden="true">
+                {word.word}
+              </span>
+            )}
           </div>
-        </div>
-
-        <div className="cw-poster-bottom-rail">
-          {!isReview && (
-            <span className="cw-poster-watermark" aria-hidden="true">
-              {word.word}
-            </span>
-          )}
-        </div>
+        )}
       </div>
 
       {/* Right / Bottom Linguistic Dossier */}
@@ -314,7 +337,11 @@ export function LexiconStageView({
               <span className="cw-section-hint">听音或看画面回忆拼写</span>
             </div>
             <div className="cw-example-slate">
-              <p className="cw-example-en">“{word.sceneHook}”</p>
+              {showCaption ? (
+                <p className="cw-example-en">“{word.sceneHook}”</p>
+              ) : (
+                <p className="cw-example-en">看左侧画面回忆拼写</p>
+              )}
             </div>
           </section>
         ) : (

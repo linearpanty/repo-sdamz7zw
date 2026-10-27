@@ -888,6 +888,61 @@ mark.hl,
   color: color-mix(in srgb, var(--cw-word-accent, #243b55) 45%, #76736d);
 }
 
+/* Text-free poster + UI caption (caption is not baked into the image) */
+.cw-poster-frame.has-illus {
+  padding: 16px 16px 18px;
+  gap: 12px;
+  justify-content: flex-start;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--cw-word-accent, #5b8def) 8%, #f7f5f1) 0%,
+      #f4f1eb 42%,
+      #f6f5f2 100%
+    );
+}
+
+.cw-poster-photo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 2px;
+  background: #efece6;
+  box-shadow: 0 1px 0 rgba(26, 26, 26, 0.05);
+}
+
+.cw-poster-frame.has-illus .cw-poster-top-rail {
+  order: -1;
+}
+
+.cw-poster-frame.has-illus .cw-poster-centerpiece {
+  margin: 0;
+  padding: 0;
+}
+
+.cw-poster-frame.has-illus .cw-poster-hook {
+  font-size: 1.12rem;
+  line-height: 1.35;
+  background: rgba(246, 245, 242, 0.94);
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.cw-hint-illus {
+  display: block;
+  width: 92px;
+  height: 115px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #efece6;
+  border: 1px solid var(--cw-border-hairline);
+}
+
 /* Right Linguistic Dossier Pane */
 .cw-dossier-pane {
   padding: 24px 28px;
