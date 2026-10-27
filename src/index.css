@@ -25,9 +25,6 @@
   --cw-font-serif: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia,
     'Songti SC', serif;
   --cw-font-mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
-  --cw-shadow-stage:
-    0 1px 2px rgba(26, 26, 26, 0.03),
-    0 10px 28px -6px rgba(26, 26, 26, 0.05);
   --cw-radius-lg: 18px;
   --cw-radius-md: 12px;
   --cw-radius-sm: 8px;
@@ -114,7 +111,6 @@ button:focus-visible {
   background: var(--cw-surface-1);
   border: 1px solid var(--cw-border-hairline);
   border-radius: var(--cw-radius-lg);
-  box-shadow: var(--cw-shadow-stage);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -168,7 +164,6 @@ button:focus-visible {
   font-weight: 600;
   font-size: 0.98rem;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(26, 26, 26, 0.08);
 }
 
 .cw-cta-primary:hover:not(:disabled) {
@@ -179,7 +174,6 @@ button:focus-visible {
 .cw-cta-primary:disabled {
   opacity: 0.38;
   cursor: not-allowed;
-  box-shadow: none;
 }
 
 .cw-cta-wide {
@@ -257,7 +251,6 @@ button:focus-visible {
   grid-template-columns: 320px 1fr;
   background: var(--cw-surface-1);
   border-radius: var(--cw-radius-lg);
-  box-shadow: var(--cw-shadow-stage);
   overflow: hidden;
   border: 1px solid var(--cw-border-hairline);
 }
@@ -324,7 +317,6 @@ button:focus-visible {
   object-fit: cover;
   border-radius: 2px;
   background: #efece6;
-  box-shadow: 0 1px 0 rgba(26, 26, 26, 0.05);
 }
 
 .cw-poster-centerpiece {
@@ -355,7 +347,6 @@ mark.cw-target-hl {
   font-weight: 650;
   padding: 1px 5px;
   border-radius: 4px;
-  border-bottom: 1.5px solid color-mix(in srgb, var(--cw-word-accent, #243b55) 45%, var(--cw-accent));
 }
 
 .cw-dossier-pane {
@@ -466,7 +457,6 @@ mark.cw-target-hl {
   border-radius: var(--cw-radius-sm);
   background: var(--cw-surface-2);
   border: 1px solid var(--cw-border-hairline);
-  border-left: 3px solid color-mix(in srgb, var(--cw-word-accent, #243b55) 65%, var(--cw-accent));
 }
 
 .cw-example-en {
