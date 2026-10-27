@@ -1,0 +1,9 @@
+{
+  "name": "ClawWords 词私教 Lab",
+  "short_name": "ClawWords",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f5f2",
+  "theme_color": "#f6f5f2",
+  "lang": "zh-CN"
+}
