@@ -86,7 +86,7 @@ button:focus-visible {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(rgba(26, 26, 26, 0.055) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(26, 26, 26, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
   mask-image: radial-gradient(circle at 50% 40%, black 25%, transparent 82%);
   z-index: 0;
@@ -164,7 +164,10 @@ button:focus-visible {
 }
 
 .cw-cta-primary:disabled {
-  opacity: 0.38;
+  opacity: 1;
+  background: #f6f5f2;
+  border: 1px solid #d3d0c8;
+  color: #76736d;
   cursor: not-allowed;
 }
 
@@ -258,11 +261,11 @@ button:focus-visible {
   background:
     radial-gradient(
       125% 110% at 18% 12%,
-      color-mix(in srgb, var(--cw-word-accent, #5b8def) 14%, #faf8f4) 0%,
-      color-mix(in srgb, var(--cw-word-accent, #5b8def) 8%, #f7f5f0) 62%,
-      color-mix(in srgb, var(--cw-word-accent, #5b8def) 4%, #f3f0ea) 100%
+      color-mix(in srgb, #1a1a1a 8%, #f7f5f1) 0%,
+      color-mix(in srgb, #1a1a1a 6%, #f7f5f1) 62%,
+      #f4f1eb 100%
     );
-  border-right: 1px solid color-mix(in srgb, var(--cw-word-accent, #5b8def) 22%, var(--cw-border-hairline));
+  border-right: 1px solid var(--cw-border-hairline);
 }
 
 .cw-poster-grid-overlay {
@@ -281,8 +284,8 @@ button:focus-visible {
   height: 250px;
   right: -36px;
   bottom: -36px;
-  color: color-mix(in srgb, var(--cw-word-accent, #5b8def) 35%, #8c887f);
-  opacity: 0.22;
+  color: #6b6358;
+  opacity: 0.2;
   pointer-events: none;
 }
 
@@ -290,13 +293,7 @@ button:focus-visible {
   padding: 16px 16px 18px;
   gap: 12px;
   justify-content: flex-start;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--cw-word-accent, #5b8def) 8%, #f7f5f1) 0%,
-      #f4f1eb 42%,
-      #f6f5f2 100%
-    );
+  background: linear-gradient(180deg, #f7f5f1 0%, #f4f1eb 42%, #f6f5f2 100%);
 }
 
 .cw-poster-photo {
@@ -326,7 +323,7 @@ button:focus-visible {
   font-weight: 600;
   line-height: 1.35;
   color: var(--cw-text-primary);
-  background: var(--cw-bg-void);
+  background: #f2f0eb;
   border: 1px solid var(--cw-border-hairline);
   border-radius: 8px;
   padding: 8px 10px;
@@ -417,9 +414,9 @@ mark.cw-target-hl {
 
 .cw-btn-speak:hover,
 .btn-speak:hover {
-  background: var(--cw-accent-soft);
-  border-color: var(--cw-accent-border);
-  color: var(--cw-accent);
+  background: #efece6;
+  border-color: var(--cw-border-hairline);
+  color: var(--cw-text-primary);
 }
 
 .cw-senses-box {
@@ -428,7 +425,7 @@ mark.cw-target-hl {
   gap: 10px;
   padding: 10px 13px;
   border-radius: var(--cw-radius-sm);
-  background: #efece6;
+  background: #ebe7e0;
   border: 1px solid var(--cw-border-hairline);
 }
 
@@ -452,9 +449,9 @@ mark.cw-target-hl {
   font-style: italic;
   padding: 1px 7px;
   border-radius: 4px;
-  background: var(--cw-accent-soft);
-  color: var(--cw-accent);
-  border: 1px solid var(--cw-accent-border);
+  background: #efece6;
+  color: #43413c;
+  border: 1px solid #e6e4df;
 }
 
 .cw-sense-zh {
@@ -465,7 +462,7 @@ mark.cw-target-hl {
 .cw-example-slate {
   padding: 10px 13px;
   border-radius: var(--cw-radius-sm);
-  background: #efece6;
+  background: #ebe7e0;
   border: 1px solid var(--cw-border-hairline);
 }
 
@@ -551,7 +548,7 @@ mark.cw-target-hl {
   .cw-poster-frame {
     min-height: 228px;
     border-right: none;
-    border-bottom: 1px solid color-mix(in srgb, var(--cw-word-accent, #5b8def) 22%, var(--cw-border-hairline));
+    border-bottom: 1px solid var(--cw-border-hairline);
   }
 
   .cw-dossier-pane,

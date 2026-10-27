@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 import { illustrationUrl, type Word } from '../data/words'
 import { speakWord } from '../lib/audio'
 import { gradeExact, maskWordHint } from '../lib/grader'
@@ -129,11 +129,7 @@ export function WordView({
         />
       </div>
 
-      <article
-        className="cw-lexicon-folio"
-        style={{ '--cw-word-accent': word.color } as CSSProperties}
-        aria-label="词"
-      >
+      <article className="cw-lexicon-folio" aria-label="词">
         <div className={`cw-poster-frame${illusSrc ? ' has-illus' : ''}`}>
           {illusSrc ? (
             <img
