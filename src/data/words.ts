@@ -1,0 +1,101 @@
+export type Sense = { pos?: string; zh: string }
+export type Word = {
+  id: string
+  word: string
+  ipa: string
+  senses: Sense[]
+  examples: { en: string; zh: string }[]
+  collocations: string[]
+  variants?: string[]
+  sceneHook: string
+  /** Text-free poster under Vite `public/`, e.g. `illus/abandon.webp`. */
+  illustration?: string
+  color: string
+}
+
+/** ~40 green-book / IELTS style mock words for ClawWords prototype */
+export const WORDS: Word[] = [
+  { id: 'abandon', word: 'abandon', ipa: '/əˈbændən/', senses: [{ pos: 'v.', zh: '放弃；抛弃' }], examples: [{ en: 'They had to abandon the project.', zh: '他们不得不放弃这个项目。' }], collocations: ['abandon hope', 'abandon a plan'], sceneHook: 'abandon the car', illustration: 'illus/abandon.webp', color: '#5B8DEF', variants: ['abandons', 'abandoned', 'abandoning'] },
+  { id: 'abstract', word: 'abstract', ipa: '/ˈæbstrækt/', senses: [{ pos: 'adj.', zh: '抽象的' }, { pos: 'n.', zh: '摘要' }], examples: [{ en: 'Love is an abstract idea.', zh: '爱是一个抽象概念。' }], collocations: ['abstract concept', 'in the abstract'], sceneHook: 'idea not object', color: '#7C5CFC' },
+  { id: 'accelerate', word: 'accelerate', ipa: '/əkˈseləreɪt/', senses: [{ pos: 'v.', zh: '加速；促进' }], examples: [{ en: 'The car began to accelerate.', zh: '汽车开始加速。' }], collocations: ['accelerate growth', 'accelerate the process'], sceneHook: 'speed up now', color: '#E85D4C', variants: ['accelerates', 'accelerated', 'accelerating'] },
+  { id: 'access', word: 'access', ipa: '/ˈækses/', senses: [{ pos: 'n.', zh: '通道；使用权' }, { pos: 'v.', zh: '进入；访问' }], examples: [{ en: 'Students have free access to the library.', zh: '学生可免费使用图书馆。' }], collocations: ['gain access', 'access to information'], sceneHook: 'get through door', color: '#2BB0A6' },
+  { id: 'accommodate', word: 'accommodate', ipa: '/əˈkɒmədeɪt/', senses: [{ pos: 'v.', zh: '容纳；迁就' }], examples: [{ en: 'The hotel can accommodate 200 guests.', zh: '这家酒店可容纳 200 位客人。' }], collocations: ['accommodate needs', 'accommodate guests'], sceneHook: 'make room for', color: '#F0A202', variants: ['accommodates', 'accommodated', 'accommodating'] },
+  { id: 'accumulate', word: 'accumulate', ipa: '/əˈkjuːmjəleɪt/', senses: [{ pos: 'v.', zh: '积累；堆积' }], examples: [{ en: 'Dust began to accumulate on the shelves.', zh: '架子上开始积灰。' }], collocations: ['accumulate wealth', 'accumulate evidence'], sceneHook: 'pile up slowly', color: '#8B6F47', variants: ['accumulates', 'accumulated', 'accumulating'] },
+  { id: 'accurate', word: 'accurate', ipa: '/ˈækjərət/', senses: [{ pos: 'adj.', zh: '准确的；精确的' }], examples: [{ en: 'Her prediction was surprisingly accurate.', zh: '她的预测出奇地准确。' }], collocations: ['accurate information', 'highly accurate'], sceneHook: 'hit the mark', color: '#3D8BFF' },
+  { id: 'achieve', word: 'achieve', ipa: '/əˈtʃiːv/', senses: [{ pos: 'v.', zh: '达到；实现' }], examples: [{ en: 'She achieved her goal within a year.', zh: '她在一年内实现了目标。' }], collocations: ['achieve a goal', 'achieve success'], sceneHook: 'reach the peak', color: '#22A06B', variants: ['achieves', 'achieved', 'achieving'] },
+  { id: 'acknowledge', word: 'acknowledge', ipa: '/əkˈnɒlɪdʒ/', senses: [{ pos: 'v.', zh: '承认；告知收到' }], examples: [{ en: 'He refused to acknowledge the mistake.', zh: '他拒绝承认错误。' }], collocations: ['acknowledge receipt', 'acknowledge the fact'], sceneHook: 'admit it openly', color: '#9B59B6', variants: ['acknowledges', 'acknowledged', 'acknowledging'] },
+  { id: 'acquire', word: 'acquire', ipa: '/əˈkwaɪə/', senses: [{ pos: 'v.', zh: '获得；习得' }], examples: [{ en: 'Children acquire language naturally.', zh: '儿童自然习得语言。' }], collocations: ['acquire knowledge', 'acquire skills'], sceneHook: 'get and keep', color: '#1ABC9C', variants: ['acquires', 'acquired', 'acquiring'] },
+  { id: 'adapt', word: 'adapt', ipa: '/əˈdæpt/', senses: [{ pos: 'v.', zh: '适应；改编' }], examples: [{ en: 'We must adapt to the new environment.', zh: '我们必须适应新环境。' }], collocations: ['adapt to change', 'adapt a novel'], sceneHook: 'fit the new', color: '#3498DB', variants: ['adapts', 'adapted', 'adapting'] },
+  { id: 'adequate', word: 'adequate', ipa: '/ˈædɪkwət/', senses: [{ pos: 'adj.', zh: '足够的；适当的' }], examples: [{ en: 'The food supply is adequate for a week.', zh: '食物供应够一周。' }], collocations: ['adequate supply', 'adequate preparation'], sceneHook: 'adequate supply', illustration: 'illus/adequate.webp', color: '#16A085' },
+  { id: 'adjacent', word: 'adjacent', ipa: '/əˈdʒeɪsnt/', senses: [{ pos: 'adj.', zh: '邻近的；毗连的' }], examples: [{ en: 'Our office is adjacent to the park.', zh: '我们的办公室紧挨着公园。' }], collocations: ['adjacent to', 'adjacent rooms'], sceneHook: 'adjacent rooms', illustration: 'illus/adjacent.webp', color: '#E67E22' },
+  { id: 'adjust', word: 'adjust', ipa: '/əˈdʒʌst/', senses: [{ pos: 'v.', zh: '调整；适应' }], examples: [{ en: 'Please adjust the volume.', zh: '请调节音量。' }], collocations: ['adjust to', 'adjust the settings'], sceneHook: 'fine tune dial', color: '#2980B9', variants: ['adjusts', 'adjusted', 'adjusting'] },
+  { id: 'advocate', word: 'advocate', ipa: '/ˈædvəkeɪt/', senses: [{ pos: 'v.', zh: '提倡；拥护' }, { pos: 'n.', zh: '倡导者' }], examples: [{ en: 'She advocates for clean energy.', zh: '她倡导清洁能源。' }], collocations: ['advocate for', 'strong advocate'], sceneHook: 'speak for cause', color: '#C0392B', variants: ['advocates', 'advocated', 'advocating'] },
+  { id: 'affect', word: 'affect', ipa: '/əˈfekt/', senses: [{ pos: 'v.', zh: '影响；打动' }], examples: [{ en: 'The weather can affect your mood.', zh: '天气会影响你的心情。' }], collocations: ['affect the outcome', 'negatively affect'], sceneHook: 'change the result', color: '#8E44AD', variants: ['affects', 'affected', 'affecting'] },
+  { id: 'aggregate', word: 'aggregate', ipa: '/ˈæɡrɪɡət/', senses: [{ pos: 'n.', zh: '总计；集合体' }, { pos: 'v.', zh: '聚合' }], examples: [{ en: 'The aggregate score was 85.', zh: '总分是 85。' }], collocations: ['in the aggregate', 'aggregate data'], sceneHook: 'sum it all', color: '#27AE60' },
+  { id: 'allocate', word: 'allocate', ipa: '/ˈæləkeɪt/', senses: [{ pos: 'v.', zh: '分配；拨出' }], examples: [{ en: 'The government allocated funds for schools.', zh: '政府为学校拨了款。' }], collocations: ['allocate resources', 'allocate time'], sceneHook: 'divide and assign', color: '#F39C12', variants: ['allocates', 'allocated', 'allocating'] },
+  { id: 'ambiguous', word: 'ambiguous', ipa: '/æmˈbɪɡjuəs/', senses: [{ pos: 'adj.', zh: '模棱两可的；含糊的' }], examples: [{ en: 'His reply was deliberately ambiguous.', zh: '他的回答故意含糊其辞。' }], collocations: ['ambiguous statement', 'ambiguous meaning'], sceneHook: 'two meanings tangle', color: '#7F8C8D' },
+  { id: 'amend', word: 'amend', ipa: '/əˈmend/', senses: [{ pos: 'v.', zh: '修改；修正' }], examples: [{ en: 'They amended the contract last week.', zh: '他们上周修改了合同。' }], collocations: ['amend a law', 'amend the text'], sceneHook: 'fix the draft', color: '#D35400', variants: ['amends', 'amended', 'amending'] },
+  { id: 'anticipate', word: 'anticipate', ipa: '/ænˈtɪsɪpeɪt/', senses: [{ pos: 'v.', zh: '预期；预料' }], examples: [{ en: 'We anticipate a rise in sales.', zh: '我们预计销售额会上升。' }], collocations: ['anticipate problems', 'anticipate demand'], sceneHook: 'see it coming', color: '#1F618D', variants: ['anticipates', 'anticipated', 'anticipating'] },
+  { id: 'apparent', word: 'apparent', ipa: '/əˈpærənt/', senses: [{ pos: 'adj.', zh: '明显的；表面上的' }], examples: [{ en: 'It was apparent that she was tired.', zh: '很明显她累了。' }], collocations: ['become apparent', 'apparent reason'], sceneHook: 'clear on surface', color: '#148F77' },
+  { id: 'approach', word: 'approach', ipa: '/əˈprəʊtʃ/', senses: [{ pos: 'n.', zh: '方法；接近' }, { pos: 'v.', zh: '靠近；着手' }], examples: [{ en: 'We need a new approach to teaching.', zh: '我们需要新的教学方法。' }], collocations: ['approach to', 'approach the problem'], sceneHook: 'come near way', color: '#6C5CE7', variants: ['approaches', 'approached', 'approaching'] },
+  { id: 'appropriate', word: 'appropriate', ipa: '/əˈprəʊpriət/', senses: [{ pos: 'adj.', zh: '合适的；恰当的' }], examples: [{ en: 'Wear appropriate clothes for the interview.', zh: '面试要穿合适的衣服。' }], collocations: ['appropriate for', 'appropriate response'], sceneHook: 'right for moment', color: '#00B894' },
+  { id: 'arbitrary', word: 'arbitrary', ipa: '/ˈɑːbɪtrəri/', senses: [{ pos: 'adj.', zh: '任意的；武断的' }], examples: [{ en: 'The decision seemed completely arbitrary.', zh: '这个决定显得完全武断。' }], collocations: ['arbitrary decision', 'arbitrary rule'], sceneHook: 'arbitrary decision', illustration: 'illus/arbitrary.webp', color: '#636E72' },
+  { id: 'assess', word: 'assess', ipa: '/əˈses/', senses: [{ pos: 'v.', zh: '评估；评定' }], examples: [{ en: 'Teachers assess students every term.', zh: '老师每学期评估学生。' }], collocations: ['assess the risk', 'assess damage'], sceneHook: 'judge the value', color: '#0984E3', variants: ['assesses', 'assessed', 'assessing'] },
+  { id: 'assume', word: 'assume', ipa: '/əˈsjuːm/', senses: [{ pos: 'v.', zh: '假定；承担' }], examples: [{ en: 'Don\'t assume that everyone agrees.', zh: '别以为人人都同意。' }], collocations: ['assume responsibility', 'assume that'], sceneHook: 'take as true', color: '#A29BFE', variants: ['assumes', 'assumed', 'assuming'] },
+  { id: 'attach', word: 'attach', ipa: '/əˈtætʃ/', senses: [{ pos: 'v.', zh: '附上；连接；重视' }], examples: [{ en: 'Please attach the file to your email.', zh: '请把文件附在邮件里。' }], collocations: ['attach to', 'attach importance'], sceneHook: 'clip it on', color: '#FD79A8', variants: ['attaches', 'attached', 'attaching'] },
+  { id: 'attain', word: 'attain', ipa: '/əˈteɪn/', senses: [{ pos: 'v.', zh: '获得；达到' }], examples: [{ en: 'Few people attain such fame.', zh: '很少人能达到这样的名望。' }], collocations: ['attain a goal', 'attain success'], sceneHook: 'finally get there', color: '#00CEC9', variants: ['attains', 'attained', 'attaining'] },
+  { id: 'attribute', word: 'attribute', ipa: '/əˈtrɪbjuːt/', senses: [{ pos: 'v.', zh: '把…归因于' }, { pos: 'n.', zh: '属性；特质' }], examples: [{ en: 'She attributes her success to hard work.', zh: '她把成功归因于努力。' }], collocations: ['attribute to', 'key attribute'], sceneHook: 'blame or credit', color: '#E17055', variants: ['attributes', 'attributed', 'attributing'] },
+  { id: 'authority', word: 'authority', ipa: '/ɔːˈθɒrəti/', senses: [{ pos: 'n.', zh: '权威；当局' }], examples: [{ en: 'He is an authority on climate change.', zh: '他是气候变化方面的权威。' }], collocations: ['local authority', 'have authority'], sceneHook: 'power to decide', color: '#2D3436' },
+  { id: 'available', word: 'available', ipa: '/əˈveɪləbl/', senses: [{ pos: 'adj.', zh: '可获得的；有空的' }], examples: [{ en: 'Tickets are still available online.', zh: '网上仍可买到票。' }], collocations: ['available for', 'make available'], sceneHook: 'ready to use', color: '#55EFC4' },
+  { id: 'aware', word: 'aware', ipa: '/əˈweə/', senses: [{ pos: 'adj.', zh: '意识到的；知道的' }], examples: [{ en: 'Are you aware of the risks?', zh: '你意识到风险了吗？' }], collocations: ['aware of', 'become aware'], sceneHook: 'know it\'s there', color: '#74B9FF' },
+  { id: 'benefit', word: 'benefit', ipa: '/ˈbenɪfɪt/', senses: [{ pos: 'n.', zh: '益处；津贴' }, { pos: 'v.', zh: '有益于' }], examples: [{ en: 'Exercise benefits both body and mind.', zh: '运动对身心都有益。' }], collocations: ['benefit from', 'mutual benefit'], sceneHook: 'good that comes', color: '#FFEAA7', variants: ['benefits', 'benefited', 'benefiting', 'benefitted', 'benefitting'] },
+  { id: 'bias', word: 'bias', ipa: '/ˈbaɪəs/', senses: [{ pos: 'n.', zh: '偏见；偏向' }], examples: [{ en: 'The report shows a clear bias.', zh: '这份报告有明显偏见。' }], collocations: ['bias against', 'cognitive bias'], sceneHook: 'lean one side', color: '#DFE6E9' },
+  { id: 'brief', word: 'brief', ipa: '/briːf/', senses: [{ pos: 'adj.', zh: '简短的' }, { pos: 'n.', zh: '摘要；简报' }], examples: [{ en: 'Please keep your speech brief.', zh: '请把发言说得简短些。' }], collocations: ['in brief', 'brief summary'], sceneHook: 'short and clear', color: '#FAB1A0' },
+  { id: 'capable', word: 'capable', ipa: '/ˈkeɪpəbl/', senses: [{ pos: 'adj.', zh: '有能力的；能干的' }], examples: [{ en: 'She is capable of leading the team.', zh: '她有能力带领团队。' }], collocations: ['capable of', 'highly capable'], sceneHook: 'can do this', color: '#81ECEC' },
+  { id: 'capacity', word: 'capacity', ipa: '/kəˈpæsəti/', senses: [{ pos: 'n.', zh: '容量；能力；身份' }], examples: [{ en: 'The stadium has a capacity of 50,000.', zh: '这座体育场可容纳五万人。' }], collocations: ['full capacity', 'in one\'s capacity as'], sceneHook: 'how much fits', color: '#A29BFE' },
+  { id: 'category', word: 'category', ipa: '/ˈkætəɡəri/', senses: [{ pos: 'n.', zh: '类别；范畴' }], examples: [{ en: 'Put the books into different categories.', zh: '把书分到不同类别。' }], collocations: ['fall into a category', 'main category'], sceneHook: 'sort into bins', color: '#FD79A8' },
+  { id: 'challenge', word: 'challenge', ipa: '/ˈtʃælɪndʒ/', senses: [{ pos: 'n.', zh: '挑战' }, { pos: 'v.', zh: '向…挑战；质疑' }], examples: [{ en: 'Learning a new language is a challenge.', zh: '学一门新语言是一种挑战。' }], collocations: ['face a challenge', 'challenge the idea'], sceneHook: 'hard test ahead', color: '#E84393', variants: ['challenges', 'challenged', 'challenging'] },
+  { id: 'circumstance', word: 'circumstance', ipa: '/ˈsɜːkəmstəns/', senses: [{ pos: 'n.', zh: '情况；境遇' }], examples: [{ en: 'Under the circumstances, we had no choice.', zh: '在那种情况下我们别无选择。' }], collocations: ['under the circumstances', 'in these circumstances'], sceneHook: 'situation around you', color: '#6C5CE7' },
+  { id: 'clarify', word: 'clarify', ipa: '/ˈklærɪfaɪ/', senses: [{ pos: 'v.', zh: '澄清；阐明' }], examples: [{ en: 'Could you clarify what you mean?', zh: '你能澄清一下你的意思吗？' }], collocations: ['clarify a point', 'clarify the situation'], sceneHook: 'make meaning clear', color: '#00B894', variants: ['clarifies', 'clarified', 'clarifying'] },
+  { id: 'coherent', word: 'coherent', ipa: '/kəʊˈhɪərənt/', senses: [{ pos: 'adj.', zh: '连贯的；一致的' }], examples: [{ en: 'Write a coherent argument.', zh: '写一段连贯的论证。' }], collocations: ['coherent argument', 'coherent policy'], sceneHook: 'holds together well', color: '#0984E3' },
+  { id: 'coincide', word: 'coincide', ipa: '/ˌkəʊɪnˈsaɪd/', senses: [{ pos: 'v.', zh: '同时发生；相符' }], examples: [{ en: 'Our holidays coincide this year.', zh: '我们今年的假期碰巧一样。' }], collocations: ['coincide with', 'opinions coincide'], sceneHook: 'happen same time', color: '#FDCB6E', variants: ['coincides', 'coincided', 'coinciding'] },
+  { id: 'collapse', word: 'collapse', ipa: '/kəˈlæps/', senses: [{ pos: 'v.', zh: '倒塌；崩溃' }, { pos: 'n.', zh: '倒塌；失败' }], examples: [{ en: 'The bridge collapsed after the storm.', zh: '暴风雨后桥塌了。' }], collocations: ['collapse under', 'economic collapse'], sceneHook: 'the bridge collapsed', illustration: 'illus/collapse.webp', color: '#D63031', variants: ['collapses', 'collapsed', 'collapsing'] },
+  { id: 'commit', word: 'commit', ipa: '/kəˈmɪt/', senses: [{ pos: 'v.', zh: '承诺；犯（罪）；投入' }], examples: [{ en: 'He committed himself to the project.', zh: '他全身心投入这个项目。' }], collocations: ['commit a crime', 'commit to'], sceneHook: 'promise and stick', color: '#2D3436', variants: ['commits', 'committed', 'committing'] },
+  { id: 'compatible', word: 'compatible', ipa: '/kəmˈpætəbl/', senses: [{ pos: 'adj.', zh: '兼容的；合得来的' }], examples: [{ en: 'Is this software compatible with Mac?', zh: '这款软件和 Mac 兼容吗？' }], collocations: ['compatible with', 'mutually compatible'], sceneHook: 'works well together', color: '#00CEC9' },
+  { id: 'compile', word: 'compile', ipa: '/kəmˈpaɪl/', senses: [{ pos: 'v.', zh: '汇编；编译；编纂' }], examples: [{ en: 'She compiled a list of useful links.', zh: '她汇编了一份有用链接清单。' }], collocations: ['compile data', 'compile a report'], sceneHook: 'gather into one', color: '#6C5CE7', variants: ['compiles', 'compiled', 'compiling'] },
+  { id: 'complement', word: 'complement', ipa: '/ˈkɒmplɪment/', senses: [{ pos: 'v.', zh: '补充；补足' }, { pos: 'n.', zh: '补充物' }], examples: [{ en: 'The sauce complements the fish perfectly.', zh: '这酱汁与鱼搭配得完美。' }], collocations: ['complement each other', 'perfect complement'], sceneHook: 'complete the pair', color: '#E17055', variants: ['complements', 'complemented', 'complementing'] },
+  { id: 'comprehensive', word: 'comprehensive', ipa: '/ˌkɒmprɪˈhensɪv/', senses: [{ pos: 'adj.', zh: '全面的；综合的' }], examples: [{ en: 'We need a comprehensive plan.', zh: '我们需要一个全面的计划。' }], collocations: ['comprehensive review', 'comprehensive coverage'], sceneHook: 'cover every angle', color: '#0984E3' },
+]
+
+export function getWord(id: string): Word | undefined {
+  return WORDS.find((w) => w.id === id)
+}
+
+export function primaryZh(w: Word): string {
+  return w.senses.map((s) => s.zh).join('；')
+}
+
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+/** Public URL for a text-free poster, honoring the Vite base path. */
+export function illustrationUrl(word: Word): string | null {
+  if (!word.illustration) return null
+  return import.meta.env.BASE_URL + word.illustration.replace(/^\//, '')
+}
+
+/**
+ * True when the scene caption contains the headword or a listed variant.
+ * Review and Boss hints hide that caption so the spell gate stays closed.
+ */
+export function captionRevealsHeadword(word: Word): boolean {
+  const candidates = new Set<string>([word.word, ...(word.variants ?? [])])
+  if (word.word.length >= 5 && (word.word.endsWith('e') || word.word.endsWith('y'))) {
+    candidates.add(word.word.slice(0, -1))
+  }
+  const stems = [...candidates].filter(Boolean).sort((a, b) => b.length - a.length)
+  if (stems.length === 0 || !word.sceneHook) return false
+  const pattern = new RegExp(`\\b(?:${stems.map(escapeRegExp).join('|')})\\w*`, 'i')
+  return pattern.test(word.sceneHook)
+}
