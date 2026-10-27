@@ -249,8 +249,8 @@ export default function App() {
     pickNewWords(progress, 5).length > 0 || dueWords(progress).length > 0
 
   return (
-    <div className="cw-app">
-      <header className="cw-top">
+    <div className={`cw-desk ${route === 'flow' ? 'is-wide' : ''}`}>
+      <header className="cw-bar">
         <button
           type="button"
           className="cw-brand"

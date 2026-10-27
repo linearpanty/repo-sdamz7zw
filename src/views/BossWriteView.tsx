@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { primaryZh, type Word } from '../data/words'
 import { gradeTranslation, type GradeResult } from '../lib/grader'
 import { highlightLexeme } from './LexiconStageView'
+import { LemmaRow } from './LemmaRow'
 
 type BossWriteProps = {
   words: Word[]
@@ -32,28 +33,18 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
   const [showHint, setShowHint] = useState(false)
   const [log, setLog] = useState<{ wordId: string; ok: boolean }[]>([])
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const nextRef = useRef<HTMLButtonElement | null>(null)
 
   const currentWord = words[cursor]
 
   useEffect(() => {
-    if (!verdict) inputRef.current?.focus()
+    if (verdict?.ok) nextRef.current?.focus()
+    else inputRef.current?.focus()
   }, [cursor, verdict])
 
-  useEffect(() => {
-    const onGlobalKey = (e: KeyboardEvent) => {
-      if (verdict && e.key === 'Enter') {
-        e.preventDefault()
-        advanceStep()
-      }
-    }
-    window.addEventListener('keydown', onGlobalKey)
-    return () => window.removeEventListener('keydown', onGlobalKey)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [verdict, cursor, log, currentWord])
-
   function advanceStep() {
-    if (!verdict) return
-    const nextLog = [...log, { wordId: currentWord.id, ok: verdict.ok }]
+    if (!verdict?.ok) return
+    const nextLog = [...log, { wordId: currentWord.id, ok: true }]
     setLog(nextLog)
     setVerdict(null)
     setDraft('')
@@ -66,7 +57,7 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
   }
 
   function handleSubmit() {
-    if (verdict) {
+    if (verdict?.ok) {
       advanceStep()
       return
     }
@@ -89,17 +80,17 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
 
       {example && (
         <div className="cw-cloze">
-          <p className="cw-example-en">
-            {verdict
-              ? highlightLexeme(example.en, currentWord)
-              : maskTargetInSentence(example.en, currentWord)}
-          </p>
+              <p className="cw-example-en">
+                {verdict?.ok
+                  ? highlightLexeme(example.en, currentWord)
+                  : maskTargetInSentence(example.en, currentWord)}
+              </p>
           <p className="cw-example-zh">{example.zh}</p>
         </div>
       )}
 
       <p className="cw-label">
-        {showHint || verdict ? (
+        {showHint ? (
           <>
             {currentWord.sceneHook} · 首字母 {currentWord.word[0]} · {currentWord.word.length} 个字母
           </>
@@ -123,14 +114,17 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
           type="text"
           className="cw-input"
           value={draft}
-          disabled={!!verdict}
+          disabled={!!verdict?.ok}
           autoCapitalize="off"
           autoComplete="off"
           autoCorrect="off"
           spellCheck={false}
           placeholder="英文"
           aria-label="英文拼写"
-          onChange={(e) => setDraft(e.target.value)}
+          onChange={(e) => {
+            setDraft(e.target.value)
+            if (verdict && !verdict.ok) setVerdict(null)
+          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault()
@@ -144,24 +138,18 @@ export function BossWriteView({ words, onComplete }: BossWriteProps) {
         </span>
       </div>
 
-      {verdict && (
-        <div className={`cw-feedback ${verdict.ok ? 'is-ok' : 'is-bad'}`}>
-          <p>
-            {verdict.feedback}
-            {!verdict.ok && (
-              <>
-                {' '}
-                <strong>{verdict.correct}</strong> {currentWord.ipa}
-              </>
-            )}
-          </p>
+      {verdict?.ok && (
+        <div className="cw-feedback is-ok">
+          <LemmaRow word={currentWord.word} ipa={currentWord.ipa} />
+          <p>对。</p>
         </div>
       )}
+      {verdict && !verdict.ok && <p className="cw-spell-error">不对，再写一次</p>}
 
       <div className="cw-actions">
-        <button type="button" className="cw-btn" onClick={handleSubmit}>
+        <button ref={nextRef} type="button" className="cw-btn cw-btn-block" onClick={handleSubmit}>
           <span>
-            {verdict ? (cursor + 1 >= words.length ? '完成' : '下一题') : '提交'}
+            {verdict?.ok ? (cursor + 1 >= words.length ? '完成' : '下一个') : '提交'}
           </span>
           <kbd className="cw-kbd">Enter</kbd>
         </button>

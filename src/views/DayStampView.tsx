@@ -28,7 +28,7 @@ export function DayStampView({
   const accuracy = totalChecks > 0 ? Math.round((correctCount / totalChecks) * 100) : 100
 
   return (
-    <section aria-label="完成">
+    <section className="cw-sheet cw-sheet-pad" aria-label="完成">
       <p className="cw-kicker">
         {todayKey}
         {mode === 'extra' ? ' · 加练' : ''}

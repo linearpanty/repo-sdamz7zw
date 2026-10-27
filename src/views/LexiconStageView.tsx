@@ -1,5 +1,7 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import type { Word } from '../data/words'
+import { gradeTranslation } from '../lib/grader'
+import { LemmaRow } from './LemmaRow'
 
 type LexiconStageProps = {
   word: Word
@@ -50,63 +52,99 @@ export function LexiconStageView({
   nextButtonText,
   onAdvance,
 }: LexiconStageProps) {
+  const [draft, setDraft] = useState('')
+  const [error, setError] = useState('')
+
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        const tag = document.activeElement?.tagName
-        if (tag === 'INPUT' || tag === 'TEXTAREA') return
-        e.preventDefault()
-        onAdvance()
-      }
+    setDraft('')
+    setError('')
+  }, [word.id])
+
+  function commitTyping() {
+    const res = gradeTranslation(draft, word.word, word.variants ?? [])
+    if (!res.ok) {
+      setError(draft.trim() ? '不对，再写一次' : '先输入这个词')
+      return
     }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onAdvance])
+    onAdvance()
+  }
 
   return (
-    <article className="cw-card" aria-label={word.word}>
-      <div className="cw-card-top">
-        <span>{modeLabel}</span>
-        <span>{subProgressLabel}</span>
-      </div>
+    <article className="cw-folio" aria-label={word.word}>
+      <aside className="cw-scene">
+        <span className="cw-scene-label">画面</span>
+        <p className="cw-scene-hook">{word.sceneHook}</p>
+      </aside>
 
-      <h1 className="cw-headword">{word.word}</h1>
-      <p className="cw-ipa">
-        {word.ipa}
-        {word.variants && word.variants.length > 0 ? `  ${word.variants.slice(0, 3).join(' · ')}` : ''}
-      </p>
-
-      <div className="cw-senses">
-        {word.senses.map((s, idx) => (
-          <p key={idx} className="cw-sense">
-            {s.pos && <span className="cw-pos">{s.pos}</span>}
-            {s.zh}
-          </p>
-        ))}
-      </div>
-
-      <p className="cw-label">画面</p>
-      <p className="cw-hook">{word.sceneHook}</p>
-
-      <p className="cw-label">例句</p>
-      {word.examples.map((ex, idx) => (
-        <div key={idx} className="cw-example">
-          <p className="cw-example-en">{highlightLexeme(ex.en, word)}</p>
-          <p className="cw-example-zh">{ex.zh}</p>
+      <div className="cw-dossier">
+        <div className="cw-dossier-top">
+          <span className="cw-badge">{modeLabel}</span>
+          <span className="cw-progress">{subProgressLabel}</span>
         </div>
-      ))}
 
-      <p className="cw-label">搭配</p>
-      <div className="cw-chips">
-        {word.collocations.map((col) => (
-          <span key={col} className="cw-chip">
-            {highlightLexeme(col, word)}
-          </span>
-        ))}
-      </div>
+        <LemmaRow word={word.word} ipa={word.ipa} />
+        {word.variants && word.variants.length > 0 && (
+          <p className="cw-variants">{word.variants.slice(0, 3).join(' · ')}</p>
+        )}
 
-      <div className="cw-actions">
-        <button type="button" className="cw-btn" onClick={onAdvance}>
+        <div className="cw-senses">
+          {word.senses.map((s, idx) => (
+            <p key={idx} className="cw-sense">
+              {s.pos && <span className="cw-pos">{s.pos}</span>}
+              <span>{s.zh}</span>
+            </p>
+          ))}
+        </div>
+
+        <section>
+          <h2 className="cw-label">例句</h2>
+          <div className="cw-examples">
+            {word.examples.map((ex, idx) => (
+              <div key={idx} className="cw-example">
+                <p className="cw-example-en">{highlightLexeme(ex.en, word)}</p>
+                <p className="cw-example-zh">{ex.zh}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 className="cw-label">搭配</h2>
+          <div className="cw-chips">
+            {word.collocations.map((col) => (
+              <span key={col} className="cw-chip">
+                {highlightLexeme(col, word)}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <label className="cw-spell">
+          <span className="cw-label">再写一遍</span>
+          <input
+            type="text"
+            className="cw-input"
+            value={draft}
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            placeholder="输入这个词"
+            aria-label="输入这个词"
+            onChange={(e) => {
+              setDraft(e.target.value)
+              if (error) setError('')
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                commitTyping()
+              }
+            }}
+          />
+        </label>
+        {error && <p className="cw-spell-error">{error}</p>}
+        <button type="button" className="cw-btn cw-btn-block" onClick={commitTyping}>
           <span>{nextButtonText}</span>
           <kbd className="cw-kbd">Enter</kbd>
         </button>

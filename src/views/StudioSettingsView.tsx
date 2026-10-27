@@ -42,7 +42,7 @@ export function StudioSettingsView({
   }
 
   return (
-    <section aria-label="设置">
+    <section className="cw-sheet cw-sheet-pad" aria-label="设置">
       <div className="cw-row-head">
         <h1 className="cw-title">设置</h1>
         <button type="button" className="cw-text-btn" onClick={onClose}>

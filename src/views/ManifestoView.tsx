@@ -17,7 +17,7 @@ export function ManifestoView({ onEnter }: ManifestoProps) {
   }, [onEnter])
 
   return (
-    <section className="cw-note-page" aria-label="说明">
+    <section className="cw-sheet cw-sheet-pad" aria-label="说明">
       <h1 className="cw-title">说明</h1>
       <p className="cw-lead">每 5 个新词后选一次词义，再按中文默写。进度存在本机。</p>
       <button type="button" className="cw-btn" onClick={onEnter}>

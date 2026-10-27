@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Word } from '../data/words'
 import { mcqOptions } from '../lib/session'
 import { highlightLexeme } from './LexiconStageView'
+import { LemmaRow } from './LemmaRow'
 
 type IntuitionQuizProps = {
   words: Word[]
@@ -61,8 +62,7 @@ export function IntuitionQuizView({ words, onComplete }: IntuitionQuizProps) {
         </span>
       </div>
 
-      <h1 className="cw-headword">{currentWord.word}</h1>
-      <p className="cw-ipa">{currentWord.ipa}</p>
+      <LemmaRow word={currentWord.word} ipa={currentWord.ipa} />
       <p className="cw-lead" style={{ marginTop: 12, marginBottom: 0 }}>
         {selectedId ? currentWord.sceneHook : '选词义。按 1–4。'}
       </p>
