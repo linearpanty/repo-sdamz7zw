@@ -86,7 +86,7 @@ button:focus-visible {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(rgba(26, 26, 26, 0.04) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(26, 26, 26, 0.028) 1px, transparent 1px);
   background-size: 24px 24px;
   mask-image: radial-gradient(circle at 50% 40%, black 25%, transparent 82%);
   z-index: 0;
@@ -99,15 +99,21 @@ button:focus-visible {
   max-width: 860px;
 }
 
+.cw-viewport:has(.cw-sheet) {
+  justify-content: center;
+  padding-top: 16px;
+  padding-bottom: 10vh;
+}
+
 .cw-stage-main {
   display: flex;
   flex-direction: column;
 }
 
 .cw-sheet {
-  width: min(100%, 420px);
-  margin: clamp(28px, 10vh, 84px) auto 0;
-  padding: 42px 32px 36px;
+  width: min(100%, 460px);
+  margin: 0 auto;
+  padding: 56px 40px 48px;
   background: var(--cw-surface-1);
   border: 1px solid var(--cw-border-hairline);
   border-radius: var(--cw-radius-lg);
@@ -121,9 +127,9 @@ button:focus-visible {
 .cw-brand-zh {
   margin: 0;
   font-family: var(--cw-font-serif);
-  font-size: clamp(2.15rem, 5.4vw, 2.75rem);
+  font-size: clamp(1.9rem, 4.75vw, 2.42rem);
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.045em;
   line-height: 1.1;
 }
 
@@ -133,6 +139,11 @@ button:focus-visible {
   font-size: 1.15rem;
   color: var(--cw-text-secondary);
   font-weight: 550;
+}
+
+.cw-status {
+  color: #43413c;
+  font-weight: 600;
 }
 
 .cw-done-line {
@@ -551,8 +562,11 @@ mark.cw-target-hl {
     border-bottom: 1px solid var(--cw-border-hairline);
   }
 
-  .cw-dossier-pane,
-  .cw-sheet {
+  .cw-dossier-pane {
     padding: 20px;
+  }
+
+  .cw-sheet {
+    padding: 40px 22px 36px;
   }
 }
