@@ -31,8 +31,31 @@ assert.deepEqual(
   first.queue.map((card) => card.mode),
   ['learn', 'learn', 'learn', 'learn', 'learn'],
 )
-assert.equal(first.queue[0].id, 'abandon')
+assert.deepEqual(
+  first.queue.map((card) => card.id),
+  ['available', 'access', 'approach', 'challenge', 'benefit'],
+)
 assert.equal(first.finished, false)
+
+const intro = selectQueue({}, 15, today).map((card) => card.id)
+assert.deepEqual(intro, [
+  'available',
+  'access',
+  'approach',
+  'challenge',
+  'benefit',
+  'authority',
+  'aware',
+  'capacity',
+  'appropriate',
+  'capable',
+  'affect',
+  'accurate',
+  'achieve',
+  'assume',
+  'category',
+])
+assert.notDeepEqual(intro, [...intro].sort())
 
 const dueFirst = selectQueue(
   {
@@ -46,19 +69,19 @@ const dueFirst = selectQueue(
 assert.deepEqual(
   dueFirst.slice(0, 2).map((card) => [card.id, card.mode]),
   [
-    ['abstract', 'recall'],
     ['collapse', 'recall'],
+    ['abstract', 'recall'],
   ],
 )
-assert.equal(dueFirst[2].mode, 'learn')
+assert.deepEqual([dueFirst[2].id, dueFirst[2].mode], ['available', 'learn'])
 assert.equal(dueFirst.filter((card) => card.id === 'abandon').length, 0)
 
 let missed = settleCard(first, true, today)
-assert.equal(missed.queue.at(-1)?.id, 'abandon')
+assert.equal(missed.queue.at(-1)?.id, 'available')
 assert.equal(missed.queue.at(-1)?.mode, 'recall')
-assert.equal(missed.queue[0].id, 'abstract')
-assert.equal(missed.replayed.includes('abandon'), true)
-assert.equal(missed.memory.abandon.next, '2026-10-28')
+assert.equal(missed.queue[0].id, 'access')
+assert.equal(missed.replayed.includes('available'), true)
+assert.equal(missed.memory.available.next, '2026-10-28')
 
 const again = settleCard(
   {
@@ -75,7 +98,7 @@ let clean = ensureToday(blank, today)
 for (let i = 0; i < 5; i += 1) clean = settleCard(clean, false, today)
 assert.equal(clean.finished, true)
 assert.equal(clean.queue.length, 0)
-assert.equal(clean.memory.abandon.next, '2026-10-28')
+assert.equal(clean.memory.available.next, '2026-10-28')
 
 const nextDay = ensureToday(clean, '2026-10-28')
 assert.equal(nextDay.finished, false)
@@ -83,7 +106,7 @@ assert.equal(nextDay.queue[0].mode, 'recall')
 assert.equal(nextDay.queue.filter((card) => card.mode === 'recall').length, 5)
 
 const kept = ensureToday(first, today)
-assert.equal(kept.queue[0].id, 'abandon')
+assert.equal(kept.queue[0].id, 'available')
 
 const sanitized = sanitizeProgress(
   { ...first, queue: [{ id: 'nope', mode: 'learn' }, first.queue[0]] },

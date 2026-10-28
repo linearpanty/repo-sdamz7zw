@@ -61,7 +61,8 @@ export function sanitizeProgress(raw: unknown, today: string): Progress | null {
 
 /**
  * Due cards first (caption hidden), then unseen cards, capped at the daily count.
- * Order inside each group follows the lexicon.
+ * Each group follows the lexicon, which is frequency order (common first).
+ * See WORD_ORDER.md. The order is fixed; it is not reshuffled per day.
  */
 export function selectQueue(
   memory: Record<string, Memory>,
