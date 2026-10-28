@@ -200,15 +200,10 @@ button:focus-visible {
   padding: 0 4px;
 }
 
-.cw-word-brand,
-.cw-exit {
+.cw-word-brand {
   background: transparent;
   border: none;
   cursor: pointer;
-  color: var(--cw-text-secondary);
-}
-
-.cw-word-brand {
   font-family: var(--cw-font-serif);
   font-size: 1rem;
   font-weight: 700;
@@ -220,21 +215,6 @@ button:focus-visible {
   font-family: var(--cw-font-mono);
   font-size: 0.82rem;
   color: var(--cw-text-muted);
-}
-
-.cw-exit {
-  width: 32px;
-  height: 32px;
-  border-radius: 999px;
-  border: 1px solid var(--cw-border-hairline);
-  background: rgba(255, 255, 255, 0.8);
-  font-size: 1.1rem;
-  line-height: 1;
-}
-
-.cw-exit:hover {
-  background: var(--cw-surface-1);
-  color: var(--cw-text-primary);
 }
 
 .cw-flow-rail {

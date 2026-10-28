@@ -111,9 +111,6 @@ export function WordView({
         <span className="cw-count" aria-label={fraction}>
           {fraction}
         </span>
-        <button type="button" className="cw-exit" aria-label="结束" onClick={onExit}>
-          ×
-        </button>
       </div>
       <div
         className="cw-flow-rail"
