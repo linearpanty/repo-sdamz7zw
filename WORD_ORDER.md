@@ -1,72 +1,26 @@
 # Word introduction order
 
-New cards are introduced by English word frequency, common first. The order is fixed. It is not shuffled each day.
+New cards are introduced by English word frequency, common first. The order is fixed, never shuffled per day, and never sorted alphabetically.
 
-Due reviews still come before new words. Inside the due group and inside the new group, the walk follows this same list.
+Due cards still come before unseen words. Inside both groups, selection walks `WORDS` in index order:
 
-## Source
+1. **Indices `0–49` (Legacy Core 50)**: The original 50 headwords preserved verbatim in their established frequency rank so existing `localStorage` (`clawwords.progress.v3`) histories remain 100% compatible.
+2. **Indices `50..N-1` (Graded IELTS/CEFR Pool)**: Selected and ordered according to the centralized configuration in [`src/config/lexicon.ts`](src/config/lexicon.ts) (`LEXICON_CONFIG`).
 
-Ranks are `zipf_frequency(word, "en")` from [wordfreq](https://github.com/rspeer/wordfreq) **3.1.1** (Robyn Speer). A higher Zipf score is more common. When two scores match, the id that comes first in the alphabet wins.
+## Centralized Configuration (`src/config/lexicon.ts`)
 
-wordfreq’s English list combines open corpora, including Wikipedia, OpenSubtitles, news, books, and web text. Cite the dataset as Speer, Robyn. *wordfreq* (v3). Zenodo. https://doi.org/10.5281/zenodo.7199437
+All three selection and ordering switches live in `LEXICON_CONFIG`:
 
-Scores below were read from wordfreq 3.1.1. Words missing from the list would sort last; none of these headwords were missing.
+- `wordlistSource` (default `'cefrj-octanove-nawl'`): Publicly verifiable open graded wordlists — **CEFR-J Vocabulary Profile v1.5** (`A1`–`B2`) + **Octanove Vocabulary Profile C1/C2 v1.0** (`C1`–`C2`) + **New Academic Word List (NAWL 1.0)**, mapped via the Cambridge / IELTS ↔ CEFR alignment.
+- `includedLevels` (default `['A2', 'B1', 'B2', 'C1', 'C2']`): Excludes basic `A1` words by default while keeping `A2` through `C2`. Level tags exist strictly in data (`Word.level`) and are never displayed in the UI.
+- `groupByLevel` (default `false`):
+  - `false`: Global descending `zipf_frequency(word, "en")` order from common to rare across all included levels.
+  - `true`: Grouped in `includedLevels` order, sorted by descending `zipf_frequency(word, "en")` within each level.
 
-## First 15 new-word ids
+## Frequency Source & Non-Alphabetical Tie-Breaking
+
+Ranks use `zipf_frequency(word, "en")` from [wordfreq](https://github.com/rspeer/wordfreq) **3.1.1** (Robyn Speer, Zenodo `https://doi.org/10.5281/zenodo.7199437`). A higher Zipf score is more common. When two post-legacy words share the exact quantized 2-decimal Zipf score, ties are broken deterministically by 32-bit FNV-1a hash of `id` rather than alphabetically, preventing alphabetical runs inside equal-Zipf buckets.
+
+## First 15 new-word ids (`0–14`)
 
 `available`, `access`, `approach`, `challenge`, `benefit`, `authority`, `aware`, `capacity`, `appropriate`, `capable`, `affect`, `accurate`, `achieve`, `assume`, `category`
-
-## Full rank
-
-| Zipf | id |
-| --- | --- |
-| 5.28 | available |
-| 5.05 | access |
-| 4.93 | approach |
-| 4.88 | challenge |
-| 4.82 | benefit |
-| 4.81 | authority |
-| 4.78 | aware |
-| 4.71 | capacity |
-| 4.67 | appropriate |
-| 4.61 | capable |
-| 4.59 | affect |
-| 4.57 | accurate |
-| 4.57 | achieve |
-| 4.57 | assume |
-| 4.57 | category |
-| 4.52 | brief |
-| 4.36 | comprehensive |
-| 4.33 | commit |
-| 4.32 | apparent |
-| 4.21 | advocate |
-| 4.18 | acknowledge |
-| 4.18 | bias |
-| 4.18 | collapse |
-| 4.14 | abstract |
-| 4.13 | acquire |
-| 4.12 | adjacent |
-| 4.07 | adjust |
-| 4.07 | assess |
-| 4.05 | adequate |
-| 4.02 | abandon |
-| 4.02 | accommodate |
-| 3.98 | adapt |
-| 3.97 | compatible |
-| 3.94 | aggregate |
-| 3.85 | arbitrary |
-| 3.85 | clarify |
-| 3.77 | attribute |
-| 3.77 | complement |
-| 3.75 | attach |
-| 3.73 | anticipate |
-| 3.66 | accelerate |
-| 3.66 | circumstance |
-| 3.63 | coherent |
-| 3.60 | attain |
-| 3.57 | ambiguous |
-| 3.55 | amend |
-| 3.49 | coincide |
-| 3.48 | accumulate |
-| 3.38 | compile |
-| 3.31 | allocate |

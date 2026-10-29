@@ -114,5 +114,45 @@ const sanitized = sanitizeProgress(
 )
 assert.deepEqual(sanitized.queue, [first.queue[0]])
 
+// Verify centralized IELTS/CEFR lexicon configuration & ordering
+const wordsOut = join(mkdtempSync(join(tmpdir(), 'cw-words-')), 'words.mjs')
+const wordsBundle = await rolldown({ input: 'src/data/words.ts' })
+await wordsBundle.write({ file: wordsOut, format: 'esm' })
+await wordsBundle.close()
+const { WORDS, RAW_WORD_POOL, buildActiveWords } = await import(pathToFileURL(wordsOut).href)
+
+assert.equal(WORDS.length, 5162)
+assert.deepEqual(
+  WORDS.slice(0, 15).map((w) => w.id),
+  intro,
+)
+for (let i = 51; i < WORDS.length; i += 1) {
+  assert.ok((WORDS[i - 1].zipf ?? 0) >= (WORDS[i].zipf ?? 0), `Expected descending zipf at ${i}`)
+  assert.notEqual(WORDS[i].level, 'A1', 'Default config should exclude A1')
+}
+
+const withBasic = buildActiveWords(RAW_WORD_POOL, {
+  wordlistSource: 'cefrj-octanove-nawl',
+  includedLevels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+  groupByLevel: false,
+})
+assert.ok(withBasic.length > WORDS.length)
+
+const grouped = buildActiveWords(RAW_WORD_POOL, {
+  wordlistSource: 'cefrj-octanove',
+  includedLevels: ['B2', 'C1'],
+  groupByLevel: true,
+})
+const firstC1Idx = grouped.findIndex((w, idx) => idx >= 50 && w.level === 'C1')
+assert.ok(firstC1Idx > 50)
+for (let i = 50; i < firstC1Idx; i += 1) {
+  assert.equal(grouped[i].level, 'B2')
+  if (i > 50) assert.ok((grouped[i - 1].zipf ?? 0) >= (grouped[i].zipf ?? 0))
+}
+for (let i = firstC1Idx; i < grouped.length; i += 1) {
+  assert.equal(grouped[i].level, 'C1')
+  if (i > firstC1Idx) assert.ok((grouped[i - 1].zipf ?? 0) >= (grouped[i].zipf ?? 0))
+}
+
 writeFileSync(join(tmpdir(), 'cw-queue-ok'), 'ok')
 console.log('queue tests ok')
