@@ -34,7 +34,7 @@ const REQUIRED_IN_JS = [
   '还有',
   '回今天',
   '输入这个词',
-  '词卡',
+  'ClawWords',
   'abandon the car',
   'adequate supply',
   'adjacent rooms',

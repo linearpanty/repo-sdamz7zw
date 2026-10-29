@@ -12,8 +12,7 @@ export function TodayView({ progress, onStart }: TodayViewProps) {
 
   return (
     <section className="cw-sheet" aria-label="今天">
-      <p className="cw-brand-en">ClawWords</p>
-      <h1 className="cw-brand-zh">词卡</h1>
+      <h1 className="cw-brand-zh">ClawWords</h1>
       <p className="cw-status">{quiet ? '今天好了' : `还有 ${remaining} 个词`}</p>
       {!quiet && (
         <button type="button" className="cw-cta-primary" onClick={onStart}>
