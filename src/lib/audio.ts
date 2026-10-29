@@ -1,3 +1,52 @@
+/**
+ * Exact set of word IDs that have bundled US MP3 files in `public/audio/us/{id}.mp3`.
+ * Gating local requests with this set avoids firing 404 network requests on static hosts.
+ */
+export const LOCAL_US_AUDIO_IDS: ReadonlySet<string> = new Set([
+  'abandon',
+  'abstract',
+  'accelerate',
+  'access',
+  'accurate',
+  'achieve',
+  'acquire',
+  'adapt',
+  'adequate',
+  'adjacent',
+  'advocate',
+  'affect',
+  'allocate',
+  'ambiguous',
+  'amend',
+  'apparent',
+  'approach',
+  'appropriate',
+  'arbitrary',
+  'assess',
+  'assume',
+  'attach',
+  'attain',
+  'attribute',
+  'authority',
+  'available',
+  'benefit',
+  'bias',
+  'brief',
+  'capable',
+  'capacity',
+  'category',
+  'challenge',
+  'circumstance',
+  'clarify',
+  'coherent',
+  'coincide',
+  'collapse',
+  'commit',
+  'compatible',
+  'compile',
+  'comprehensive',
+])
+
 let activeAudio: HTMLAudioElement | null = null
 
 function playAudioUrl(url: string): Promise<void> {
@@ -45,11 +94,11 @@ function speakWithWebSpeech(text: string): void {
 
 /**
  * Tap pronunciation.
- * Prefer the local Word Atlas Open mp3, then the hosted copy, then speech synthesis.
+ * Request local Word Atlas Open mp3 only when bundled in `public/audio/us/`,
+ * otherwise go straight to the hosted copy and fall back to speech synthesis.
  */
 export function speakWord(text: string, id?: string): void {
   const cleanId = (id ?? text).trim().toLowerCase()
-  const localUrl = import.meta.env.BASE_URL + 'audio/us/' + cleanId + '.mp3'
   const remoteUrl = `https://0xlei.tech/words/atlas/audio/us/${cleanId}.mp3`
 
   try {
@@ -60,9 +109,13 @@ export function speakWord(text: string, id?: string): void {
     // ignore
   }
 
-  playAudioUrl(localUrl)
-    .catch(() => playAudioUrl(remoteUrl))
-    .catch(() => {
-      speakWithWebSpeech(text)
-    })
+  const attempt = LOCAL_US_AUDIO_IDS.has(cleanId)
+    ? playAudioUrl(import.meta.env.BASE_URL + 'audio/us/' + cleanId + '.mp3').catch(() =>
+        playAudioUrl(remoteUrl),
+      )
+    : playAudioUrl(remoteUrl)
+
+  attempt.catch(() => {
+    speakWithWebSpeech(text)
+  })
 }

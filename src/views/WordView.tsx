@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react'
-import { illustrationUrl, type Word } from '../data/words'
+import { illustrationUrl, type Word } from '../data/types'
 import { speakWord } from '../lib/audio'
 import { gradeExact, maskWordHint } from '../lib/grader'
 import type { CardMode } from '../lib/model'
