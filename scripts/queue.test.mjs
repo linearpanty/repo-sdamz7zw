@@ -1,6 +1,6 @@
 import { rolldown } from 'rolldown'
 import assert from 'node:assert/strict'
-import { mkdtempSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readdirSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -153,6 +153,18 @@ for (let i = firstC1Idx; i < grouped.length; i += 1) {
   assert.equal(grouped[i].level, 'C1')
   if (i > firstC1Idx) assert.ok((grouped[i - 1].zipf ?? 0) >= (grouped[i].zipf ?? 0))
 }
+
+// Verify LOCAL_US_AUDIO_IDS matches bundled public/audio/us/*.mp3 files 1-for-1
+const audioOut = join(mkdtempSync(join(tmpdir(), 'cw-audio-')), 'audio.mjs')
+const audioBundle = await rolldown({ input: 'src/lib/audio.ts' })
+await audioBundle.write({ file: audioOut, format: 'esm' })
+await audioBundle.close()
+const { LOCAL_US_AUDIO_IDS } = await import(pathToFileURL(audioOut).href)
+const diskMp3Ids = readdirSync('public/audio/us')
+  .filter((f) => f.endsWith('.mp3'))
+  .map((f) => f.slice(0, -4))
+  .sort()
+assert.deepEqual([...LOCAL_US_AUDIO_IDS].sort(), diskMp3Ids)
 
 writeFileSync(join(tmpdir(), 'cw-queue-ok'), 'ok')
 console.log('queue tests ok')
