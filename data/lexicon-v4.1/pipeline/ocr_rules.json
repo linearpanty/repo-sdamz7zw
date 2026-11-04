@@ -1,0 +1,2598 @@
+{
+ "version": "v4.1-2026-11-04.1",
+ "about": "Real-word OCR / source errors that the generic garble detector cannot see (the misread is itself an English word). Every sentence matching a pattern is rejected (never repaired: the repair would not be a pure character fix or would be a guess). Sources: audit issues.csv rows (issue_row) and the STEP 2 review. v4 (STEP 2, 2026-11-03): adds 'fix_rules' = reviewed line-level OCR repairs (applied by scripts/s02_sentences.py to the raw words of that clawwords.md line only; the sentence gets ocr_fixed=1, sentence_raw keeps the original, every use is logged in ocr_fixes.csv). A fix is listed only when the misread is unambiguous (single word, the correct form is attested in the same text or is a fixed collocation); otherwise a reject pattern is used and another sentence is chosen. v4.1 (2026-11-04 re-audit must-fix): 'pattern_fix_rules' P1-P5 = context-guarded general OCR repairs applied by scripts/s02_sentences.py (textfix.pattern_fixes) to every rendered body sentence (ocr_fixed=1, logged in ocr_fixes.csv as pattern_fix:Pn); fix_rules F9/F10 = 'it' read for 'if'.",
+ "reject_patterns": [
+  {
+   "pattern": "\\balarming rat\\b",
+   "why": "'rat' for 'rate'",
+   "issue_rows": [
+    53,
+    114
+   ]
+  },
+  {
+   "pattern": "\\bsills can\\b|\\bfore these\\b",
+   "why": "'sills'/'fore' for 'skills'/'for'",
+   "issue_rows": [
+    55
+   ]
+  },
+  {
+   "pattern": "\\bliteraily\\b|\\bArchacology\\b",
+   "why": "garbled 'literally'/'Archaeology'",
+   "issue_rows": [
+    56,
+    82
+   ]
+  },
+  {
+   "pattern": "\\bhold an option\\b",
+   "why": "'option' for 'opinion'",
+   "issue_rows": [
+    57
+   ]
+  },
+  {
+   "pattern": "\\bcompare-?\\s?son\\b",
+   "why": "'compare-son' for 'comparison'",
+   "issue_rows": [
+    67
+   ]
+  },
+  {
+   "pattern": "\\bmessage become\\b",
+   "why": "source error 'message become'",
+   "issue_rows": [
+    72
+   ]
+  },
+  {
+   "pattern": "\\bpulp ot\\b|\\bof o young\\b",
+   "why": "'ot'/'o' for 'of'/'a'",
+   "issue_rows": [
+    73,
+    77
+   ]
+  },
+  {
+   "pattern": "\\bautomatic I've\\b",
+   "why": "two sentences fused (missing full stop)",
+   "issue_rows": [
+    81
+   ]
+  },
+  {
+   "pattern": "\\bLida I've\\b",
+   "why": "two sentences fused (missing full stop)",
+   "issue_rows": [
+    88
+   ]
+  },
+  {
+   "pattern": "\\bCalitornian\\b",
+   "why": "'Calitornian'",
+   "issue_rows": [
+    89
+   ]
+  },
+  {
+   "pattern": "\\bmathematical precise\\b",
+   "why": "'precise' for 'precision'",
+   "issue_rows": [
+    91
+   ]
+  },
+  {
+   "pattern": "\\bsmallcale\\b",
+   "why": "'smallcale' for 'small-scale'",
+   "issue_rows": [
+    101
+   ]
+  },
+  {
+   "pattern": "\\bTill certainly\\b|\\band Till\\b",
+   "why": "'Till' for 'I'll'",
+   "issue_rows": [
+    106
+   ]
+  },
+  {
+   "pattern": "\\bmange people\\b",
+   "why": "'mange' for 'manage'",
+   "issue_rows": [
+    107,
+    108
+   ]
+  },
+  {
+   "pattern": "\\bin 122 year\\b",
+   "why": "source error '122 year'",
+   "issue_rows": [
+    111,
+    113
+   ]
+  },
+  {
+   "pattern": "\\btransit it from place\\b",
+   "why": "'transit' for 'transmit'",
+   "issue_rows": [
+    112
+   ]
+  },
+  {
+   "pattern": "\\blurger\\b",
+   "why": "'lurger' for 'larger'",
+   "issue_rows": [
+    119
+   ]
+  },
+  {
+   "pattern": "\\bstressful _",
+   "why": "stray underscore",
+   "issue_rows": [
+    49,
+    122
+   ]
+  },
+  {
+   "pattern": "\\bin 1895; three\\b",
+   "why": "semicolon misread for comma",
+   "issue_rows": [
+    461
+   ]
+  },
+  {
+   "pattern": "\\banyway; industrialisation\\b",
+   "why": "semicolon misread for comma",
+   "issue_rows": [
+    462
+   ]
+  },
+  {
+   "pattern": "\\bcognitive, involvement\\b",
+   "why": "stray comma",
+   "issue_rows": [
+    463
+   ]
+  },
+  {
+   "pattern": "much-needed Information\\b",
+   "why": "stray capital",
+   "issue_rows": [
+    464
+   ]
+  },
+  {
+   "pattern": "\\binduced into the old traditions\\b",
+   "why": "'induced' for 'inducted' (wrong collocation)",
+   "issue_rows": [
+    510
+   ]
+  },
+  {
+   "pattern": "\\band rel\\b",
+   "why": "truncated word",
+   "issue_rows": [
+    258
+   ]
+  },
+  {
+   "pattern": "\\bil you\\b|\\bele to do\\b|\\btoddiers\\b|\\bvalation\\b",
+   "why": "OCR misreads 'il'/'ele'/'toddiers'",
+   "issue_rows": []
+  },
+  {
+   "pattern": "\\bcaptive bred\\b",
+   "why": "hyphen lost ('captive-bred')",
+   "issue_rows": [
+    301
+   ]
+  },
+  {
+   "pattern": "\\bIll (?:take|be|do|have|get|go|see|need|show|just|give|send|tell|ask|check|let|call|make|come|put|try|meet|find|bring|pass|leave|probably|also|definitely|certainly|look|write|phone|ring|start|explain|talk|stay|book)\\b",
+   "why": "'Ill' for 'I'll'",
+   "issue_rows": []
+  },
+  {
+   "pattern": "\\bboys and gins\\b",
+   "why": "'gins' for 'girls'",
+   "issue_rows": []
+  },
+  {
+   "pattern": "\\bmidwinter occur in plants\\b",
+   "why": "two sentences fused by the OCR",
+   "issue_rows": []
+  },
+  {
+   "pattern": "\\bIl\\b",
+   "why": "'Il' for 'I'll'",
+   "issue_rows": []
+  },
+  {
+   "pattern": "\\bfireflies ore\\b",
+   "why": "'ore' for 'are'",
+   "issue_rows": []
+  },
+  {
+   "pattern": "\\bCOTT\\b",
+   "why": "watermark residue",
+   "issue_rows": [
+    96
+   ]
+  },
+  {
+   "pattern": "\\bdrawn explores\\b",
+   "why": "'explores' for 'explorers'",
+   "issue_rows": []
+  },
+  {
+   "pattern": "\\bnumerotion\\b|\\bformotive\\b",
+   "why": "OCR 'o' for 'a' (numeration, formative)",
+   "issue_rows": []
+  },
+  {
+   "pattern": "^Easier said than done\\b|^Not normally, because\\b",
+   "why": "verbless reply fragments found in review",
+   "issue_rows": []
+  },
+  {
+   "pattern": "\\briver temps\\b",
+   "why": "'temps' for 'Thames' (transcription error; not repaired: the original wording is a guess)",
+   "issue_rows": [
+    13
+   ],
+   "source": "re-audit 2026-11-03"
+  },
+  {
+   "pattern": "\\bhigh vise\\b",
+   "why": "'high vise' for 'high-vis' (11-01 must-fix, re-audit #52; not repaired: hi-vis/high-vis is a guess)",
+   "issue_rows": [
+    52
+   ],
+   "source": "re-audit 2026-11-03"
+  },
+  {
+   "pattern": "\\bgoverment\\b",
+   "why": "source misspelling 'goverment' (re-audit #40)",
+   "issue_rows": [
+    40
+   ],
+   "source": "re-audit 2026-11-03"
+  },
+  {
+   "pattern": "\\bthing weren't\\b",
+   "why": "source error 'thing' for 'things' (re-audit #66)",
+   "issue_rows": [
+    66
+   ],
+   "source": "re-audit 2026-11-03"
+  },
+  {
+   "pattern": "\\bdon't ve\\b|\\bovate\\b|\\beative\\b|\\bvironment\\b",
+   "why": "column-crop garble ('ve' for 'have', 'ovate' for 'innovate') (re-audit #56)",
+   "issue_rows": [
+    56
+   ],
+   "source": "re-audit 2026-11-03"
+  },
+  {
+   "pattern": "\\bphone I I\\b",
+   "why": "garbled 'phone I I wanted' (re-audit #4)",
+   "issue_rows": [
+    4
+   ],
+   "source": "re-audit 2026-11-03"
+  },
+  {
+   "pattern": "\\bparallax angle would be very difficult to determine\\b",
+   "why": "corrupt source line (OCR line duplication, states the opposite of the passage) (re-audit #6)",
+   "issue_rows": [
+    6
+   ],
+   "source": "re-audit 2026-11-03"
+  },
+  {
+   "pattern": "\\btoday's value of methods in accuracy\\b",
+   "why": "garbled across a page break (re-audit #2)",
+   "issue_rows": [
+    2
+   ],
+   "source": "re-audit 2026-11-03"
+  },
+  {
+   "pattern": "\\bcome up with creative new I\\b",
+   "why": "two speaker turns merged, words lost (re-audit #18)",
+   "issue_rows": [
+    18
+   ],
+   "source": "re-audit 2026-11-03"
+  },
+  {
+   "pattern": "\\bweck\\b",
+   "why": "'weck' for 'week' (OCR e->c; found by the v4 real-word scan)",
+   "issue_rows": [],
+   "source": "v4 real-word OCR scan"
+  },
+  {
+   "pattern": "\\bTreland\\b",
+   "why": "'Treland' for 'Ireland' (OCR I->T; found by the v4 real-word scan)",
+   "issue_rows": [],
+   "source": "v4 real-word OCR scan"
+  },
+  {
+   "pattern": "\\buncovered the sight of\\b",
+   "why": "'sight' for 'site' (homophone error in the source; found by the v4 real-word scan, re-audit #54)",
+   "issue_rows": [],
+   "source": "v4 real-word OCR scan"
+  },
+  {
+   "pattern": "\\bcrossbar that be familiar\\b",
+   "why": "words lost in the source ('that be familiar with today'; found by the v4 real-word scan)",
+   "issue_rows": [],
+   "source": "v4 real-word OCR scan"
+  },
+  {
+   "pattern": "\\bcarly\\b",
+   "why": "'carly' for 'early' (OCR e->c; found in the v4 primary scan and the real-word scan)",
+   "issue_rows": [],
+   "source": "v4 real-word OCR scan"
+  },
+  {
+   "pattern": "\\bworkd\\b",
+   "why": "'workd' for 'world' (OCR; found in the v4 primary sample review)",
+   "issue_rows": [],
+   "source": "v4 real-word OCR scan"
+  }
+ ],
+ "fix_rules": [
+  {
+   "id": "F1",
+   "line": 30697,
+   "before": "concert half",
+   "after": "concert hall",
+   "why": "'half' for 'hall' (OCR l->f)",
+   "evidence": "fixed collocation 'concert hall'; the next lines say 'replace the existing concert hall with a larger one' (re-audit #15)",
+   "issue_rows": [
+    15
+   ]
+  },
+  {
+   "id": "F2",
+   "line": 7346,
+   "before": "playing a port in",
+   "after": "playing a part in",
+   "why": "'port' for 'part' (OCR a->o, frequent in this passage: olso, o food chain, domp, dorkness, ond)",
+   "evidence": "idiom 'play a part in'; same passage b5 GT-B p124-125 (re-audit #25)",
+   "issue_rows": [
+    25
+   ]
+  },
+  {
+   "id": "F3",
+   "line": 7310,
+   "before": "every port of the",
+   "after": "every part of the",
+   "why": "'port' for 'part' (OCR a->o, same passage as F2)",
+   "evidence": "'every part of the globe' (re-audit #30)",
+   "issue_rows": [
+    30
+   ]
+  },
+  {
+   "id": "F4",
+   "line": 7356,
+   "before": "ond on",
+   "after": "and on",
+   "why": "'ond' for 'and' (OCR a->o, same passage as F2)",
+   "evidence": "re-audit #64",
+   "issue_rows": [
+    64
+   ]
+  },
+  {
+   "id": "F5",
+   "line": 7911,
+   "before": "Lcuador",
+   "after": "Ecuador",
+   "why": "'Lcuador' for 'Ecuador' (OCR E->L)",
+   "evidence": "Ecuador is printed correctly in the same talk (re-audit #53)",
+   "issue_rows": [
+    53
+   ]
+  },
+  {
+   "id": "F6",
+   "line": 10953,
+   "before": "AlS",
+   "after": "AIS",
+   "why": "'AlS' for 'AIS' (lowercase l for capital I)",
+   "evidence": "Australian Institute of Sport, 'AIS' elsewhere in the passage (re-audit #3)",
+   "issue_rows": [
+    3
+   ]
+  },
+  {
+   "id": "F7",
+   "line": 34824,
+   "before": "Voyager I ",
+   "after": "Voyager 1 ",
+   "why": "'Voyager I' for 'Voyager 1' (OCR 1->I)",
+   "evidence": "same passage prints 'Voyager 1' (L34924) (re-audit #46)",
+   "issue_rows": [
+    46
+   ]
+  },
+  {
+   "id": "F8",
+   "line": 2057,
+   "before": "what is-said",
+   "after": "what is said",
+   "why": "stray hyphen 'is-said'",
+   "evidence": "re-audit #28",
+   "issue_rows": [
+    28
+   ]
+  },
+  {
+   "id": "F9",
+   "line": 44408,
+   "before": "rate it you pay",
+   "after": "rate if you pay",
+   "why": "'it' for 'if' (OCR f->t)",
+   "evidence": "conditional 'a discounted rate if you pay every month'; 'it you pay' is ungrammatical (11-04 re-audit must-fix discount 5929)",
+   "issue_rows": [],
+   "issue_rows_1104": [
+    5929
+   ]
+  },
+  {
+   "id": "F10",
+   "line": 28448,
+   "before": "lines of it you work",
+   "after": "lines of if you work",
+   "why": "'it' for 'if' (OCR f->t), same misread as F9",
+   "evidence": "'... along the lines of if you work hard enough, you can do almost anything' (L28448-28449); found by the v4.1 corpus scan for 'it you' (2 body hits, both misreads)",
+   "issue_rows": [],
+   "issue_rows_1104": []
+  }
+ ],
+ "scan_reviewed_not_errors": [
+  {
+   "sentence_id": "L102308s0",
+   "card": "incredible",
+   "word": "Oh",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L62827s0",
+   "card": "pile",
+   "word": "Like I",
+   "suggest": "'I' for 1 after a name (Voyager I)",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L106883s0",
+   "card": "slightly",
+   "word": "now",
+   "suggest": "new",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L29197s0",
+   "card": "rights",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L72497s0",
+   "card": "eucalyptus",
+   "word": "lime",
+   "suggest": "time",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L60183s0",
+   "card": "circle",
+   "word": "De",
+   "suggest": "do",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L1315s0",
+   "card": "timing",
+   "word": "clue",
+   "suggest": "due",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L50235s0",
+   "card": "clothes",
+   "word": "farm",
+   "suggest": "form",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L92970s0",
+   "card": "widely",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L95437s0",
+   "card": "ore",
+   "word": "ore",
+   "suggest": "one",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L55731s0",
+   "card": "dynamic",
+   "word": "ever",
+   "suggest": "even",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L67584s1",
+   "card": "dam",
+   "word": "bay",
+   "suggest": "day",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L77624s0",
+   "card": "decision",
+   "word": "AI",
+   "suggest": "at",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L41191s0",
+   "card": "precious",
+   "word": "now",
+   "suggest": "new",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L84748s1",
+   "card": "clean",
+   "word": "clean",
+   "suggest": "clear",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L78711s0",
+   "card": "candidate",
+   "word": "clean",
+   "suggest": "clear",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L71298s1",
+   "card": "spirit",
+   "word": "cast",
+   "suggest": "cost",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L106827s0",
+   "card": "line",
+   "word": "massage",
+   "suggest": "message",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L83114s1",
+   "card": "speed",
+   "word": "hand",
+   "suggest": "band",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L7106s0",
+   "card": "cast",
+   "word": "cast",
+   "suggest": "cost",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L26194s0",
+   "card": "airport",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L107712s0",
+   "card": "procedure",
+   "word": "ward",
+   "suggest": "word",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L71482s0",
+   "card": "lock",
+   "word": "locks",
+   "suggest": "looks",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L95990s2",
+   "card": "process",
+   "word": "stale",
+   "suggest": "state",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102685s0",
+   "card": "behave",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L94725s0",
+   "card": "fortune",
+   "word": "if",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L5468s0",
+   "card": "movie",
+   "word": "AI",
+   "suggest": "at",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L26254s0",
+   "card": "random",
+   "word": "hit",
+   "suggest": "bit",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L91182s0",
+   "card": "blue",
+   "word": "wall",
+   "suggest": "well",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L66285s0",
+   "card": "investigation",
+   "word": "extant",
+   "suggest": "extent",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L48131s0",
+   "card": "tree",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L57409s0",
+   "card": "government",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L68438s0",
+   "card": "target",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L75996s0",
+   "card": "mouth",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L66982s0",
+   "card": "injury",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L93866s0",
+   "card": "athlete",
+   "word": "some",
+   "suggest": "same",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L22714s0",
+   "card": "immediately",
+   "word": "new",
+   "suggest": "now",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L26019s0",
+   "card": "instrument",
+   "word": "beat",
+   "suggest": "boat",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L72394s0",
+   "card": "ferry",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L44406s1",
+   "card": "discount",
+   "word": "it",
+   "suggest": "if",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L1756s0",
+   "card": "street",
+   "word": "nor",
+   "suggest": "not",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L81800s0",
+   "card": "mutation",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L37173s0",
+   "card": "flood",
+   "word": "it",
+   "suggest": "if",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L29416s1",
+   "card": "exchange",
+   "word": "it",
+   "suggest": "if",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L41908s0",
+   "card": "burn",
+   "word": "ever",
+   "suggest": "even",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L95292s0",
+   "card": "butterfly",
+   "word": "nor",
+   "suggest": "not",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L44828s0",
+   "card": "ore",
+   "word": "ores",
+   "suggest": "ones",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L100065s0",
+   "card": "load",
+   "word": "load",
+   "suggest": "lead",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L5489s0",
+   "card": "peak",
+   "word": "AI",
+   "suggest": "at",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L12763s0",
+   "card": "replicate",
+   "word": "rat",
+   "suggest": "rate",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L90904s0",
+   "card": "duty",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L75383s1",
+   "card": "routine",
+   "word": "AI",
+   "suggest": "at",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L107187s2",
+   "card": "woodland",
+   "word": "got",
+   "suggest": "get",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L51193s1",
+   "card": "duck",
+   "word": "got",
+   "suggest": "get",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L94583s1",
+   "card": "resident",
+   "word": "move",
+   "suggest": "more",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L7488s2",
+   "card": "whale",
+   "word": "whale",
+   "suggest": "whole",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L68348s0",
+   "card": "cast",
+   "word": "cast",
+   "suggest": "cost",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102526s0",
+   "card": "rescue",
+   "word": "whale",
+   "suggest": "whole",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L99878s0",
+   "card": "threaten",
+   "word": "If",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L36299s0",
+   "card": "page",
+   "word": "night",
+   "suggest": "right",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L71970s0",
+   "card": "spanish",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L84907s0",
+   "card": "brilliant",
+   "word": "it",
+   "suggest": "if",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L106856s1",
+   "card": "beautiful",
+   "word": "wall",
+   "suggest": "well",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L36239s0",
+   "card": "expect",
+   "word": "knew",
+   "suggest": "know",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L89901s0",
+   "card": "prefer",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L107510s0",
+   "card": "advantage",
+   "word": "it",
+   "suggest": "if",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L46905s0",
+   "card": "urgent",
+   "word": "new",
+   "suggest": "now",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L15955s0",
+   "card": "attention",
+   "word": "now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L96074s0",
+   "card": "mushroom",
+   "word": "now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L81776s0",
+   "card": "wisdom",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L75292s0",
+   "card": "incorporate",
+   "word": "trench",
+   "suggest": "french",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L103151s2",
+   "card": "crowded",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L106588s0",
+   "card": "complicated",
+   "word": "it",
+   "suggest": "if",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L11237s0",
+   "card": "arctic",
+   "word": "mere",
+   "suggest": "more",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L106933s1",
+   "card": "obesity",
+   "word": "knew",
+   "suggest": "know",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102921s0",
+   "card": "wall",
+   "word": "wall",
+   "suggest": "well",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L37173s0",
+   "card": "flood",
+   "word": "wall",
+   "suggest": "well",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L19570s0",
+   "card": "mobility",
+   "word": "II",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L61584s0",
+   "card": "decline",
+   "word": "slow",
+   "suggest": "show",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L62555s2",
+   "card": "familiar",
+   "word": "knew",
+   "suggest": "know",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L33956s0",
+   "card": "distance",
+   "word": "AU",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L77687s0",
+   "card": "understanding",
+   "word": "AI",
+   "suggest": "at",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L61490s0",
+   "card": "china",
+   "word": "port",
+   "suggest": "part",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L61490s0",
+   "card": "port",
+   "word": "port",
+   "suggest": "part",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L15177s0",
+   "card": "employment",
+   "word": "port",
+   "suggest": "part",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L35667s0",
+   "card": "undergo",
+   "word": "move",
+   "suggest": "more",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L44118s0",
+   "card": "explorer",
+   "word": "grew",
+   "suggest": "grow",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L66982s0",
+   "card": "injury",
+   "word": "pain",
+   "suggest": "pair",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L78303s2",
+   "card": "plastic",
+   "word": "post",
+   "suggest": "past",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L90816s0",
+   "card": "willing",
+   "word": "it",
+   "suggest": "if",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L4352s0",
+   "card": "apparent",
+   "word": "it",
+   "suggest": "if",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L39702s0",
+   "card": "threaten",
+   "word": "loss",
+   "suggest": "less",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L90368s1",
+   "card": "sun",
+   "word": "look",
+   "suggest": "took",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L100965s0",
+   "card": "navigate",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L16062s1",
+   "card": "post",
+   "word": "post",
+   "suggest": "past",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L36894s0",
+   "card": "post",
+   "word": "post",
+   "suggest": "past",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L29283s0",
+   "card": "eventually",
+   "word": "even",
+   "suggest": "ever",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L22957s0",
+   "card": "king",
+   "word": "fine",
+   "suggest": "line",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L2588s0",
+   "card": "archaeology",
+   "word": "If",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L27644s0",
+   "card": "laboratory",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L107673s0",
+   "card": "recovery",
+   "word": "post",
+   "suggest": "past",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L14587s0",
+   "card": "maintain",
+   "word": "If",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L27664s0",
+   "card": "predict",
+   "word": "if",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L105361s1",
+   "card": "hit",
+   "word": "low",
+   "suggest": "law",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102398s0",
+   "card": "clay",
+   "word": "clay",
+   "suggest": "day",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L104819s0",
+   "card": "accelerate",
+   "word": "AI",
+   "suggest": "al",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L26008s0",
+   "card": "devise",
+   "word": "arc",
+   "suggest": "are",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L60309s0",
+   "card": "accumulate",
+   "word": "cans",
+   "suggest": "cars",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L45058s0",
+   "card": "slow",
+   "word": "slow",
+   "suggest": "show",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L44203s0",
+   "card": "overall",
+   "word": "he",
+   "suggest": "be",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L301s0",
+   "card": "wet",
+   "word": "hot",
+   "suggest": "not",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L2056s1",
+   "card": "alter",
+   "word": "alter",
+   "suggest": "after",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102946s0",
+   "card": "hole",
+   "word": "knew",
+   "suggest": "know",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102388s1",
+   "card": "crack",
+   "word": "clay",
+   "suggest": "day",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L79026s0",
+   "card": "crossing",
+   "word": "Post",
+   "suggest": "past",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L73107s0",
+   "card": "deposit",
+   "word": "clay",
+   "suggest": "day",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102354s1",
+   "card": "storage",
+   "word": "clay",
+   "suggest": "day",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L73107s0",
+   "card": "clay",
+   "word": "clay",
+   "suggest": "day",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L77628s0",
+   "card": "trust",
+   "word": "AI",
+   "suggest": "al",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L103251s0",
+   "card": "fan",
+   "word": "charge",
+   "suggest": "change",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L77676s0",
+   "card": "refuse",
+   "word": "AI",
+   "suggest": "al",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L72672s0",
+   "card": "circular",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L22612s0",
+   "card": "oven",
+   "word": "oven",
+   "suggest": "over",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L44344s0",
+   "card": "red",
+   "word": "five",
+   "suggest": "live",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L30258s0",
+   "card": "claim",
+   "word": "move",
+   "suggest": "more",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102393s0",
+   "card": "circular",
+   "word": "clay",
+   "suggest": "day",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L77481s0",
+   "card": "text",
+   "word": "line",
+   "suggest": "fine",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L4378s0",
+   "card": "laughter",
+   "word": "expansive",
+   "suggest": "expensive",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L87222s1",
+   "card": "lower",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L103098s0",
+   "card": "air conditioning",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L76175s0",
+   "card": "foster",
+   "word": "expansive",
+   "suggest": "expensive",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L72791s0",
+   "card": "rainfall",
+   "word": "arid",
+   "suggest": "and",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L88823s0",
+   "card": "class",
+   "word": "hike",
+   "suggest": "bike",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L97072s0",
+   "card": "wear",
+   "word": "hat",
+   "suggest": "hot",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L1948s0",
+   "card": "flow",
+   "word": "lip",
+   "suggest": "tip",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L65768s0",
+   "card": "west",
+   "word": "he",
+   "suggest": "be",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L67882s0",
+   "card": "lightning",
+   "word": "Norse",
+   "suggest": "horse",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L44557s0",
+   "card": "row",
+   "word": "sat",
+   "suggest": "set",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L30721s1",
+   "card": "cater",
+   "word": "arts",
+   "suggest": "ants",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L13790s0",
+   "card": "infection",
+   "word": "ear",
+   "suggest": "car",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L56999s0",
+   "card": "gym",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L107692s0",
+   "card": "mode",
+   "word": "mode",
+   "suggest": "made",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L39589s0",
+   "card": "achieve",
+   "word": "modal",
+   "suggest": "model",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L104168s0",
+   "card": "national",
+   "word": "move",
+   "suggest": "more",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L11052s0",
+   "card": "ore",
+   "word": "ore",
+   "suggest": "one",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L43427s0",
+   "card": "explosive",
+   "word": "knew",
+   "suggest": "know",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L35964s0",
+   "card": "breakfast",
+   "word": "hot",
+   "suggest": "not",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L49570s0",
+   "card": "understanding",
+   "word": "Reed",
+   "suggest": "need",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L48145s0",
+   "card": "law",
+   "word": "be",
+   "suggest": "he",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L104927s0",
+   "card": "hospital",
+   "word": "AI",
+   "suggest": "at",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L100044s1",
+   "card": "reward",
+   "word": "he",
+   "suggest": "be",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L5473s1",
+   "card": "originally",
+   "word": "AI",
+   "suggest": "al",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L68529s0",
+   "card": "bury",
+   "word": "these",
+   "suggest": "those",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L75406s1",
+   "card": "objective",
+   "word": "AI",
+   "suggest": "al",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L29091s0",
+   "card": "motor",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L49045s0",
+   "card": "mathematical",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L3756s0",
+   "card": "wise",
+   "word": "than",
+   "suggest": "then",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L88776s0",
+   "card": "socioeconomic",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L33198s0",
+   "card": "mere",
+   "word": "mere",
+   "suggest": "more",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L77633s0",
+   "card": "cancer",
+   "word": "AI",
+   "suggest": "at",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L62612s0",
+   "card": "colour",
+   "word": "car",
+   "suggest": "can",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L21175s0",
+   "card": "bring",
+   "word": "halt",
+   "suggest": "half",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102798s0",
+   "card": "consumer",
+   "word": "less",
+   "suggest": "loss",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L10976s0",
+   "card": "nation",
+   "word": "and",
+   "suggest": "end",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L104897s0",
+   "card": "attack",
+   "word": "AI",
+   "suggest": "at",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L37313s0",
+   "card": "heating",
+   "word": "hot",
+   "suggest": "not",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L40303s0",
+   "card": "wheel",
+   "word": "nation",
+   "suggest": "notion",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L11099s0",
+   "card": "transportation",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L56313s1",
+   "card": "organise",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L14609s0",
+   "card": "reptile",
+   "word": "adopted",
+   "suggest": "adapted",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L95927s0",
+   "card": "prize",
+   "word": "night",
+   "suggest": "right",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L82289s0",
+   "card": "shelter",
+   "word": "night",
+   "suggest": "right",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L22509s0",
+   "card": "straight",
+   "word": "Oh",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L96639s1",
+   "card": "ask",
+   "word": "fry",
+   "suggest": "try",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L83828s0",
+   "card": "depend",
+   "word": "vet",
+   "suggest": "yet",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102602s0",
+   "card": "memory",
+   "word": "bad",
+   "suggest": "had",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L50718s0",
+   "card": "draw",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L14978s0",
+   "card": "slow",
+   "word": "slow",
+   "suggest": "show",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L95955s1",
+   "card": "surround",
+   "word": "wall",
+   "suggest": "well",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L73366s0",
+   "card": "favour",
+   "word": "Oh",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L18756s0",
+   "card": "teaching",
+   "word": "trance",
+   "suggest": "france",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L93924s0",
+   "card": "mental",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L11715s0",
+   "card": "wealthy",
+   "word": "car",
+   "suggest": "can",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L94831s0",
+   "card": "barrier",
+   "word": "stranger",
+   "suggest": "stronger",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L53323s0",
+   "card": "harvest",
+   "word": "even",
+   "suggest": "ever",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L96442s1",
+   "card": "finger",
+   "word": "soles",
+   "suggest": "sales",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L96442s1",
+   "card": "foot",
+   "word": "soles",
+   "suggest": "sales",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L78103s0",
+   "card": "stream",
+   "word": "reed",
+   "suggest": "need",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L101629s0",
+   "card": "plane",
+   "word": "expansive",
+   "suggest": "expensive",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L47199s0",
+   "card": "lock",
+   "word": "wall",
+   "suggest": "well",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L106872s1",
+   "card": "shelf",
+   "word": "wall",
+   "suggest": "well",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L21339s1",
+   "card": "noisy",
+   "word": "became",
+   "suggest": "become",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L87954s0",
+   "card": "radical",
+   "word": "now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L75289s0",
+   "card": "hectare",
+   "word": "wall",
+   "suggest": "well",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L6839s0",
+   "card": "reach",
+   "word": "if",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L63077s0",
+   "card": "mountain",
+   "word": "night",
+   "suggest": "right",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L96712s0",
+   "card": "entry",
+   "word": "new",
+   "suggest": "now",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L79145s1",
+   "card": "lorry",
+   "word": "less",
+   "suggest": "loss",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L30806s0",
+   "card": "involve",
+   "word": "option",
+   "suggest": "opinion",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L106887s1",
+   "card": "certain",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L107484s2",
+   "card": "coffee",
+   "word": "now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L72455s0",
+   "card": "decline",
+   "word": "eldest",
+   "suggest": "oldest",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L18449s1",
+   "card": "prey",
+   "word": "night",
+   "suggest": "right",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L22115s1",
+   "card": "bark",
+   "word": "night",
+   "suggest": "right",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L35456s0",
+   "card": "limb",
+   "word": "an",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L43963s0",
+   "card": "council",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L10929s0",
+   "card": "millimetre",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L5179s0",
+   "card": "childhood",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L30822s1",
+   "card": "strike",
+   "word": "became",
+   "suggest": "become",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L620s1",
+   "card": "pair",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L620s1",
+   "card": "partner",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L35456s0",
+   "card": "limb",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L68335s0",
+   "card": "sky",
+   "word": "night",
+   "suggest": "right",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L19605s0",
+   "card": "poverty",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L56813s0",
+   "card": "issue",
+   "word": "on",
+   "suggest": "or",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L41222s0",
+   "card": "proof",
+   "word": "flaw",
+   "suggest": "flow",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L1348s0",
+   "card": "increasingly",
+   "word": "less",
+   "suggest": "loss",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L83241s0",
+   "card": "phase",
+   "word": "now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L36518s0",
+   "card": "mature",
+   "word": "hall",
+   "suggest": "half",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L103093s1",
+   "card": "scenario",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L107207s1",
+   "card": "rent",
+   "word": "an",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L67864s0",
+   "card": "cut",
+   "word": "got",
+   "suggest": "get",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L66897s0",
+   "card": "feed",
+   "word": "fed",
+   "suggest": "led",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L77638s0",
+   "card": "actual",
+   "word": "knew",
+   "suggest": "know",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L22656s0",
+   "card": "conflict",
+   "word": "root",
+   "suggest": "roof",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L23644s0",
+   "card": "tall",
+   "word": "tall",
+   "suggest": "fall",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L80732s0",
+   "card": "capital",
+   "word": "option",
+   "suggest": "opinion",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L30473s0",
+   "card": "bee",
+   "word": "got",
+   "suggest": "get",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L7077s0",
+   "card": "classic",
+   "word": "lands",
+   "suggest": "hands",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L79072s0",
+   "card": "pedestrian",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102388s1",
+   "card": "crack",
+   "word": "hot",
+   "suggest": "not",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L19283s0",
+   "card": "pile",
+   "word": "hats",
+   "suggest": "bats",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L51272s0",
+   "card": "collection",
+   "word": "now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L611s0",
+   "card": "weak",
+   "word": "slow",
+   "suggest": "show",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L79208s2",
+   "card": "launch",
+   "word": "it",
+   "suggest": "if",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L31131s0",
+   "card": "signal",
+   "word": "slow",
+   "suggest": "show",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L47314s1",
+   "card": "russian",
+   "word": "slow",
+   "suggest": "show",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L15182s0",
+   "card": "turn",
+   "word": "now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L2014s0",
+   "card": "act",
+   "word": "an",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L98852s0",
+   "card": "target",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L84082s0",
+   "card": "explain",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L84777s2",
+   "card": "sort",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L97113s0",
+   "card": "enjoy",
+   "word": "if",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L77624s0",
+   "card": "decision",
+   "word": "than",
+   "suggest": "then",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L44496s0",
+   "card": "theatre",
+   "word": "night",
+   "suggest": "right",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L104575s0",
+   "card": "engage",
+   "word": "move",
+   "suggest": "more",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L50918s0",
+   "card": "frequently",
+   "word": "now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L62043s0",
+   "card": "calorie",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L39596s0",
+   "card": "mode",
+   "word": "option",
+   "suggest": "opinion",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L36478s2",
+   "card": "personal",
+   "word": "Now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L16037s2",
+   "card": "card",
+   "word": "Now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L68277s1",
+   "card": "suitable",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L50273s0",
+   "card": "pool",
+   "word": "Now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L63085s0",
+   "card": "ill",
+   "word": "if",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102300s1",
+   "card": "selection",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L78659s1",
+   "card": "camp",
+   "word": "Now",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L103293s0",
+   "card": "pen",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L102516s0",
+   "card": "inhabitant",
+   "word": "became",
+   "suggest": "become",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L25962s0",
+   "card": "solar",
+   "word": "became",
+   "suggest": "become",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L51414s0",
+   "card": "pioneer",
+   "word": "he",
+   "suggest": "be",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L6883s0",
+   "card": "minor",
+   "word": "last",
+   "suggest": "fast",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L61612s0",
+   "card": "commercial",
+   "word": "on",
+   "suggest": "or",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L76815s0",
+   "card": "extract",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L104903s0",
+   "card": "defence",
+   "word": "AI",
+   "suggest": "al",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L76813s0",
+   "card": "freeze",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L87769s0",
+   "card": "feat",
+   "word": "AI",
+   "suggest": "al",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L87108s0",
+   "card": "dead",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L43902s0",
+   "card": "legal",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L87096s0",
+   "card": "yield",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L39548s1",
+   "card": "spectacular",
+   "word": "car",
+   "suggest": "can",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L48125s0",
+   "card": "composition",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L51315s1",
+   "card": "collect",
+   "word": "data",
+   "suggest": "date",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L100694s0",
+   "card": "fresh",
+   "word": "tasted",
+   "suggest": "tested",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L68287s0",
+   "card": "relax",
+   "word": "MC",
+   "suggest": "me",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L33088s1",
+   "card": "vital",
+   "word": "became",
+   "suggest": "become",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L31261s0",
+   "card": "regularly",
+   "word": "these",
+   "suggest": "those",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L49048s0",
+   "card": "slowly",
+   "word": "these",
+   "suggest": "those",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L99891s0",
+   "card": "repair",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L107069s0",
+   "card": "perceive",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L98925s0",
+   "card": "fungus",
+   "word": "wilt",
+   "suggest": "will",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L73408s0",
+   "card": "fabric",
+   "word": "lace",
+   "suggest": "face",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L98932s0",
+   "card": "countryside",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L4378s0",
+   "card": "laughter",
+   "word": "if",
+   "suggest": "it",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L20430s0",
+   "card": "component",
+   "word": "roots",
+   "suggest": "roofs",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L105962s0",
+   "card": "bury",
+   "word": "those",
+   "suggest": "these",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L61635s0",
+   "card": "fertiliser",
+   "word": "grew",
+   "suggest": "grow",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L104937s0",
+   "card": "investment",
+   "word": "AI",
+   "suggest": "al",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L11961s0",
+   "card": "court",
+   "word": "qualify",
+   "suggest": "quality",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L91192s0",
+   "card": "extraordinary",
+   "word": "he",
+   "suggest": "be",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L107657s1",
+   "card": "disabled",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L33060s1",
+   "card": "breakthrough",
+   "word": "he",
+   "suggest": "be",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L1152s0",
+   "card": "reflect",
+   "word": "far",
+   "suggest": "for",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L79103s0",
+   "card": "low",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L49762s0",
+   "card": "attitude",
+   "word": "or",
+   "suggest": "on",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L106864s1",
+   "card": "beginner",
+   "word": "on",
+   "suggest": "an",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L14085s0",
+   "card": "coastal",
+   "word": "low",
+   "suggest": "how",
+   "note": "read in the v4 scan review: correct word in context"
+  },
+  {
+   "sentence_id": "L29667s1",
+   "card": "benefit",
+   "word": "how",
+   "suggest": "now",
+   "note": "read in the v4.1 review: correct word in context ('I said how I'd benefited')"
+  }
+ ],
+ "scan_about": "v4 real-word scan (scripts/s06_ocr_scan.py) over every selected sentence: each candidate was read; confirmed misreads are reject_patterns (source 'v4 real-word OCR scan') or fix_rules; every other candidate is listed in scan_reviewed_not_errors (sentence_id, word, suggested variant).",
+ "pattern_fix_rules": [
+  {
+   "id": "P1",
+   "pattern": "Id + lowercase word",
+   "after": "I'd",
+   "guard": "capital I + lowercase d, standalone, followed by a lowercase word (excludes 'ID', 'id', 'Id.')",
+   "why": "OCR dropped the apostrophe of I'd",
+   "issue_rows_1104": [
+    412
+   ],
+   "source": "11-04 re-audit must-fix benefit 412"
+  },
+  {
+   "id": "P2",
+   "pattern": "Ill + lowercase word",
+   "after": "I'll",
+   "guard": "standalone 'Ill' (not 'Ill-'), followed by a lowercase word; NOT after a capitalised word without punctuation (regnal numeral III: 'King George Ill', 'Napoleon Ill'); NOT when 'ill <next word>' (the adjective, e.g. 'ill health') is attested in clawwords.md",
+   "why": "OCR dropped the apostrophe of I'll",
+   "issue_rows_1104": [
+    1726
+   ],
+   "source": "11-04 re-audit must-fix rest 1726"
+  },
+  {
+   "id": "P3",
+   "pattern": "I'II / I'Il / I'lI",
+   "after": "I'll",
+   "guard": "none needed (not an English word)",
+   "why": "OCR 'II' for 'll'",
+   "issue_rows_1104": [
+    2397
+   ],
+   "source": "11-04 re-audit must-fix direct 2397"
+  },
+  {
+   "id": "P4",
+   "pattern": "youll / Youll",
+   "after": "you'll",
+   "guard": "standalone word (not an English word)",
+   "why": "OCR dropped the apostrophe of you'll",
+   "issue_rows_1104": [
+    4002
+   ],
+   "source": "11-04 re-audit must-fix select 4002"
+  },
+  {
+   "id": "P5",
+   "pattern": "There be + lowercase word, sentence-initial",
+   "after": "There'll be",
+   "guard": "capital 'There' at the start of the sentence (or after a quote mark / sentence end), so 'will there be', 'could there be' are never touched",
+   "why": "OCR lost \"'ll\" (ungrammatical 'There be'); the next sentence of the same turn has \"there'll be\" (L72621)",
+   "issue_rows_1104": [
+    6097
+   ],
+   "source": "11-04 re-audit must-fix duty 6097"
+  }
+ ]
+}
