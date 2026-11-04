@@ -1,0 +1,355 @@
+from_lemma,surface_form,to_lemma,tokens,rule
+means,means,mean,91,3rd-person verb -> verb
+remains,remains,remain,21,3rd-person verb -> verb
+women,women,woman,2,PROPN-tagged irregular plural -> base noun
+children,children,child,2,PROPN-tagged irregular plural -> base noun
+islands,islands,island,11,PROPN-tagged plural -> base noun
+ages,ages,age,9,PROPN-tagged plural -> base noun
+nations,nations,nation,8,PROPN-tagged plural -> base noun
+studies,studies,study,8,PROPN-tagged plural -> base noun
+sciences,sciences,science,8,PROPN-tagged plural -> base noun
+sports,sports,sport,7,PROPN-tagged plural -> base noun
+gardens,gardens,garden,7,PROPN-tagged plural -> base noun
+scrolls,scrolls,scroll,6,PROPN-tagged plural -> base noun
+services,services,service,5,PROPN-tagged plural -> base noun
+pterosaurs,pterosaurs,pterosaur,5,PROPN-tagged plural -> base noun
+fields,fields,field,5,PROPN-tagged plural -> base noun
+brothers,brothers,brother,4,PROPN-tagged plural -> base noun
+resources,resources,resource,4,PROPN-tagged plural -> base noun
+holidays,holidays,holiday,4,PROPN-tagged plural -> base noun
+mountains,mountains,mountain,4,PROPN-tagged plural -> base noun
+days,days,day,4,PROPN-tagged plural -> base noun
+apartments,apartments,apartment,4,PROPN-tagged plural -> base noun
+falls,falls,fall,3,PROPN-tagged plural -> base noun
+citizens,citizens,citizen,3,PROPN-tagged plural -> base noun
+tours,tours,tour,3,PROPN-tagged plural -> base noun
+clubs,clubs,club,3,PROPN-tagged plural -> base noun
+engineers,engineers,engineer,3,PROPN-tagged plural -> base noun
+fears,fears,fear,3,PROPN-tagged plural -> base noun
+wetlands,wetlands,wetland,3,PROPN-tagged plural -> base noun
+manatees,manatees,manatee,3,PROPN-tagged plural -> base noun
+rainforests,rainforests,rainforest,2,PROPN-tagged plural -> base noun
+kids,kids,kid,2,PROPN-tagged plural -> base noun
+letters,letters,letter,2,PROPN-tagged plural -> base noun
+times,times,time,2,PROPN-tagged plural -> base noun
+banks,banks,bank,2,PROPN-tagged plural -> base noun
+games,games,game,2,PROPN-tagged plural -> base noun
+schools,schools,school,2,PROPN-tagged plural -> base noun
+castles,castles,castle,2,PROPN-tagged plural -> base noun
+ants,ants,ant,2,PROPN-tagged plural -> base noun
+rules,rules,rule,2,PROPN-tagged plural -> base noun
+students,students,student,2,PROPN-tagged plural -> base noun
+breeds,breeds,breed,2,PROPN-tagged plural -> base noun
+bees,bees,bee,2,PROPN-tagged plural -> base noun
+prizes,prizes,prize,2,PROPN-tagged plural -> base noun
+winds,winds,wind,2,PROPN-tagged plural -> base noun
+flats,flats,flat,2,PROPN-tagged plural -> base noun
+burns,burns,burn,2,PROPN-tagged plural -> base noun
+highways,highways,highway,2,PROPN-tagged plural -> base noun
+animals,animals,animal,2,PROPN-tagged plural -> base noun
+rings,rings,ring,2,PROPN-tagged plural -> base noun
+hills,hills,hill,2,PROPN-tagged plural -> base noun
+foods,foods,food,2,PROPN-tagged plural -> base noun
+giants,giants,giant,2,PROPN-tagged plural -> base noun
+humans,humans,human,1,PROPN-tagged plural -> base noun
+symbols,symbols,symbol,1,PROPN-tagged plural -> base noun
+languages,languages,language,1,PROPN-tagged plural -> base noun
+practitioners,practitioners,practitioner,1,PROPN-tagged plural -> base noun
+participants,participants,participant,1,PROPN-tagged plural -> base noun
+skills,skills,skill,1,PROPN-tagged plural -> base noun
+volcanoes,volcanoes,volcano,1,PROPN-tagged plural -> base noun
+aims,aims,aim,1,PROPN-tagged plural -> base noun
+academies,academies,academy,1,PROPN-tagged plural -> base noun
+chimpanzees,chimpanzees,chimpanzee,1,PROPN-tagged plural -> base noun
+associates,associates,associate,1,PROPN-tagged plural -> base noun
+photographs,photographs,photograph,1,PROPN-tagged plural -> base noun
+causes,causes,cause,1,PROPN-tagged plural -> base noun
+maps,maps,map,1,PROPN-tagged plural -> base noun
+shares,shares,share,1,PROPN-tagged plural -> base noun
+cots,cots,cot,1,PROPN-tagged plural -> base noun
+points,points,point,1,PROPN-tagged plural -> base noun
+guidelines,guidelines,guideline,1,PROPN-tagged plural -> base noun
+bookings,bookings,booking,1,PROPN-tagged plural -> base noun
+tenses,tenses,tense,1,PROPN-tagged plural -> base noun
+relations,relations,relation,1,PROPN-tagged plural -> base noun
+angles,angles,angle,1,PROPN-tagged plural -> base noun
+worlds,worlds,world,1,PROPN-tagged plural -> base noun
+lights,lights,light,1,PROPN-tagged plural -> base noun
+groups,groups,group,1,PROPN-tagged plural -> base noun
+reservations,reservations,reservation,1,PROPN-tagged plural -> base noun
+directions,directions,direction,1,PROPN-tagged plural -> base noun
+pagodas,pagodas,pagoda,1,PROPN-tagged plural -> base noun
+donkeys,donkeys,donkey,1,PROPN-tagged plural -> base noun
+universities,universities,university,1,PROPN-tagged plural -> base noun
+sections,sections,section,1,PROPN-tagged plural -> base noun
+rewards,rewards,reward,1,PROPN-tagged plural -> base noun
+halls,halls,hall,1,PROPN-tagged plural -> base noun
+mangroves,mangroves,mangrove,1,PROPN-tagged plural -> base noun
+classes,classes,class,1,PROPN-tagged plural -> base noun
+lasers,lasers,laser,1,PROPN-tagged plural -> base noun
+specimens,specimens,specimen,1,PROPN-tagged plural -> base noun
+badges,badges,badge,1,PROPN-tagged plural -> base noun
+matters,matters,matter,1,PROPN-tagged plural -> base noun
+regulations,regulations,regulation,1,PROPN-tagged plural -> base noun
+settlers,settlers,settler,1,PROPN-tagged plural -> base noun
+standards,standards,standard,1,PROPN-tagged plural -> base noun
+cheques,cheques,cheque,1,PROPN-tagged plural -> base noun
+heavens,heavens,heaven,1,PROPN-tagged plural -> base noun
+farms,farms,farm,1,PROPN-tagged plural -> base noun
+faces,faces,face,1,PROPN-tagged plural -> base noun
+objects,objects,object,1,PROPN-tagged plural -> base noun
+turbines,turbines,turbine,1,PROPN-tagged plural -> base noun
+laboratories,laboratories,laboratory,1,PROPN-tagged plural -> base noun
+pairs,pairs,pair,1,PROPN-tagged plural -> base noun
+museums,museums,museum,1,PROPN-tagged plural -> base noun
+tips,tips,tip,1,PROPN-tagged plural -> base noun
+purposes,purposes,purpose,1,PROPN-tagged plural -> base noun
+mammals,mammals,mammal,1,PROPN-tagged plural -> base noun
+cultures,cultures,culture,1,PROPN-tagged plural -> base noun
+wildfires,wildfires,wildfire,1,PROPN-tagged plural -> base noun
+psychologists,psychologists,psychologist,1,PROPN-tagged plural -> base noun
+interviews,interviews,interview,1,PROPN-tagged plural -> base noun
+railways,railways,railway,1,PROPN-tagged plural -> base noun
+canals,canals,canal,1,PROPN-tagged plural -> base noun
+waterways,waterways,waterway,1,PROPN-tagged plural -> base noun
+ships,ships,ship,1,PROPN-tagged plural -> base noun
+migrations,migrations,migration,1,PROPN-tagged plural -> base noun
+twins,twins,twin,1,PROPN-tagged plural -> base noun
+principles,principles,principle,1,PROPN-tagged plural -> base noun
+farmers,farmers,farmer,1,PROPN-tagged plural -> base noun
+benefits,benefits,benefit,1,PROPN-tagged plural -> base noun
+trees,trees,tree,1,PROPN-tagged plural -> base noun
+agendas,agendas,agenda,1,PROPN-tagged plural -> base noun
+books,books,book,1,PROPN-tagged plural -> base noun
+experts,experts,expert,1,PROPN-tagged plural -> base noun
+trends,trends,trend,1,PROPN-tagged plural -> base noun
+nuts,nuts,nut,1,PROPN-tagged plural -> base noun
+soils,soils,soil,1,PROPN-tagged plural -> base noun
+insights,insights,insight,1,PROPN-tagged plural -> base noun
+memories,memories,memory,1,PROPN-tagged plural -> base noun
+views,views,view,1,PROPN-tagged plural -> base noun
+archives,archives,archive,1,PROPN-tagged plural -> base noun
+environments,environments,environment,1,PROPN-tagged plural -> base noun
+scientists,scientists,scientist,1,PROPN-tagged plural -> base noun
+zoos,zoos,zoo,1,PROPN-tagged plural -> base noun
+operations,operations,operation,1,PROPN-tagged plural -> base noun
+ceremonies,ceremonies,ceremony,1,PROPN-tagged plural -> base noun
+islanders,islanders,islander,1,PROPN-tagged plural -> base noun
+papers,papers,paper,1,PROPN-tagged plural -> base noun
+solutions,solutions,solution,1,PROPN-tagged plural -> base noun
+dynasties,dynasties,dynasty,1,PROPN-tagged plural -> base noun
+microbes,microbes,microbe,1,PROPN-tagged plural -> base noun
+warships,warships,warship,1,PROPN-tagged plural -> base noun
+attitudes,attitudes,attitude,1,PROPN-tagged plural -> base noun
+workshops,workshops,workshop,1,PROPN-tagged plural -> base noun
+stadiums,stadiums,stadium,1,PROPN-tagged plural -> base noun
+empires,empires,empire,1,PROPN-tagged plural -> base noun
+items,items,item,1,PROPN-tagged plural -> base noun
+manuscripts,manuscripts,manuscript,1,PROPN-tagged plural -> base noun
+birds,birds,bird,1,PROPN-tagged plural -> base noun
+skyscrapers,skyscrapers,skyscraper,1,PROPN-tagged plural -> base noun
+ecosystems,ecosystems,ecosystem,1,PROPN-tagged plural -> base noun
+hotels,hotels,hotel,1,PROPN-tagged plural -> base noun
+cuts,cuts,cut,1,PROPN-tagged plural -> base noun
+satellites,satellites,satellite,1,PROPN-tagged plural -> base noun
+affairs,affairs,affair,1,PROPN-tagged plural -> base noun
+motors,motors,motor,1,PROPN-tagged plural -> base noun
+continents,continents,continent,1,PROPN-tagged plural -> base noun
+oceans,oceans,ocean,1,PROPN-tagged plural -> base noun
+communications,communications,communication,1,PROPN-tagged plural -> base noun
+wars,wars,war,1,PROPN-tagged plural -> base noun
+minds,minds,mind,1,PROPN-tagged plural -> base noun
+secrets,secrets,secret,1,PROPN-tagged plural -> base noun
+labs,labs,lab,1,PROPN-tagged plural -> base noun
+pilots,pilots,pilot,1,PROPN-tagged plural -> base noun
+systems,systems,system,1,PROPN-tagged plural -> base noun
+awards,awards,award,1,PROPN-tagged plural -> base noun
+runners,runners,runner,1,PROPN-tagged plural -> base noun
+umpires,umpires,umpire,1,PROPN-tagged plural -> base noun
+referees,referees,referee,1,PROPN-tagged plural -> base noun
+streets,streets,street,1,PROPN-tagged plural -> base noun
+loads,loads,load,1,PROPN-tagged plural -> base noun
+temps,temps,temp,1,PROPN-tagged plural -> base noun
+sailors,sailors,sailor,1,PROPN-tagged plural -> base noun
+roots,roots,root,1,PROPN-tagged plural -> base noun
+sisters,sisters,sister,1,PROPN-tagged plural -> base noun
+cities,cities,city,1,PROPN-tagged plural -> base noun
+ferries,ferries,ferry,1,PROPN-tagged plural -> base noun
+connections,connections,connection,1,PROPN-tagged plural -> base noun
+enterprises,enterprises,enterprise,1,PROPN-tagged plural -> base noun
+program,programs,programme,42,US/UK spelling -> British canonical
+program,program,programme,27,US/UK spelling -> British canonical
+behavior,behavior,behaviour,23,US/UK spelling -> British canonical
+center,center,centre,16,US/UK spelling -> British canonical
+math,maths,maths,14,US/UK spelling -> British canonical
+organization,organization,organisation,13,US/UK spelling -> British canonical
+recognize,recognize,recognise,11,US/UK spelling -> British canonical
+theater,theater,theatre,11,US/UK spelling -> British canonical
+organization,organizations,organisation,10,US/UK spelling -> British canonical
+realize,realized,realise,9,US/UK spelling -> British canonical
+aging,aging,ageing,9,US/UK spelling -> British canonical
+judgment,judgments,judgement,8,US/UK spelling -> British canonical
+kilometer,kilometers,kilometre,6,US/UK spelling -> British canonical
+recognize,recognized,recognise,6,US/UK spelling -> British canonical
+civilization,civilization,civilisation,6,US/UK spelling -> British canonical
+judgment,judgment,judgement,6,US/UK spelling -> British canonical
+behavior,behaviors,behaviour,6,US/UK spelling -> British canonical
+centimeter,centimeters,centimetre,4,US/UK spelling -> British canonical
+summarize,summarized,summarise,4,US/UK spelling -> British canonical
+realize,realize,realise,4,US/UK spelling -> British canonical
+civilization,civilizations,civilisation,4,US/UK spelling -> British canonical
+center,centers,centre,4,US/UK spelling -> British canonical
+organize,organize,organise,4,US/UK spelling -> British canonical
+favor,favored,favour,3,US/UK spelling -> British canonical
+specialized,specialized,specialised,3,US/UK spelling -> British canonical
+minimize,minimize,minimise,3,US/UK spelling -> British canonical
+recognize,recognizes,recognise,3,US/UK spelling -> British canonical
+criticize,criticized,criticise,3,US/UK spelling -> British canonical
+license,license,licence,3,US/UK spelling -> British canonical
+organize,organized,organise,3,US/UK spelling -> British canonical
+characterize,characterized,characterise,3,US/UK spelling -> British canonical
+maximize,maximize,maximise,3,US/UK spelling -> British canonical
+neighborhood,neighborhoods,neighbourhood,3,US/UK spelling -> British canonical
+harbor,harbor,harbour,2,US/UK spelling -> British canonical
+fertilizer,fertilizers,fertiliser,2,US/UK spelling -> British canonical
+fertilizer,fertilizer,fertiliser,2,US/UK spelling -> British canonical
+characterize,characterize,characterise,2,US/UK spelling -> British canonical
+emphasize,emphasizes,emphasise,2,US/UK spelling -> British canonical
+defense,defense,defence,2,US/UK spelling -> British canonical
+program,programmed,programme,2,US/UK spelling -> British canonical
+math,math,maths,2,US/UK spelling -> British canonical
+color,colors,colour,2,US/UK spelling -> British canonical
+emphasize,emphasized,emphasise,2,US/UK spelling -> British canonical
+favor,favor,favour,2,US/UK spelling -> British canonical
+jewelry,jewelry,jewellery,2,US/UK spelling -> British canonical
+theater,theaters,theatre,2,US/UK spelling -> British canonical
+color,color,colour,2,US/UK spelling -> British canonical
+skeptical,skeptical,sceptical,1,US/UK spelling -> British canonical
+criticize,criticizing,criticise,1,US/UK spelling -> British canonical
+fulfill,fulfill,fulfil,1,US/UK spelling -> British canonical
+summarize,summarize,summarise,1,US/UK spelling -> British canonical
+minimize,minimized,minimise,1,US/UK spelling -> British canonical
+minimize,minimizes,minimise,1,US/UK spelling -> British canonical
+utilize,utilize,utilise,1,US/UK spelling -> British canonical
+organize,organizing,organise,1,US/UK spelling -> British canonical
+license,licensed,licence,1,US/UK spelling -> British canonical
+utilize,utilizes,utilise,1,US/UK spelling -> British canonical
+harbor,harbors,harbour,1,US/UK spelling -> British canonical
+neighborhood,neighborhood,neighbourhood,1,US/UK spelling -> British canonical
+analyze,analyzed,analyse,1,US/UK spelling -> British canonical
+analyze,analyze,analyse,1,US/UK spelling -> British canonical
+humor,humor,humour,1,US/UK spelling -> British canonical
+criticize,criticize,criticise,1,US/UK spelling -> British canonical
+analyze,analyzing,analyse,1,US/UK spelling -> British canonical
+favor,favoring,favour,1,US/UK spelling -> British canonical
+millimeter,millimeters,millimetre,1,US/UK spelling -> British canonical
+fiber,fibers,fibre,1,US/UK spelling -> British canonical
+mediaeval,mediaeval,medieval,1,US/UK spelling -> British canonical
+recognize,recognizing,recognise,1,US/UK spelling -> British canonical
+kilometer,kilometer,kilometre,1,US/UK spelling -> British canonical
+analyze,analyzes,analyse,1,US/UK spelling -> British canonical
+publicize,publicized,publicise,1,US/UK spelling -> British canonical
+characterize,characterizing,characterise,1,US/UK spelling -> British canonical
+flavor,flavor,flavour,1,US/UK spelling -> British canonical
+aluminum,aluminum,aluminium,1,US/UK spelling -> British canonical
+artifact,artifact,artefact,1,US/UK spelling -> British canonical
+favorite,favorite,favourite,1,US/UK spelling -> British canonical
+neighbor,neighbor,neighbour,1,US/UK spelling -> British canonical
+specialize,specializing,specialise,1,US/UK spelling -> British canonical
+endanger,endangered,endangered,17,V10 adjectival -ed form majority (adjectival share 0.61)
+heighten,heightened,heightened,2,V10 adjectival -ed form majority (adjectival share 0.67)
+populate,populated,populated,2,V10 adjectival -ed form majority (adjectival share 0.67)
+distil,distilled,distilled,2,V10 adjectival -ed form majority (adjectival share 0.67)
+outdate,outdated,outdated,1,V10 adjectival -ed form majority (adjectival share 0.67)
+computerise,computerised,computerised,1,V10 adjectival -ed form majority (adjectival share 0.67)
+inherit,inherited,inherited,3,V10 adjectival -ed form majority (adjectival share 0.75)
+isolate,isolated,isolated,5,V10 adjectival -ed form majority (adjectival share 0.76)
+bore,bored,bored,3,V10 adjectival -ed form majority (adjectival share 0.83)
+complicate,complicated,complicated,4,V10 adjectival -ed form majority (adjectival share 0.84)
+excite,excited,excited,1,V10 adjectival -ed form majority (adjectival share 0.88)
+automate,automated,automated,10,V10 adjectival -ed form majority (adjectival share 0.91)
+toughen,toughened,toughened,5,V10 adjectival -ed form majority (adjectival share 1.0)
+overrate,overrated,overrated,1,V10 adjectival -ed form majority (adjectival share 1.0)
+saturate,saturated,saturated,1,V10 adjectival -ed form majority (adjectival share 1.0)
+digitalise,digitalised,digitalised,1,V10 adjectival -ed form majority (adjectival share 1.0)
+bear,born,born,30,V11 separate card (independent sense)
+romans,romans,roman,20,V12 nationality plural -> singular
+europeans,europeans,european,13,V12 nationality plural -> singular
+march,march,march (common word),4,V13 lowercase month word is not the month
+us,us,usa,41,V3 US -> USA
+states,states,usa,32,V3 United States -> USA
+zealand,zealand,new zealand,60,V3 multi-word country restored
+cent,cent,percent,47,V3 per cent -> percent (BrE spelling)
+thanks,thanks,thanks to,17,"V3 phrase card (cause phrase, like due to)"
+dioxide,dioxide,carbon dioxide,23,V3 phrase card (compound fragment)
+warming,warming,global warming,19,V3 phrase card (compound fragment)
+conditioning,conditioning,air conditioning,11,V3 phrase card (compound fragment)
+course,course,of course,147,V4 discourse idiom -> connectives
+fact,fact,in fact,125,V4 discourse idiom -> connectives
+hand,hand,on the other hand,29,V4 discourse idiom -> connectives
+hand,hand,on the one hand,6,V4 discourse idiom -> connectives
+km,km,kilometre,17,V7 unit symbol/spelling -> unit card
+cm,cm,centimetre,10,V7 unit symbol/spelling -> unit card
+kg,kg,kilogram,4,V7 unit symbol/spelling -> unit card
+meter,meters,metre,11,"V8 meter (unit, US spelling) -> metre"
+meter,meter,metre,1,"V8 meter (unit, US spelling) -> metre"
+mm,mm,millimetre,4,W6 mm after a number -> millimetre
+lie,lay,lay,1,"W8a lay (adjective: a lay doctor, the lay visitor)"
+lie,lay,lay,3,W8a lay (verb lay: base form / object follows)
+oppose,opposed,as opposed to,5,"W8b ""as opposed to"" -> reserved phrase (connectives)"
+ton,tons,tonne,1,W8e metric ton -> tonne
+plain,plains,plains,7,W8i independent-sense form (own lemma)
+indoor,indoors,indoors,4,W8i independent-sense form (own lemma)
+stable,stables,stables,3,W8i independent-sense form (own lemma)
+rich,riches,riches,1,W8i independent-sense form (own lemma)
+accord,according,according to,98,accord -> according to
+working,working,work,25,activity gerund -> verb
+cooking,cooking,cook,23,activity gerund -> verb
+bullying,bullying,bully,23,activity gerund -> verb
+breeding,breeding,breed,22,activity gerund -> verb
+sailing,sailing,sail,22,activity gerund -> verb
+recycling,recycling,recycle,20,activity gerund -> verb
+knitting,knitting,knit,18,activity gerund -> verb
+swimming,swimming,swim,17,activity gerund -> verb
+making,making,make,13,activity gerund -> verb
+hunting,hunting,hunt,12,activity gerund -> verb
+collecting,collecting,collect,12,activity gerund -> verb
+feeding,feeding,feed,11,activity gerund -> verb
+washing,washing,wash,11,activity gerund -> verb
+running,running,run,9,activity gerund -> verb
+starting,starting,start,8,activity gerund -> verb
+breathing,breathing,breathe,8,activity gerund -> verb
+grazing,grazing,graze,6,activity gerund -> verb
+printing,printing,print,6,activity gerund -> verb
+cleaning,cleaning,clean,6,activity gerund -> verb
+driving,driving,drive,6,activity gerund -> verb
+buying,buying,buy,5,activity gerund -> verb
+dining,dining,dine,5,activity gerund -> verb
+walking,walking,walk,5,activity gerund -> verb
+sharing,sharing,share,2,activity gerund -> verb
+working,workings,work,2,activity gerund -> verb
+situate,situated,situated,15,card shown as participle
+entitle,entitled,entitled,11,card shown as participle
+domesticate,domesticated,domesticated,7,card shown as participle
+domesticate,domesticate,domesticated,3,card shown as participle
+domesticate,domesticating,domesticated,2,card shown as participle
+entitle,entitles,entitled,1,card shown as participle
+due,due,due to,47,due -> due to (phrase card)
+involved,involved,involve,8,pure participle -> verb
+closed,closed,close,8,pure participle -> verb
+extended,extended,extend,8,pure participle -> verb
+recycled,recycled,recycle,7,pure participle -> verb
+improved,improved,improve,6,pure participle -> verb
+related,related,relate,5,pure participle -> verb
+preferred,preferred,prefer,5,pure participle -> verb
+art,arts,arts,11,separate card (arts)
+arts,arts,art,3,separate card (arts)
+right,rights,rights,11,separate card (rights)
+rights,rights,right,1,separate card (rights)
+base,based,based,89,separate card (surface form)
+concern,concerned,concerned,22,separate card (surface form)
+advance,advanced,advanced,6,separate card (surface form)
+fish,fishing,fishing,3,separate card (surface form)
+okay,okay,ok,62,variant merge
+finding,finding,findings,10,variant merge
+okay,okay-,ok,1,variant merge
