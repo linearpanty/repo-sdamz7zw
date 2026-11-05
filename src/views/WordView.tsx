@@ -240,15 +240,17 @@ export function WordView({
         />
       </div>
 
-      <article className="cw-lexicon-folio" aria-label="词">
-        <div className={`cw-poster-frame${hasMedia ? ' has-illus' : ''}`}>
-          <WordMotionStage word={word} spellInput={spellInput} passed={passed} />
-          {showCaption && (
-            <div className="cw-poster-centerpiece">
-              <p className="cw-poster-hook">{highlightLexeme(word.sceneHook, word)}</p>
-            </div>
-          )}
-        </div>
+      <article className={`cw-lexicon-folio${hasMedia ? '' : ' is-text-only'}`} aria-label="词">
+        {hasMedia && (
+          <div className="cw-poster-frame has-illus">
+            <WordMotionStage word={word} passed={passed} />
+            {showCaption && (
+              <div className="cw-poster-centerpiece">
+                <p className="cw-poster-hook">{highlightLexeme(word.sceneHook, word)}</p>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="cw-dossier-pane">
           <header className="cw-headword-block">
