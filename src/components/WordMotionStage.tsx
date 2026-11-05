@@ -1,8 +1,7 @@
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useRef } from 'react'
 import { illustrationUrl, videoUrl, type Word } from '../data/types'
 import { playSfx } from '../lib/sfx'
 import { sceneFor, type Scene } from '../scenes'
-import { BEAT_ACTION, BEAT_AFTER, beatOf } from '../scenes/timeline'
 
 type WordMotionStageProps = {
   word: Word
@@ -15,7 +14,6 @@ const DURATION_MS = 2400
 const HOLD_MS = 1600
 /** Automatic runs per card (first play + one encore); ↻ replays any time. */
 const AUTO_RUNS = 2
-const BEAT_NAMES = ['起', '变', '定'] as const
 
 export function hasScene(word: Word): boolean {
   return sceneFor(word.id) !== null
@@ -82,7 +80,6 @@ function SceneTheater({ scene, passed }: { scene: Scene; passed: boolean }) {
   const animsRef = useRef<Animation[]>([])
   const timersRef = useRef<number[]>([])
   const runsRef = useRef(0)
-  const [beat, setBeat] = useState<0 | 1 | 2>(0)
 
   const clearTimers = useCallback(() => {
     for (const id of timersRef.current) window.clearTimeout(id)
@@ -98,7 +95,6 @@ function SceneTheater({ scene, passed }: { scene: Scene; passed: boolean }) {
       anim.pause()
       anim.currentTime = DURATION_MS
     }
-    setBeat(beatOf(1))
   }, [])
 
   const run = useCallback(
@@ -114,9 +110,6 @@ function SceneTheater({ scene, passed }: { scene: Scene; passed: boolean }) {
         anim.currentTime = 0
         anim.play()
       }
-      setBeat(0)
-      later(BEAT_ACTION * DURATION_MS, () => setBeat(1))
-      later(BEAT_AFTER * DURATION_MS, () => setBeat(2))
       if (withSound) later(scene.hit * DURATION_MS, () => playSfx(scene.sfx))
       // The encore is silent: one sound per card open is enough while typing.
       if (runsRef.current < AUTO_RUNS) later(DURATION_MS + HOLD_MS, () => run(false))
@@ -161,7 +154,7 @@ function SceneTheater({ scene, passed }: { scene: Scene; passed: boolean }) {
 
   return (
     <div
-      className={`cw-motion-stage cw-scene-stage is-beat-${beat}${passed ? ' is-passed' : ''}`}
+      className={`cw-motion-stage cw-scene-stage${passed ? ' is-passed' : ''}`}
       onPointerDown={(e) => e.preventDefault()}
       onClick={replay}
     >
@@ -176,13 +169,6 @@ function SceneTheater({ scene, passed }: { scene: Scene; passed: boolean }) {
         {scene.render()}
       </svg>
       <div className="cw-scene-hud">
-        <ol className="cw-scene-beats" aria-hidden="true">
-          {BEAT_NAMES.map((name, i) => (
-            <li key={name} className={i === beat ? 'is-on' : i < beat ? 'is-past' : ''}>
-              {name}
-            </li>
-          ))}
-        </ol>
         <button
           type="button"
           className="cw-scene-replay"

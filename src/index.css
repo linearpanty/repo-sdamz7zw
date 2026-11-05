@@ -752,41 +752,8 @@ span.cw-capsule-pill {
   z-index: 3;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   pointer-events: none;
-}
-
-.cw-scene-beats {
-  display: flex;
-  gap: 4px;
-  margin: 0;
-  padding: 3px;
-  list-style: none;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(26, 26, 26, 0.08);
-}
-
-.cw-scene-beats li {
-  min-width: 20px;
-  height: 20px;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  font-size: 0.68rem;
-  font-weight: 600;
-  line-height: 1;
-  color: var(--cw-text-muted);
-  transition: background-color 0.18s ease, color 0.18s ease;
-}
-
-.cw-scene-beats li.is-past {
-  color: var(--cw-text-secondary);
-}
-
-.cw-scene-beats li.is-on {
-  background: var(--cw-accent);
-  color: #fff;
 }
 
 .cw-scene-replay {
