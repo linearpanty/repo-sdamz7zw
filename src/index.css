@@ -617,6 +617,69 @@ mark.cw-target-hl {
   max-width: 52%;
 }
 
+.cw-sheet-slip {
+  max-width: 440px;
+  gap: 16px;
+}
+
+.cw-slip-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.cw-slip-check {
+  color: var(--cw-emerald);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.cw-slip-dot {
+  color: var(--cw-text-muted);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.cw-done-word-btn.is-done {
+  opacity: 0.76;
+}
+
+.cw-capsule-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cw-capsule-pill {
+  appearance: none;
+  font-family: var(--cw-font-serif);
+  font-size: 0.78rem;
+  line-height: 1.2;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--cw-border-hairline);
+  background: var(--cw-surface-3);
+  color: var(--cw-text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cw-capsule-pill.is-done {
+  color: var(--cw-emerald);
+  border-color: rgba(31, 111, 74, 0.25);
+  background: var(--cw-emerald-bg);
+}
+
+.cw-capsule-pill.is-current {
+  color: var(--cw-text-primary);
+  border-color: var(--cw-accent);
+  background: var(--cw-surface-1);
+  font-weight: 700;
+}
+
 .cw-done-actions {
   display: flex;
   flex-direction: column;

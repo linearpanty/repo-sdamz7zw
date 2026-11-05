@@ -106,13 +106,20 @@ export default function App() {
     let active = true
     void loadRuntime().then((rt) => {
       if (!active) return
+      const loaded = rt.loadProgress()
       setRuntime(rt)
-      setProgress(rt.loadProgress())
+      setProgress(loaded)
+      if (window.location.hash === '' && !loaded.finished && loaded.queue.length > 0) {
+        const started = { ...loaded, started: true }
+        rt.saveProgress(started)
+        setProgress(started)
+        go('word', 'replace')
+      }
     })
     return () => {
       active = false
     }
-  }, [])
+  }, [go])
 
   useEffect(() => {
     const onHash = () => setRoute(readRoute())
@@ -184,13 +191,45 @@ export default function App() {
           .map((id) => runtime.getWord(id))
           .filter((w): w is NonNullable<typeof w> => Boolean(w))
       : []
+  const queueWords = runtime
+    ? progress.queue
+        .map((c) => {
+          const w = runtime.getWord(c.id)
+          return w ? { word: w, mode: c.mode } : null
+        })
+        .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    : []
+
+  const sessionCapsules = runtime
+    ? [
+        ...doneWords.slice(-progress.dailyCount).map((w) => ({
+          id: w.id,
+          word: w.word,
+          status: 'done' as const,
+          mode: 'learn' as const,
+        })),
+        ...queueWords.map((item, idx) => ({
+          id: item.word.id,
+          word: item.word.word,
+          status: idx === 0 ? ('current' as const) : ('upcoming' as const),
+          mode: item.mode,
+        })),
+      ]
+    : []
 
   return (
     <div className="cw-viewport">
       <div className="cw-ambient-grid" aria-hidden="true" />
       <div className="cw-studio-container">
         <main className="cw-stage-main">
-          {route === 'today' && <TodayView progress={progress} onStart={handleStart} />}
+          {route === 'today' && (
+            <TodayView
+              progress={progress}
+              doneWords={doneWords}
+              queueWords={queueWords}
+              onStart={handleStart}
+            />
+          )}
           {route === 'done' && progress.finished && (
             <DoneView
               words={doneWords}
@@ -208,6 +247,7 @@ export default function App() {
               index={progress.doneCount + 1}
               total={progress.doneCount + progress.queue.length}
               canReplay={!progress.replayed.includes(card.id)}
+              capsules={sessionCapsules}
               onAdvance={handleAdvance}
               onExit={() => go('today')}
             />

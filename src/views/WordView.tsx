@@ -4,12 +4,20 @@ import { speakWord } from '../lib/audio'
 import { gradeExact, maskWordHint } from '../lib/grader'
 import type { CardMode } from '../lib/model'
 
+export type SessionCapsule = {
+  id: string
+  word: string
+  status: 'done' | 'current' | 'upcoming'
+  mode: CardMode
+}
+
 type WordViewProps = {
   word: Word
   mode: CardMode
   index: number
   total: number
   canReplay: boolean
+  capsules?: SessionCapsule[]
   onAdvance: (hadMiss: boolean) => void
   onExit: () => void
 }
@@ -91,6 +99,7 @@ export function WordView({
   index,
   total,
   canReplay,
+  capsules = [],
   onAdvance,
   onExit,
 }: WordViewProps) {
@@ -159,6 +168,32 @@ export function WordView({
         <button type="button" className="cw-word-brand" onClick={onExit}>
           ClawWords
         </button>
+        {capsules.length > 0 && (
+          <div className="cw-capsule-strip" aria-label="今日进度">
+            {capsules.map((cap, idx) => {
+              const display =
+                cap.status === 'done'
+                  ? `✓ ${cap.word}`
+                  : cap.mode === 'learn'
+                    ? cap.word
+                    : `${cap.word[0] ?? ''}···`
+              return (
+                <button
+                  key={`${cap.id}-${idx}`}
+                  type="button"
+                  className={`cw-capsule-pill is-${cap.status}`}
+                  onClick={() => {
+                    if (cap.status === 'done' || cap.mode === 'learn') {
+                      speakWord(cap.word, cap.id)
+                    }
+                  }}
+                >
+                  {display}
+                </button>
+              )
+            })}
+          </div>
+        )}
         <span className="cw-count" aria-label={fraction}>
           {fraction}
         </span>
