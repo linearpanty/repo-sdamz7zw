@@ -21,6 +21,7 @@ export type Progress = {
   started: boolean
   finished: boolean
   replayed: string[]
+  doneIds?: string[]
 }
 
 export const PROGRESS_KEY = 'clawwords.progress.v3'

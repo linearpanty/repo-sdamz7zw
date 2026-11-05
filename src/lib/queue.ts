@@ -56,6 +56,9 @@ export function sanitizeProgress(raw: unknown, today: string): Progress | null {
     replayed: Array.isArray(row.replayed)
       ? row.replayed.filter((id): id is string => typeof id === 'string' && wordIds.has(id))
       : [],
+    doneIds: Array.isArray(row.doneIds)
+      ? row.doneIds.filter((id): id is string => typeof id === 'string' && wordIds.has(id))
+      : [],
   }
 }
 
@@ -106,6 +109,7 @@ export function ensureToday(progress: Progress, today: string): Progress {
         started: false,
         finished: false,
         replayed: [],
+        doneIds: [],
       }
 
   const queue = selectQueue(rolled.memory, rolled.dailyCount, today)
@@ -149,11 +153,15 @@ export function settleCard(progress: Progress, hadMiss: boolean, today = progres
     }
   }
 
+  const prevDoneIds = progress.doneIds ?? []
+  const doneIds = prevDoneIds.includes(current.id) ? prevDoneIds : [...prevDoneIds, current.id]
+
   return {
     ...progress,
     memory,
     queue,
     replayed,
+    doneIds,
     doneCount: progress.doneCount + 1,
     started: true,
     finished: queue.length === 0,

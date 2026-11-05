@@ -46,18 +46,38 @@ function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-function highlightLexeme(text: string, word: Word): ReactNode {
+function buildLexemeRegex(word: Word): RegExp | null {
   const candidates = new Set<string>([word.word, ...(word.variants ?? [])])
   if (word.word.length >= 5 && (word.word.endsWith('e') || word.word.endsWith('y'))) {
     candidates.add(word.word.slice(0, -1))
   }
   const stems = [...candidates].filter(Boolean).sort((a, b) => b.length - a.length).map(escapeRegExp)
-  if (stems.length === 0) return text
-  const pattern = new RegExp(`(\\b(?:${stems.join('|')})\\w*)`, 'gi')
+  if (stems.length === 0) return null
+  return new RegExp(`(\\b(?:${stems.join('|')})\\w*)`, 'gi')
+}
+
+function highlightLexeme(text: string, word: Word): ReactNode {
+  const pattern = buildLexemeRegex(word)
+  if (!pattern) return text
   return text.split(pattern).map((seg, i) =>
     i % 2 === 1 ? (
       <mark key={i} className="cw-target-hl">
         {seg}
+      </mark>
+    ) : (
+      seg
+    ),
+  )
+}
+
+function maskLexemeInSentence(text: string, word: Word): ReactNode {
+  const pattern = buildLexemeRegex(word)
+  if (!pattern) return text
+  const maskLabel = `${word.word[0] ?? ''}${'_'.repeat(Math.max(3, word.word.length - 1))}`
+  return text.split(pattern).map((seg, i) =>
+    i % 2 === 1 ? (
+      <mark key={i} className="cw-target-hl cw-target-mask">
+        {maskLabel}
       </mark>
     ) : (
       seg
@@ -79,6 +99,8 @@ export function WordView({
   const [tried, setTried] = useState(false)
   const [missCount, setMissCount] = useState(0)
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const advancedRef = useRef(false)
+  const timerRef = useRef<number | null>(null)
 
   const learn = mode === 'learn'
   const passed = gradeExact(spellInput, word.word).ok
@@ -96,7 +118,22 @@ export function WordView({
     if (learn) {
       speakWord(word.word, word.id)
     }
+    return () => {
+      if (timerRef.current !== null) {
+        window.clearTimeout(timerRef.current)
+      }
+    }
   }, [learn, word.id, word.word])
+
+  function triggerAdvance(hadMiss: boolean) {
+    if (advancedRef.current) return
+    advancedRef.current = true
+    if (timerRef.current !== null) {
+      window.clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+    onAdvance(hadMiss)
+  }
 
   function noteMiss() {
     if (spellInput.trim() || !learn) {
@@ -112,7 +149,7 @@ export function WordView({
   }
 
   function commit() {
-    if (passed) onAdvance(missed)
+    if (passed) triggerAdvance(missed)
     else noteMiss()
   }
 
@@ -208,11 +245,13 @@ export function WordView({
             ))}
           </section>
 
-          {(learn || revealed) && example && (
+          {example && (
             <div className="cw-example-slate">
-              <p className="cw-example-en">{highlightLexeme(example.en, word)}</p>
+              <p className="cw-example-en">
+                {showHead ? highlightLexeme(example.en, word) : maskLexemeInSentence(example.en, word)}
+              </p>
               <p className="cw-example-zh">{example.zh}</p>
-              {collocations.length > 0 && (
+              {showHead && collocations.length > 0 && (
                 <div className="cw-colloc-row" aria-label="常见搭配">
                   {collocations.map((col, idx) => (
                     <span key={idx} className="cw-colloc-chip">
@@ -242,13 +281,26 @@ export function WordView({
                 spellCheck={false}
                 enterKeyHint="done"
                 value={spellInput}
-                placeholder="输入这个词"
+                placeholder={learn ? '输入这个词' : maskWordHint(word.word)}
                 aria-label="输入这个词"
                 onChange={(e) => {
-                  setSpellInput(e.target.value)
-                  if (tried && gradeExact(e.target.value, word.word).ok) setTried(false)
+                  const val = e.target.value
+                  setSpellInput(val)
+                  const isOk = gradeExact(val, word.word).ok
+                  if (tried && isOk) setTried(false)
+                  if (isOk && !advancedRef.current) {
+                    if (timerRef.current !== null) window.clearTimeout(timerRef.current)
+                    timerRef.current = window.setTimeout(() => {
+                      triggerAdvance(missed)
+                    }, 180)
+                  }
                 }}
                 onKeyDown={(e) => {
+                  if (learn && e.key === 'Tab' && !spellInput.trim()) {
+                    e.preventDefault()
+                    triggerAdvance(false)
+                    return
+                  }
                   if (e.key !== 'Enter') return
                   e.preventDefault()
                   commit()
@@ -268,11 +320,20 @@ export function WordView({
               className="cw-cta-primary cw-cta-wide"
               disabled={!passed}
               onClick={() => {
-                if (passed) onAdvance(missed)
+                if (passed) triggerAdvance(missed)
               }}
             >
               <span>{nextLabel}</span>
             </button>
+            {learn && !passed && (
+              <button
+                type="button"
+                className="cw-skip-known"
+                onClick={() => triggerAdvance(false)}
+              >
+                太熟，直接过
+              </button>
+            )}
           </footer>
         </div>
       </article>

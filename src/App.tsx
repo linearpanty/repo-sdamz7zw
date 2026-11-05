@@ -65,6 +65,7 @@ function readInitialPreview(): Progress {
           started: Boolean(parsed.started),
           finished: Boolean(parsed.finished),
           replayed: Array.isArray(parsed.replayed) ? parsed.replayed : [],
+          doneIds: Array.isArray(parsed.doneIds) ? parsed.doneIds : [],
         }
       }
       const preview = blankProgress(today)
@@ -177,6 +178,12 @@ export default function App() {
   const card = progress.queue[0]
   const word = runtime && card ? runtime.getWord(card.id) : undefined
   const showWord = route === 'word' && !progress.finished && Boolean(word && card)
+  const doneWords =
+    runtime && progress.doneIds
+      ? progress.doneIds
+          .map((id) => runtime.getWord(id))
+          .filter((w): w is NonNullable<typeof w> => Boolean(w))
+      : []
 
   return (
     <div className="cw-viewport">
@@ -186,6 +193,7 @@ export default function App() {
           {route === 'today' && <TodayView progress={progress} onStart={handleStart} />}
           {route === 'done' && progress.finished && (
             <DoneView
+              words={doneWords}
               onMore={handleStart}
               onBack={() => {
                 go('today')

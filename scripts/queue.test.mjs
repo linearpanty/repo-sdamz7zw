@@ -33,27 +33,27 @@ assert.deepEqual(
 )
 assert.deepEqual(
   first.queue.map((card) => card.id),
-  ['available', 'access', 'approach', 'challenge', 'benefit'],
+  ['abandon', 'challenge', 'benefit', 'collapse', 'significant'],
 )
 assert.equal(first.finished, false)
 
 const intro = selectQueue({}, 15, today).map((card) => card.id)
 assert.deepEqual(intro, [
-  'available',
-  'access',
-  'approach',
+  'abandon',
   'challenge',
   'benefit',
-  'authority',
-  'aware',
-  'capacity',
-  'appropriate',
-  'capable',
-  'affect',
-  'accurate',
-  'achieve',
-  'assume',
-  'category',
+  'collapse',
+  'significant',
+  'adequate',
+  'environment',
+  'factor',
+  'approach',
+  'evidence',
+  'adjacent',
+  'structure',
+  'available',
+  'impact',
+  'strategy',
 ])
 assert.notDeepEqual(intro, [...intro].sort())
 
@@ -61,7 +61,7 @@ const dueFirst = selectQueue(
   {
     collapse: { interval: 1, next: today, misses: 1 },
     abstract: { interval: 2, next: '2026-10-20', misses: 0 },
-    abandon: { interval: 3, next: '2026-11-01', misses: 0 },
+    arbitrary: { interval: 3, next: '2026-11-01', misses: 0 },
   },
   5,
   today,
@@ -73,32 +73,32 @@ assert.deepEqual(
     ['abstract', 'recall'],
   ],
 )
-assert.deepEqual([dueFirst[2].id, dueFirst[2].mode], ['available', 'learn'])
-assert.equal(dueFirst.filter((card) => card.id === 'abandon').length, 0)
+assert.deepEqual([dueFirst[2].id, dueFirst[2].mode], ['abandon', 'learn'])
+assert.equal(dueFirst.filter((card) => card.id === 'arbitrary').length, 0)
 
 let missed = settleCard(first, true, today)
-assert.equal(missed.queue.at(-1)?.id, 'available')
+assert.equal(missed.queue.at(-1)?.id, 'abandon')
 assert.equal(missed.queue.at(-1)?.mode, 'recall')
-assert.equal(missed.queue[0].id, 'access')
-assert.equal(missed.replayed.includes('available'), true)
-assert.equal(missed.memory.available.next, '2026-10-28')
+assert.equal(missed.queue[0].id, 'challenge')
+assert.equal(missed.replayed.includes('abandon'), true)
+assert.equal(missed.memory.abandon.next, '2026-10-28')
 
 const again = settleCard(
   {
     ...missed,
-    queue: [{ id: 'abandon', mode: 'recall' }, ...missed.queue.filter((card) => card.id !== 'abandon')],
-    replayed: ['abandon'],
+    queue: [{ id: 'arbitrary', mode: 'recall' }, ...missed.queue.filter((card) => card.id !== 'arbitrary')],
+    replayed: ['arbitrary'],
   },
   true,
   today,
 )
-assert.equal(again.queue.filter((card) => card.id === 'abandon').length, 0)
+assert.equal(again.queue.filter((card) => card.id === 'arbitrary').length, 0)
 
 let clean = ensureToday(blank, today)
 for (let i = 0; i < 5; i += 1) clean = settleCard(clean, false, today)
 assert.equal(clean.finished, true)
 assert.equal(clean.queue.length, 0)
-assert.equal(clean.memory.available.next, '2026-10-28')
+assert.equal(clean.memory.abandon.next, '2026-10-28')
 
 const nextDay = ensureToday(clean, '2026-10-28')
 assert.equal(nextDay.finished, false)
@@ -106,7 +106,7 @@ assert.equal(nextDay.queue[0].mode, 'recall')
 assert.equal(nextDay.queue.filter((card) => card.mode === 'recall').length, 5)
 
 const kept = ensureToday(first, today)
-assert.equal(kept.queue[0].id, 'available')
+assert.equal(kept.queue[0].id, 'abandon')
 
 const sanitized = sanitizeProgress(
   { ...first, queue: [{ id: 'nope', mode: 'learn' }, first.queue[0]] },
@@ -121,7 +121,7 @@ await wordsBundle.write({ file: wordsOut, format: 'esm' })
 await wordsBundle.close()
 const { WORDS, RAW_WORD_POOL, buildActiveWords } = await import(pathToFileURL(wordsOut).href)
 
-assert.equal(WORDS.length, 3021)
+assert.equal(WORDS.length, 2185)
 assert.deepEqual(
   WORDS.slice(0, 15).map((w) => w.id),
   intro,

@@ -100,6 +100,7 @@ function speakWithWebSpeech(text: string): void {
 export function speakWord(text: string, id?: string): void {
   const cleanId = (id ?? text).trim().toLowerCase()
   const remoteUrl = `https://0xlei.tech/words/atlas/audio/us/${cleanId}.mp3`
+  const youdaoUsUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(text.trim())}&type=2`
 
   try {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -115,7 +116,9 @@ export function speakWord(text: string, id?: string): void {
       )
     : playAudioUrl(remoteUrl)
 
-  attempt.catch(() => {
-    speakWithWebSpeech(text)
-  })
+  attempt
+    .catch(() => playAudioUrl(youdaoUsUrl))
+    .catch(() => {
+      speakWithWebSpeech(text)
+    })
 }
