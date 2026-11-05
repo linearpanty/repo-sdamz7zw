@@ -440,20 +440,22 @@ mark.cw-target-hl {
 }
 
 .cw-sense-zh {
-  font-size: 1rem;
+  font-size: 1.08rem;
   font-weight: 600;
 }
 
 .cw-example-slate {
-  padding: 10px 13px;
+  padding: 12px 14px;
   border-radius: var(--cw-radius-sm);
   background: #ebe7e0;
   border: 1px solid var(--cw-border-hairline);
 }
 
 .cw-example-en {
-  margin: 0 0 2px;
-  font-size: 0.94rem;
+  margin: 0 0 5px;
+  font-size: 1.12rem;
+  font-weight: 500;
+  line-height: 1.48;
 }
 
 /* 易懂 / 真题 segmented pill, pinned top-right; the sentence keeps clear of it. */
@@ -510,7 +512,8 @@ mark.cw-target-hl {
 
 .cw-example-zh {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: 0.96rem;
+  line-height: 1.45;
   color: var(--cw-text-secondary);
 }
 

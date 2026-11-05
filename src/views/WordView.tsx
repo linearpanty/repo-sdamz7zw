@@ -190,7 +190,6 @@ export function WordView({
   index,
   total,
   canReplay,
-  capsules = [],
   onAdvance,
   onExit,
 }: WordViewProps) {
@@ -211,7 +210,6 @@ export function WordView({
     setExampleIdx(0)
   }
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const stripRef = useRef<HTMLDivElement | null>(null)
   const advancedRef = useRef(false)
   const timerRef = useRef<number | null>(null)
   const probeTimerRef = useRef<number | null>(null)
@@ -277,14 +275,6 @@ export function WordView({
       probeTimerRef.current = null
     }
   }, [learn, word.id, word.word])
-
-  // Keep the active capsule in view inside the single-row strip.
-  useEffect(() => {
-    const strip = stripRef.current
-    const cur = strip?.querySelector<HTMLElement>('.is-current')
-    if (!strip || !cur) return
-    strip.scrollLeft = Math.max(0, cur.offsetLeft - strip.clientWidth / 2 + cur.offsetWidth / 2)
-  }, [word.id])
 
   // Mobile keyboards shrink the visual viewport: expose its height to CSS so the
   // scene compacts, and keep the input above the keyboard.
@@ -375,38 +365,6 @@ export function WordView({
         <button type="button" className="cw-word-brand" onClick={onExit}>
           ClawWords
         </button>
-        {capsules.length > 0 && (
-          <div className="cw-capsule-strip" aria-label="今日进度" ref={stripRef}>
-            {capsules.map((cap, idx) => {
-              const key = `${cap.id}-${idx}`
-              if (cap.status === 'done' || (cap.status === 'current' && passed)) {
-                return (
-                  <button
-                    key={key}
-                    type="button"
-                    className={`cw-capsule-pill is-${cap.status}`}
-                    onPointerDown={(e) => e.preventDefault()}
-                    onClick={() => speakWord(cap.word, cap.id)}
-                  >
-                    {cap.status === 'done' ? `✓ ${cap.word}` : cap.word}
-                  </button>
-                )
-              }
-              if (cap.status === 'current') {
-                return (
-                  <span key={key} className="cw-capsule-pill is-current" aria-current="step">
-                    {`${cap.word[0] ?? ''}···`}
-                  </span>
-                )
-              }
-              return (
-                <span key={key} className="cw-capsule-pill is-upcoming" aria-label={`第 ${idx + 1} 个`}>
-                  ·
-                </span>
-              )
-            })}
-          </div>
-        )}
         <div className="cw-word-bar-end">
           <MuteToggle />
           <span className="cw-count" aria-label={fraction}>
