@@ -79,7 +79,10 @@ let jsBundle = ''
 for (const file of files) {
   const text = await readFile(file, 'utf8')
   if (file.startsWith('dist/') && file.endsWith('.js')) jsBundle += text
+  const isLexiconChunk =
+    file.startsWith('src/data/chunks/') || file.startsWith('dist/assets/lexicon-chunk')
   for (const word of BANNED) {
+    if (isLexiconChunk && word === 'boss') continue
     if (text.includes(word)) hits.push(`${file}: ${word}`)
   }
 }

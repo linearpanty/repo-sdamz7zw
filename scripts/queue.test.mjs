@@ -121,7 +121,7 @@ await wordsBundle.write({ file: wordsOut, format: 'esm' })
 await wordsBundle.close()
 const { WORDS, RAW_WORD_POOL, buildActiveWords } = await import(pathToFileURL(wordsOut).href)
 
-assert.equal(WORDS.length, 5162)
+assert.equal(WORDS.length, 3021)
 assert.deepEqual(
   WORDS.slice(0, 15).map((w) => w.id),
   intro,

@@ -159,3 +159,20 @@ export function settleCard(progress: Progress, hadMiss: boolean, today = progres
     finished: queue.length === 0,
   }
 }
+
+export function startBonusRound(progress: Progress, today = progress.todayKey): Progress {
+  const fresh = WORDS.filter((w) => !progress.memory[w.id])
+  const bonus: QueueCard[] = []
+  for (const w of fresh) {
+    if (bonus.length >= progress.dailyCount) break
+    bonus.push({ id: w.id, mode: 'learn' })
+  }
+  if (bonus.length === 0) return progress
+  return {
+    ...progress,
+    todayKey: today,
+    queue: bonus,
+    started: true,
+    finished: false,
+  }
+}

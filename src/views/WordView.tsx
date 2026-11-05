@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { illustrationUrl, type Word } from '../data/types'
 import { speakWord } from '../lib/audio'
 import { gradeExact, maskWordHint } from '../lib/grader'
@@ -77,22 +77,36 @@ export function WordView({
   const [spellInput, setSpellInput] = useState('')
   const [missed, setMissed] = useState(false)
   const [tried, setTried] = useState(false)
+  const [missCount, setMissCount] = useState(0)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   const learn = mode === 'learn'
   const passed = gradeExact(spellInput, word.word).ok
-  const showHead = learn || passed
-  const showCaption = learn
+  const revealed = missCount >= 2
+  const showHead = learn || passed || revealed
+  const showCaption = learn || revealed
   const illusSrc = illustrationUrl(word)
   const example = word.examples[0]
+  const collocations = (word.collocations ?? []).slice(0, 3)
   const fraction = `${index}/${total}`
   const finishing = total - index === 0 && !(missed && canReplay)
   const nextLabel = finishing ? '完成今天' : '下一词'
 
+  useEffect(() => {
+    if (learn) {
+      speakWord(word.word, word.id)
+    }
+  }, [learn, word.id, word.word])
+
   function noteMiss() {
-    if (spellInput.trim()) {
+    if (spellInput.trim() || !learn) {
+      const nextCount = missCount + 1
       setMissed(true)
       setTried(true)
+      setMissCount(nextCount)
+      if (nextCount === 2) {
+        speakWord(word.word, word.id)
+      }
     }
     inputRef.current?.focus()
   }
@@ -194,10 +208,19 @@ export function WordView({
             ))}
           </section>
 
-          {learn && example && (
+          {(learn || revealed) && example && (
             <div className="cw-example-slate">
               <p className="cw-example-en">{highlightLexeme(example.en, word)}</p>
               <p className="cw-example-zh">{example.zh}</p>
+              {collocations.length > 0 && (
+                <div className="cw-colloc-row" aria-label="常见搭配">
+                  {collocations.map((col, idx) => (
+                    <span key={idx} className="cw-colloc-chip">
+                      {col}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

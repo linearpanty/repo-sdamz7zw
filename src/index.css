@@ -531,6 +531,45 @@ mark.cw-target-hl {
   padding-top: 4px;
 }
 
+.cw-done-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.cw-cta-quiet {
+  appearance: none;
+  background: transparent;
+  color: var(--cw-text-secondary);
+  border: none;
+  padding: 6px 14px;
+  font-family: var(--cw-font-sans);
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.cw-cta-quiet:hover {
+  color: var(--cw-text-primary);
+}
+
+.cw-colloc-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.cw-colloc-chip {
+  font-family: var(--cw-font-serif);
+  font-size: 0.8rem;
+  color: var(--cw-text-secondary);
+  background: var(--cw-surface-3);
+  border: 1px solid var(--cw-border-hairline);
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+
 @media (max-width: 720px) {
   .cw-lexicon-folio {
     grid-template-columns: 1fr;

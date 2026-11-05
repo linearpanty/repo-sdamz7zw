@@ -135,7 +135,13 @@ export default function App() {
 
   function handleStart() {
     if (runtime) {
-      if (progress.finished || progress.queue.length === 0) return
+      if (progress.finished || progress.queue.length === 0) {
+        const next = runtime.startBonusRound(progress)
+        if (next.queue.length === 0) return
+        commit(runtime, next)
+        go('word')
+        return
+      }
       commit(runtime, { ...progress, started: true })
       go('word')
       return
@@ -144,7 +150,14 @@ export default function App() {
       setRuntime(rt)
       const fresh = rt.loadProgress()
       if (fresh.finished || fresh.queue.length === 0) {
-        setProgress(fresh)
+        const bonus = rt.startBonusRound(fresh)
+        if (bonus.queue.length === 0) {
+          setProgress(fresh)
+          return
+        }
+        rt.saveProgress(bonus)
+        setProgress(bonus)
+        go('word')
         return
       }
       const started = { ...fresh, started: true }
@@ -173,6 +186,7 @@ export default function App() {
           {route === 'today' && <TodayView progress={progress} onStart={handleStart} />}
           {route === 'done' && progress.finished && (
             <DoneView
+              onMore={handleStart}
               onBack={() => {
                 go('today')
               }}
