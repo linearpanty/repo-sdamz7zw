@@ -202,6 +202,14 @@ export function WordView({
   const [completion, setCompletion] = useState<Completion | null>(null)
   const [autoMastered, setAutoMastered] = useState(false)
   const [masteryUndone, setMasteryUndone] = useState(false)
+  // examples[0] is the simple i+1 sentence; examples[1] (if any) is the authentic IELTS one.
+  // Every new word opens on the simple sentence.
+  const [exampleIdx, setExampleIdx] = useState(0)
+  const [exampleWordId, setExampleWordId] = useState(word.id)
+  if (exampleWordId !== word.id) {
+    setExampleWordId(word.id)
+    setExampleIdx(0)
+  }
   const inputRef = useRef<HTMLInputElement | null>(null)
   const stripRef = useRef<HTMLDivElement | null>(null)
   const advancedRef = useRef(false)
@@ -221,7 +229,8 @@ export function WordView({
   const vidSrc = videoUrl(word)
   const withScene = hasScene(word)
   const hasMedia = Boolean(withScene || illusSrc || vidSrc)
-  const example = word.examples[0]
+  const hasExampleToggle = word.examples.length > 1
+  const example = word.examples[hasExampleToggle ? Math.min(exampleIdx, 1) : 0]
   const collocations = (word.collocations ?? []).slice(0, 3)
   const senses = groupSenses(word.senses)
   const fraction = `${index}/${total}`
@@ -500,7 +509,24 @@ export function WordView({
           </section>
 
           {example && (
-            <div className="cw-example-slate">
+            <div className={`cw-example-slate${hasExampleToggle ? ' has-toggle' : ''}`}>
+              {hasExampleToggle && (
+                <div className="cw-example-toggle" role="group" aria-label="例句难度">
+                  {(['易懂', '真题'] as const).map((label, idx) => (
+                    <button
+                      key={label}
+                      type="button"
+                      className={`cw-example-toggle-btn${exampleIdx === idx ? ' is-active' : ''}`}
+                      aria-pressed={exampleIdx === idx}
+                      title={idx === 0 ? '易懂例句' : '真题原句'}
+                      onPointerDown={(e) => e.preventDefault()}
+                      onClick={() => setExampleIdx(idx)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
               <Swap
                 show={showHead}
                 before={<p className="cw-example-en">{maskLexemeInSentence(example.en, word)}</p>}

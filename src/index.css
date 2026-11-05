@@ -456,6 +456,58 @@ mark.cw-target-hl {
   font-size: 0.94rem;
 }
 
+/* 易懂 / 真题 segmented pill, pinned top-right; the sentence keeps clear of it. */
+.cw-example-slate.has-toggle {
+  position: relative;
+}
+
+.cw-example-slate.has-toggle > .cw-swap {
+  padding-right: 78px;
+}
+
+.cw-example-toggle {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  display: inline-flex;
+  padding: 2px;
+  gap: 2px;
+  border-radius: 999px;
+  background: var(--cw-surface-3);
+  border: 1px solid var(--cw-border-hairline);
+}
+
+.cw-example-toggle-btn {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--cw-font-sans);
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: var(--cw-text-muted);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.cw-example-toggle-btn:hover {
+  color: var(--cw-text-secondary);
+}
+
+.cw-example-toggle-btn.is-active {
+  background: var(--cw-surface-1);
+  color: var(--cw-accent);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.cw-example-toggle-btn:focus-visible {
+  outline: 2px solid var(--cw-accent-border);
+  outline-offset: 1px;
+}
+
 .cw-example-zh {
   margin: 0;
   font-size: 0.82rem;
@@ -1162,6 +1214,11 @@ span.cw-capsule-pill {
 .cw-compact .cw-senses-box,
 .cw-compact .cw-example-slate {
   padding: 7px 10px;
+}
+
+.cw-compact .cw-example-toggle {
+  top: 5px;
+  right: 6px;
 }
 
 .cw-compact .cw-example-en {
