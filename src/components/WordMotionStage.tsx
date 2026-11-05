@@ -1,29 +1,20 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { illustrationUrl, videoUrl, type Word } from '../data/types'
-import type { CardMode } from '../lib/model'
 import { playSfx } from '../lib/sfx'
 import { sceneFor, type Scene } from '../scenes'
-import { beatOf, CRITICAL } from '../scenes/timeline'
+import { BEAT_ACTION, BEAT_AFTER, beatOf } from '../scenes/timeline'
 
 type WordMotionStageProps = {
   word: Word
-  mode: CardMode
-  /** Raw spell-gate input; its correct prefix drives the timeline. */
-  typed: string
   passed: boolean
-  /** Bumps when Enter is pressed on a wrong answer. */
-  missCount: number
 }
 
-/** Card entry plays only the Before setup (0 -> BEFORE); the rest is earned by typing. */
-const BEFORE = 0.22
-const INTRO_MS = 900
-/** Full-story replay (↺ button) once the word is spelled. */
-const REPLAY_MS = 1800
-/** 0.7 -> 1.0 climax burst; lands well inside WordView's ~1350ms success hold. */
-const CLIMAX_MS = 520
-const STEP_MS = 260
-const TIMELINE_MS = 1000
+/** One straight 0 -> 1 run of the scene; never tied to typing. */
+const DURATION_MS = 2400
+/** Hold on the final frame before the single automatic encore. */
+const HOLD_MS = 1600
+/** Automatic runs per card (first play + one encore); ↻ replays any time. */
+const AUTO_RUNS = 2
 const BEAT_NAMES = ['起', '变', '定'] as const
 
 export function hasScene(word: Word): boolean {
@@ -32,7 +23,7 @@ export function hasScene(word: Word): boolean {
 
 export function WordMotionStage(props: WordMotionStageProps) {
   const scene = sceneFor(props.word.id)
-  if (scene) return <SceneTheater key={scene.id} scene={scene} {...props} />
+  if (scene) return <SceneTheater key={scene.id} scene={scene} passed={props.passed} />
   return <PosterStage word={props.word} passed={props.passed} />
 }
 
@@ -78,131 +69,62 @@ function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)
 }
 
-function useReducedMotionRef() {
-  const ref = useRef(prefersReducedMotion())
-  useEffect(() => {
-    const mq = window.matchMedia?.('(prefers-reduced-motion: reduce)')
-    if (!mq) return
-    const onChange = () => {
-      ref.current = mq.matches
-    }
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
-  return ref
-}
-
-const linear = (t: number) => t
-const easeOutCubic = (t: number) => 1 - (1 - t) ** 3
-const easeOutBack = (t: number) => 1 + 2.2 * (t - 1) ** 3 + 1.2 * (t - 1) ** 2
-
-type TweenOpts = {
-  ease?: (t: number) => number
-  /** Fire `onHit` when progress crosses this offset. */
-  hit?: number
-  onHit?: () => void
-  onDone?: () => void
-}
-
-function correctPrefixLength(typed: string, target: string): number {
-  const a = typed.trim().toLowerCase()
-  const b = target.trim().toLowerCase()
-  let i = 0
-  while (i < a.length && i < b.length && a[i] === b[i]) i++
-  return i
-}
-
 /**
- * Plays one Scene by scrubbing paused Web Animations.
- *
- * entry:  play only the Before setup (0 -> 0.22); never the whole story, so the first
- *         keystroke never has to rewind the scene.
- * typing: each correct prefix letter pushes the build-up 0.22 -> 0.7 (never past it);
- *         a wrong letter dips back with a shake.
- * passed: burst 0.7 -> 1.0 with the scene's peak sound, then hold the After frame.
+ * Plays one Scene on its own, as soon as the card opens:
+ * 0 -> 1 over DURATION_MS (setup, action with the scene sound, aftermath),
+ * holds the final frame for HOLD_MS, plays once more, then rests on the final
+ * frame. ↻ (or a click on the stage) replays with sound. Reduced motion shows
+ * the final frame statically. Pointer-down is swallowed so the spell input
+ * never loses focus.
  */
-function SceneTheater({ scene, word, mode, typed, passed, missCount }: WordMotionStageProps & { scene: Scene }) {
+function SceneTheater({ scene, passed }: { scene: Scene; passed: boolean }) {
   const svgRef = useRef<SVGSVGElement | null>(null)
-  const shellRef = useRef<HTMLDivElement | null>(null)
   const animsRef = useRef<Animation[]>([])
-  const progressRef = useRef(0)
-  const rafRef = useRef<number | null>(null)
-  const climaxRef = useRef(false)
-  const reducedRef = useReducedMotionRef()
+  const timersRef = useRef<number[]>([])
+  const runsRef = useRef(0)
   const [beat, setBeat] = useState<0 | 1 | 2>(0)
 
-  const learn = mode === 'learn'
-  const target = word.word
-  const prefixLen = correctPrefixLength(typed, target)
-  const clean = typed.trim().toLowerCase()
-  const wrong = clean.length > 0 && prefixLen < clean.length
-  const base = BEFORE + (Math.min(prefixLen, target.length) / Math.max(1, target.length)) * (CRITICAL - BEFORE)
-
-  const seek = useCallback((p: number) => {
-    const clamped = Math.max(0, Math.min(1, p))
-    progressRef.current = clamped
-    for (const anim of animsRef.current) anim.currentTime = clamped * TIMELINE_MS
-    setBeat(beatOf(clamped))
+  const clearTimers = useCallback(() => {
+    for (const id of timersRef.current) window.clearTimeout(id)
+    timersRef.current = []
   }, [])
 
-  const stop = useCallback(() => {
-    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
-    rafRef.current = null
+  const later = useCallback((ms: number, fn: () => void) => {
+    timersRef.current.push(window.setTimeout(fn, ms))
   }, [])
 
-  const tweenTo = useCallback(
-    (to: number, ms: number, opts: TweenOpts = {}) => {
-      stop()
-      const from = progressRef.current
-      const crosses = opts.hit !== undefined && from < opts.hit && to >= opts.hit
-      if (reducedRef.current || ms <= 0 || from === to) {
-        seek(to)
-        if (crosses) opts.onHit?.()
-        opts.onDone?.()
+  const showFinal = useCallback(() => {
+    for (const anim of animsRef.current) {
+      anim.pause()
+      anim.currentTime = DURATION_MS
+    }
+    setBeat(beatOf(1))
+  }, [])
+
+  const run = useCallback(
+    (withSound: boolean) => {
+      clearTimers()
+      if (prefersReducedMotion() || animsRef.current.length === 0) {
+        showFinal()
+        if (withSound) playSfx(scene.sfx)
         return
       }
-      const ease = opts.ease ?? easeOutCubic
-      const t0 = performance.now()
-      let hitFired = false
-      const step = (now: number) => {
-        const t = Math.min(1, (now - t0) / ms)
-        const p = from + (to - from) * ease(t)
-        seek(p)
-        if (crosses && !hitFired && p >= (opts.hit ?? 1)) {
-          hitFired = true
-          opts.onHit?.()
-        }
-        if (t < 1) {
-          rafRef.current = requestAnimationFrame(step)
-        } else {
-          rafRef.current = null
-          opts.onDone?.()
-        }
+      runsRef.current += 1
+      for (const anim of animsRef.current) {
+        anim.currentTime = 0
+        anim.play()
       }
-      rafRef.current = requestAnimationFrame(step)
+      setBeat(0)
+      later(BEAT_ACTION * DURATION_MS, () => setBeat(1))
+      later(BEAT_AFTER * DURATION_MS, () => setBeat(2))
+      if (withSound) later(scene.hit * DURATION_MS, () => playSfx(scene.sfx))
+      // The encore is silent: one sound per card open is enough while typing.
+      if (runsRef.current < AUTO_RUNS) later(DURATION_MS + HOLD_MS, () => run(false))
     },
-    [reducedRef, seek, stop],
+    [clearTimers, later, scene, showFinal],
   )
 
-  const shake = useCallback(() => {
-    if (reducedRef.current) return
-    try {
-      shellRef.current?.animate(
-        [
-          { transform: 'translateX(0)' },
-          { transform: 'translateX(-6px)' },
-          { transform: 'translateX(5px)' },
-          { transform: 'translateX(-3px)' },
-          { transform: 'translateX(0)' },
-        ],
-        { duration: 300, easing: 'ease-out' },
-      )
-    } catch {
-      // WAAPI missing: skip the shake, the dip still reads as feedback.
-    }
-  }, [reducedRef])
-
-  // Build one paused Animation per track element.
+  // Build one Animation per track element, then play straight away.
   useLayoutEffect(() => {
     const svg = svgRef.current
     if (!svg || typeof svg.animate !== 'function') return
@@ -212,7 +134,7 @@ function SceneTheater({ scene, word, mode, typed, passed, missCount }: WordMotio
       if (import.meta.env.DEV && nodes.length === 0) console.warn(`[scene:${scene.id}] no node for track "${track.k}"`)
       for (const node of nodes) {
         try {
-          const anim = node.animate(track.frames, { duration: TIMELINE_MS, fill: 'both', easing: 'linear' })
+          const anim = node.animate(track.frames, { duration: DURATION_MS, fill: 'both', easing: 'linear' })
           anim.pause()
           anims.push(anim)
         } catch (err) {
@@ -221,61 +143,24 @@ function SceneTheater({ scene, word, mode, typed, passed, missCount }: WordMotio
       }
     }
     animsRef.current = anims
-    seek(0)
-    tweenTo(BEFORE, learn ? INTRO_MS : INTRO_MS / 2, { ease: easeOutCubic })
+    runsRef.current = 0
+    // Reduced motion: final frame, silent until the learner asks for a replay.
+    run(!prefersReducedMotion())
     return () => {
-      stop()
+      clearTimers()
       for (const anim of anims) anim.cancel()
       animsRef.current = []
     }
-    // Mount-only per scene: learn/mode never changes within a card.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scene])
+  }, [scene, run, clearTimers])
 
-  // Typing drives the timeline; passing triggers the climax.
-  const lastRef = useRef({ clean, missCount })
-  useEffect(() => {
-    const last = lastRef.current
-    const typedChanged = last.clean !== clean
-    const missChanged = last.missCount !== missCount
-    lastRef.current = { clean, missCount }
-
-    if (passed) {
-      if (climaxRef.current) return
-      climaxRef.current = true
-      if (progressRef.current > CRITICAL) seek(CRITICAL)
-      tweenTo(1, CLIMAX_MS, { ease: easeOutCubic, hit: scene.hit, onHit: () => playSfx(scene.sfx) })
-      return
-    }
-    climaxRef.current = false
-    if (!typedChanged && !missChanged) return
-
-    if ((typedChanged && wrong) || missChanged) {
-      shake()
-      const dip = Math.max(BEFORE * 0.6, base - 0.06)
-      tweenTo(dip, 90, {
-        ease: easeOutCubic,
-        onDone: () => tweenTo(base, 320, { ease: easeOutBack }),
-      })
-      return
-    }
-    tweenTo(base, STEP_MS, { ease: easeOutCubic })
-  }, [clean, missCount, passed, wrong, base, scene, seek, tweenTo, shake])
-
-  // Replay never runs ahead of the learner: before the word is spelled it only
-  // re-plays the story so far (0 -> current build-up), afterwards the full drama.
   const replay = useCallback(() => {
-    seek(0)
-    if (passed) {
-      tweenTo(1, REPLAY_MS, { ease: linear, hit: scene.hit, onHit: () => playSfx(scene.sfx) })
-    } else {
-      tweenTo(base, Math.max(INTRO_MS, REPLAY_MS * base), { ease: linear })
-    }
-  }, [base, passed, scene, seek, tweenTo])
+    // A manual replay stands alone: no extra encore queued behind it.
+    runsRef.current = AUTO_RUNS
+    run(true)
+  }, [run])
 
   return (
     <div
-      ref={shellRef}
       className={`cw-motion-stage cw-scene-stage is-beat-${beat}${passed ? ' is-passed' : ''}`}
       onPointerDown={(e) => e.preventDefault()}
       onClick={replay}
@@ -308,7 +193,7 @@ function SceneTheater({ scene, word, mode, typed, passed, missCount }: WordMotio
             replay()
           }}
         >
-          ↺ 重播
+          ↻ 重播
         </button>
       </div>
     </div>

@@ -428,7 +428,7 @@ export function WordView({
       >
         {hasMedia ? (
           <div className={`cw-poster-frame has-illus${withScene ? ' has-scene' : ''}`}>
-            <WordMotionStage word={word} mode={mode} typed={spellInput} passed={passed} missCount={missCount} />
+            <WordMotionStage word={word} passed={passed} />
             <div className={`cw-poster-centerpiece${showCaption ? '' : ' is-off'}`} aria-hidden={!showCaption}>
               <p className="cw-poster-hook">{highlightLexeme(word.sceneHook, word)}</p>
             </div>

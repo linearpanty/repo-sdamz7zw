@@ -3,18 +3,16 @@ import type { SfxName } from '../lib/sfx'
 
 /**
  * Scene timelines are authored on a normalised 0..1 axis and driven by the
- * Web Animations API: every track becomes one paused `Element.animate()` whose
- * `currentTime` is scrubbed by WordMotionStage (autoplay, typing, climax).
+ * Web Animations API: every track becomes one `Element.animate()` that
+ * WordMotionStage plays straight through on card open (no typing involved).
  *
  * Beat map shared by every scene:
- *   0.00–0.12  Before hold (suspense frame)
- *   0.12–0.70  build-up, advanced letter by letter while typing
- *   0.70–0.86  Action burst, only reached once the word is spelled
- *   0.86–1.00  After memory frame
+ *   0.00–0.45  setup: the one giant object, the tension
+ *   0.45–0.72  the one physical action (the sound lands in here)
+ *   0.72–1.00  aftermath: the memorable final frame
  */
-export const BEAT_ACTION = 0.35
-export const BEAT_AFTER = 0.86
-export const CRITICAL = 0.7
+export const BEAT_ACTION = 0.45
+export const BEAT_AFTER = 0.72
 
 export type Track = { k: string; frames: Keyframe[] }
 
@@ -78,20 +76,6 @@ export function fade(k: string, stops: [number, number][]): Track {
 /** Arbitrary CSS keyframes (fill, stroke-dashoffset ...). */
 export function css(k: string, stops: [number, Record<string, string | number>][], easing = 'ease-in-out'): Track {
   return { k, frames: pad(stops.map(([offset, props]) => ({ offset, easing, ...props }))) }
-}
-
-/**
- * Expression schedule for a character rendered with <Head id moods>.
- * Each mood layer is shown only while it is the active one.
- */
-export function mood(id: string, schedule: [number, string][]): Track[] {
-  const names = [...new Set(schedule.map(([, m]) => m))]
-  return names.map((name) =>
-    flip(
-      `${id}-m-${name}`,
-      schedule.map(([offset, m]) => [offset, m === name ? 1 : 0]),
-    ),
-  )
 }
 
 /** Small looping wiggle baked into a window of the timeline (tails, shivers). */
