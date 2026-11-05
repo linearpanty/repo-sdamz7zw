@@ -217,7 +217,6 @@ export function WordView({
   const passed = gradeExact(spellInput, word.word).ok
   const revealed = missCount >= 2
   const showHead = (learn && probeRevealed) || passed || revealed
-  const showCaption = showHead
   const illusSrc = illustrationUrl(word)
   const vidSrc = videoUrl(word)
   const withScene = hasScene(word)
@@ -428,10 +427,15 @@ export function WordView({
       >
         {hasMedia ? (
           <div className={`cw-poster-frame has-illus${withScene ? ' has-scene' : ''}`}>
-            <WordMotionStage word={word} passed={passed} />
-            <div className={`cw-poster-centerpiece${showCaption ? '' : ' is-off'}`} aria-hidden={!showCaption}>
-              <p className="cw-poster-hook">{highlightLexeme(word.sceneHook, word)}</p>
+            <div className="cw-poster-centerpiece">
+              <Swap
+                show={showHead}
+                before={<p className="cw-poster-hook">{maskLexemeInSentence(word.sceneHook, word)}</p>}
+                after={<p className="cw-poster-hook">{highlightLexeme(word.sceneHook, word)}</p>}
+              />
+              {word.sceneHookZh && <p className="cw-poster-hook-zh">{word.sceneHookZh}</p>}
             </div>
+            <WordMotionStage word={word} passed={passed} />
           </div>
         ) : (
           <div className={`cw-text-spotlight${passed ? ' is-passed' : ''}`} style={{ '--cw-word-color': word.color || '#243b55' } as React.CSSProperties}>

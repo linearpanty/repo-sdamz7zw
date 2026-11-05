@@ -21,6 +21,7 @@ export type Word = {
   collocations: string[]
   variants?: string[]
   sceneHook: string
+  sceneHookZh?: string
   /** Text-free poster under Vite `public/`, e.g. `illus/abandon.webp`. */
   illustration?: string
   /** Optional looping micro-video under Vite `public/`, e.g. `video/abandon.webm`. */
