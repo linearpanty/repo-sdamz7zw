@@ -616,15 +616,28 @@ mark.cw-target-hl {
 }
 
 .cw-capsule-strip {
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  justify-content: safe center;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding: 2px 0;
+  mask-image: linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 10px), transparent 100%);
+}
+
+.cw-capsule-strip::-webkit-scrollbar {
+  display: none;
 }
 
 .cw-capsule-pill {
   appearance: none;
+  flex: 0 0 auto;
+  white-space: nowrap;
   font-family: var(--cw-font-serif);
   font-size: 0.78rem;
   line-height: 1.2;
@@ -641,6 +654,17 @@ mark.cw-target-hl {
   color: var(--cw-emerald);
   border-color: rgba(31, 111, 74, 0.25);
   background: var(--cw-emerald-bg);
+}
+
+.cw-capsule-pill.is-upcoming {
+  min-width: 22px;
+  padding: 3px 6px;
+  text-align: center;
+  cursor: default;
+}
+
+span.cw-capsule-pill {
+  cursor: default;
 }
 
 .cw-capsule-pill.is-current {
@@ -825,6 +849,236 @@ mark.cw-target-hl {
   border-radius: 5px;
 }
 
+/* ---- Masked <-> revealed swaps: fixed footprint, 0px layout shift ---- */
+.cw-swap {
+  display: grid;
+}
+
+.cw-swap > .cw-swap-layer {
+  grid-area: 1 / 1;
+  min-width: 0;
+  transition: opacity 0.22s ease, visibility 0s linear 0s;
+}
+
+.cw-swap > .cw-swap-layer.is-off,
+.cw-poster-centerpiece.is-off,
+.cw-colloc-row.is-off {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cw-poster-centerpiece,
+.cw-colloc-row {
+  transition: opacity 0.22s ease;
+}
+
+.cw-headword-row.is-masked {
+  min-height: 100%;
+}
+
+.cw-probe-hint {
+  font-size: 0.78rem;
+  color: var(--cw-text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ---- Top bar end: mute + count ---- */
+.cw-word-bar-end {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cw-word-brand {
+  flex: 0 0 auto;
+}
+
+.cw-mute-toggle {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--cw-border-hairline);
+  background: var(--cw-surface-1);
+  color: var(--cw-text-secondary);
+  cursor: pointer;
+}
+
+.cw-mute-toggle svg {
+  width: 15px;
+  height: 15px;
+}
+
+.cw-mute-toggle.is-muted {
+  color: var(--cw-crimson);
+  border-color: var(--cw-crimson-border);
+  background: var(--cw-crimson-bg);
+}
+
+/* ---- Auto-graduated badge (inside the input shell: never shifts layout) ---- */
+.cw-spell-input-shell {
+  position: relative;
+}
+
+.cw-mastery-badge {
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px 3px 10px;
+  border-radius: 999px;
+  background: var(--cw-surface-1);
+  border: 1px solid var(--cw-emerald-border);
+  color: var(--cw-emerald);
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  animation: cw-badge-in 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cw-mastery-badge.is-undone {
+  padding-right: 10px;
+  color: var(--cw-text-secondary);
+  border-color: var(--cw-border-gleam);
+}
+
+.cw-mastery-undo {
+  appearance: none;
+  border: 1px solid var(--cw-emerald-border);
+  background: var(--cw-emerald-bg);
+  color: var(--cw-emerald);
+  border-radius: 999px;
+  padding: 1px 9px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cw-mastery-undo:hover {
+  background: var(--cw-emerald);
+  color: #fff;
+}
+
+@keyframes cw-badge-in {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+/* ---- Text-only cards (#21+): typographic spotlight ---- */
+.cw-text-spotlight {
+  position: relative;
+  padding: 26px 28px 22px;
+  border-bottom: 1px solid var(--cw-border-hairline);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--cw-word-color) 9%, transparent) 0 4px, transparent 4px),
+    linear-gradient(180deg, #f7f5f1 0%, #f4f1eb 100%);
+  overflow: hidden;
+}
+
+.cw-text-spotlight::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 100%;
+  background: var(--cw-emerald);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cw-text-spotlight.is-passed::after {
+  transform: scaleX(1);
+}
+
+.cw-spotlight-hook {
+  margin: 0;
+  padding-right: 34px;
+  font-family: var(--cw-font-serif);
+  font-style: italic;
+  font-size: clamp(1.35rem, 3.4vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--cw-text-primary);
+}
+
+.cw-spotlight-hook mark.cw-target-hl {
+  font-style: normal;
+  background-image: linear-gradient(
+    transparent 62%,
+    color-mix(in srgb, var(--cw-word-color) 26%, transparent) 62%
+  );
+}
+
+.cw-spotlight-hook mark.cw-target-mask {
+  font-size: 0.82em;
+  background: none;
+  color: var(--cw-text-muted);
+}
+
+.cw-text-spotlight.is-passed .cw-spotlight-hook mark.cw-target-hl {
+  animation: cw-hl-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cw-spotlight-seal {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  width: 26px;
+  height: 26px;
+  margin-top: -13px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--cw-emerald);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.2s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cw-text-spotlight.is-passed .cw-spotlight-seal {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes cw-hl-pop {
+  0% {
+    background-size: 0% 100%;
+  }
+  100% {
+    background-size: 100% 100%;
+  }
+}
+
+.cw-spotlight-hook mark.cw-target-hl {
+  background-repeat: no-repeat;
+}
+
+.cw-lexicon-folio.is-text-only.is-passed .cw-colloc-chip {
+  border-color: var(--cw-emerald-border);
+  color: var(--cw-emerald);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
 @media (max-width: 720px) {
   .cw-lexicon-folio {
     grid-template-columns: 1fr;
@@ -836,17 +1090,115 @@ mark.cw-target-hl {
     border-bottom: 1px solid var(--cw-border-hairline);
   }
 
+  /* Scene + input both visible above the keyboard: size from the *visual* viewport. */
   .cw-poster-frame.has-scene {
-    min-height: 340px;
+    min-height: 0;
+    height: clamp(150px, calc(var(--cw-vvh, 100svh) * 0.34), 300px);
+  }
+
+  .cw-poster-frame.has-illus:not(.has-scene) {
+    min-height: 0;
+    height: clamp(150px, calc(var(--cw-vvh, 100svh) * 0.3), 260px);
+  }
+
+  .cw-poster-frame.has-scene .cw-poster-centerpiece {
+    margin: 0 8px 8px;
+  }
+
+  .cw-poster-frame.has-scene .cw-poster-hook {
+    font-size: 0.96rem;
+    padding: 5px 8px;
   }
 
   .cw-dossier-pane {
-    padding: 20px;
+    padding: 14px 16px 16px;
+    gap: 10px;
+  }
+
+  .cw-headword-serif,
+  .headword {
+    font-size: 1.85rem;
+  }
+
+  .cw-senses-box.is-prompt {
+    padding: 10px 12px;
+  }
+
+  .cw-senses-box.is-prompt .cw-sense-zh {
+    font-size: 1.1rem;
+  }
+
+  .cw-spell-gate,
+  .spell-gate {
+    padding-top: 8px;
+  }
+
+  .cw-viewport {
+    padding: 10px 10px 24px;
+  }
+
+  .cw-word-bar {
+    gap: 8px;
+    padding: 0;
+  }
+
+  .cw-text-spotlight {
+    padding: 18px 18px 16px;
   }
 
   .cw-sheet {
     padding: 40px 22px 36px;
   }
+}
+
+/* Phone with the keyboard up (visual viewport < 640px): keep scene + input on screen. */
+.cw-compact .cw-viewport {
+  padding-top: 6px;
+}
+
+.cw-compact .cw-folio-wrap {
+  gap: 6px;
+}
+
+.cw-compact .cw-poster-frame.has-scene,
+.cw-compact .cw-poster-frame.has-illus:not(.has-scene) {
+  height: clamp(120px, calc(var(--cw-vvh, 100svh) * 0.28), 200px);
+}
+
+.cw-compact .cw-poster-frame .cw-poster-centerpiece,
+.cw-compact .cw-example-zh,
+.cw-compact .cw-colloc-row,
+.cw-compact .cw-probe-hint,
+.cw-compact .cw-scene-hud {
+  display: none;
+}
+
+.cw-compact .cw-dossier-pane {
+  padding: 10px 14px 12px;
+  gap: 8px;
+}
+
+.cw-compact .cw-headword-serif,
+.cw-compact .headword {
+  font-size: 1.55rem;
+}
+
+.cw-compact .cw-senses-box,
+.cw-compact .cw-example-slate {
+  padding: 7px 10px;
+}
+
+.cw-compact .cw-example-en {
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.cw-compact .cw-text-spotlight {
+  padding: 12px 16px;
+}
+
+.cw-compact .cw-spotlight-hook {
+  font-size: 1.15rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

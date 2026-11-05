@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import type { Word } from '../data/types'
 import { speakWord } from '../lib/audio'
 
@@ -8,10 +8,20 @@ type DoneViewProps = {
   onBack: () => void
 }
 
+const ENTER_GUARD_MS = 300
+
 export function DoneView({ words = [], onMore, onBack }: DoneViewProps) {
+  // A late / held Enter from finishing the last word must not start a bonus round.
+  const mountedAtRef = useRef<number | null>(null)
   useEffect(() => {
+    mountedAtRef.current ??= performance.now()
+    const mountedAt = mountedAtRef.current
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
+        if (e.repeat || performance.now() - mountedAt < ENTER_GUARD_MS) {
+          e.preventDefault()
+          return
+        }
         e.preventDefault()
         onMore()
       }

@@ -1,3 +1,5 @@
+import { isSoundMuted } from './sfx'
+
 /**
  * Exact set of word IDs that have bundled US MP3 files in `public/audio/us/{id}.mp3`.
  * Gating local requests with this set avoids firing 404 network requests on static hosts.
@@ -90,6 +92,15 @@ function speakWithWebSpeech(text: string): void {
   } catch {
     // Speech synthesis is optional.
   }
+}
+
+/**
+ * Pronunciation played without a tap (card entry, second miss).
+ * Silent while the top-bar mute switch is on; explicit 🔈 taps use `speakWord`.
+ */
+export function autoSpeakWord(text: string, id?: string): void {
+  if (isSoundMuted()) return
+  speakWord(text, id)
 }
 
 /**

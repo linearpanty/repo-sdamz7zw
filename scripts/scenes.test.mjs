@@ -26,9 +26,21 @@ const FIRST_20 = [
   'adjacent', 'structure', 'available', 'impact', 'strategy',
   'arbitrary', 'process', 'authority', 'feature', 'capacity',
 ]
-const SFX = new Set(['buzzer', 'stamp', 'slam', 'crash', 'thunk', 'snap', 'chime', 'pop', 'whoosh', 'rumble', 'splash', 'click', 'breath'])
+const SFX = new Set([
+  'snap', 'slam', 'chime', 'clatter', 'whoosh', 'breath', 'splash', 'boing', 'purr', 'sting',
+  'cymbal', 'rumble', 'click', 'shatter', 'clack', 'thunk', 'ding', 'stamp', 'tada', 'overload',
+])
+const strip = ({ offset: _o, easing: _e, ...rest }) => JSON.stringify(rest)
 
 assert.deepEqual(Object.keys(SCENES).sort(), [...FIRST_20].sort(), 'one scene per first-20 word')
+
+// Back-to-back cards must not sound alike: every first-20 word owns its climax sound.
+const sfxOwners = new Map()
+for (const id of FIRST_20) {
+  const sfx = SCENES[id].sfx
+  assert.ok(!sfxOwners.has(sfx), `${id}: sfx "${sfx}" already used by ${sfxOwners.get(sfx)}`)
+  sfxOwners.set(sfx, id)
+}
 
 for (const id of FIRST_20) {
   const scene = SCENES[id]
@@ -43,6 +55,7 @@ for (const id of FIRST_20) {
 
   const opacityOwners = new Map()
   let actionTracks = 0
+  let buildTracks = 0
   for (const track of scene.tracks) {
     assert.ok(keys.has(track.k), `${id}: track "${track.k}" has no matching data-k node`)
     const offsets = track.frames.map((f) => f.offset)
@@ -58,10 +71,14 @@ for (const id of FIRST_20) {
     // Does this track still change once the build-up is over (offset >= 0.7)?
     const late = track.frames.filter((f) => f.offset >= 0.7)
     const lastBuild = track.frames.filter((f) => f.offset <= 0.7).at(-1)
-    const states = new Set([lastBuild, ...late].map(({ offset: _o, easing: _e, ...rest }) => JSON.stringify(rest)))
+    const states = new Set([lastBuild, ...late].map(strip))
     if (states.size > 1) actionTracks++
+    // Does typing (0.12 -> 0.7) visibly move this track?
+    const atHold = strip(track.frames.filter((f) => f.offset <= 0.12).at(-1))
+    if (track.frames.some((f) => f.offset > 0.12 && f.offset <= 0.7 && strip(f) !== atHold)) buildTracks++
   }
   assert.ok(actionTracks >= 3, `${id}: the Action/After beats need real movement (${actionTracks} tracks change after 0.7)`)
+  assert.ok(buildTracks >= 3, `${id}: typing needs visible build-up (${buildTracks} tracks move between 0.12 and 0.7)`)
 
   const moodLayers = [...keys].filter((k) => k.includes('-m-'))
   assert.ok(moodLayers.length >= 2, `${id}: needs visible facial expressions`)

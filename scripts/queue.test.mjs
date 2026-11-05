@@ -105,6 +105,41 @@ assert.equal(nextDay.finished, false)
 assert.equal(nextDay.queue[0].mode, 'recall')
 assert.equal(nextDay.queue.filter((card) => card.mode === 'recall').length, 5)
 
+// System-judged mastery: honoured on learn cards only.
+const { nextInterval } = queue
+const masteredLearn = settleCard(ensureToday(blank, today), false, today, true)
+assert.equal(masteredLearn.memory.abandon.interval, 21)
+assert.equal(masteredLearn.memory.abandon.next, '2026-11-17')
+
+const undone = settleCard(ensureToday(blank, today), false, today, false)
+assert.equal(undone.memory.abandon.interval, 1, 'undo / no mastery falls back to the normal first rung')
+
+const recallCard = {
+  ...blank,
+  memory: { abandon: { interval: 1, next: today, misses: 0 } },
+  queue: [{ id: 'abandon', mode: 'recall' }],
+}
+const recallMastered = settleCard(recallCard, false, today, true)
+assert.equal(recallMastered.memory.abandon.interval, 2, 'recall cards never jump to 21 via mastery')
+
+// Recall ladder: 1 -> 2 -> 4 -> 8 -> 21 -> 21
+let ladderProgress = settleCard(ensureToday(blank, today), false, today)
+const ladder = [ladderProgress.memory.abandon.interval]
+for (let i = 0; i < 5; i += 1) {
+  const row = ladderProgress.memory.abandon
+  ladderProgress = settleCard(
+    { ...ladderProgress, todayKey: row.next, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
+    false,
+    row.next,
+    true,
+  )
+  ladder.push(ladderProgress.memory.abandon.interval)
+}
+assert.deepEqual(ladder, [1, 2, 4, 8, 21, 21])
+assert.equal(nextInterval(0), 1)
+assert.equal(nextInterval(3), 4)
+assert.equal(nextInterval(16), 21)
+
 const kept = ensureToday(first, today)
 assert.equal(kept.queue[0].id, 'abandon')
 

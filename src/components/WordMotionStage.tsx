@@ -15,10 +15,13 @@ type WordMotionStageProps = {
   missCount: number
 }
 
-/** Learn-mode intro: the whole drama in the same 1800ms window as the blind-probe timer. */
-const LEARN_MS = 1800
-/** 0.7 -> 1.0 climax burst; fits inside WordView's 650ms hold. */
-const CLIMAX_MS = 440
+/** Card entry plays only the Before setup (0 -> BEFORE); the rest is earned by typing. */
+const BEFORE = 0.22
+const INTRO_MS = 900
+/** Full-story replay (↺ button) once the word is spelled. */
+const REPLAY_MS = 1800
+/** 0.7 -> 1.0 climax burst; lands well inside WordView's ~1350ms success hold. */
+const CLIMAX_MS = 520
 const STEP_MS = 260
 const TIMELINE_MS = 1000
 const BEAT_NAMES = ['起', '变', '定'] as const
@@ -112,8 +115,9 @@ function correctPrefixLength(typed: string, target: string): number {
 /**
  * Plays one Scene by scrubbing paused Web Animations.
  *
- * learn:  autoplay Before -> Action -> After within 1800ms.
- * typing: each correct prefix letter pushes the build-up toward 0.7 (never past it);
+ * entry:  play only the Before setup (0 -> 0.22); never the whole story, so the first
+ *         keystroke never has to rewind the scene.
+ * typing: each correct prefix letter pushes the build-up 0.22 -> 0.7 (never past it);
  *         a wrong letter dips back with a shake.
  * passed: burst 0.7 -> 1.0 with the scene's peak sound, then hold the After frame.
  */
@@ -132,7 +136,7 @@ function SceneTheater({ scene, word, mode, typed, passed, missCount }: WordMotio
   const prefixLen = correctPrefixLength(typed, target)
   const clean = typed.trim().toLowerCase()
   const wrong = clean.length > 0 && prefixLen < clean.length
-  const base = (Math.min(prefixLen, target.length) / Math.max(1, target.length)) * CRITICAL
+  const base = BEFORE + (Math.min(prefixLen, target.length) / Math.max(1, target.length)) * (CRITICAL - BEFORE)
 
   const seek = useCallback((p: number) => {
     const clamped = Math.max(0, Math.min(1, p))
@@ -217,12 +221,8 @@ function SceneTheater({ scene, word, mode, typed, passed, missCount }: WordMotio
       }
     }
     animsRef.current = anims
-    if (learn && reducedRef.current) {
-      seek(1)
-    } else {
-      seek(0)
-      if (learn) tweenTo(1, LEARN_MS, { ease: linear })
-    }
+    seek(0)
+    tweenTo(BEFORE, learn ? INTRO_MS : INTRO_MS / 2, { ease: easeOutCubic })
     return () => {
       stop()
       for (const anim of anims) anim.cancel()
@@ -252,7 +252,7 @@ function SceneTheater({ scene, word, mode, typed, passed, missCount }: WordMotio
 
     if ((typedChanged && wrong) || missChanged) {
       shake()
-      const dip = Math.max(0, base - 0.06)
+      const dip = Math.max(BEFORE * 0.6, base - 0.06)
       tweenTo(dip, 90, {
         ease: easeOutCubic,
         onDone: () => tweenTo(base, 320, { ease: easeOutBack }),
@@ -262,10 +262,16 @@ function SceneTheater({ scene, word, mode, typed, passed, missCount }: WordMotio
     tweenTo(base, STEP_MS, { ease: easeOutCubic })
   }, [clean, missCount, passed, wrong, base, scene, seek, tweenTo, shake])
 
+  // Replay never runs ahead of the learner: before the word is spelled it only
+  // re-plays the story so far (0 -> current build-up), afterwards the full drama.
   const replay = useCallback(() => {
     seek(0)
-    tweenTo(1, LEARN_MS, { ease: linear, hit: scene.hit, onHit: () => playSfx(scene.sfx) })
-  }, [scene, seek, tweenTo])
+    if (passed) {
+      tweenTo(1, REPLAY_MS, { ease: linear, hit: scene.hit, onHit: () => playSfx(scene.sfx) })
+    } else {
+      tweenTo(base, Math.max(INTRO_MS, REPLAY_MS * base), { ease: linear })
+    }
+  }, [base, passed, scene, seek, tweenTo])
 
   return (
     <div

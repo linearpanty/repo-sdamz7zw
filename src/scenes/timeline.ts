@@ -137,6 +137,17 @@ export function shakeStops(
   return out
 }
 
+/**
+ * `times` round trips between poses a and b across (from, to] (pumping arms,
+ * throbbing suns, aiming wobbles), meant to be spliced into a larger tw() stop list.
+ */
+export function wiggleStops(from: number, to: number, times: number, a: Pose, b: Pose): Stop[] {
+  const out: Stop[] = []
+  const step = (to - from) / (times * 2)
+  for (let i = 0; i < times * 2; i++) out.push([from + step * (i + 1), i % 2 === 0 ? a : b])
+  return out
+}
+
 export function beatOf(p: number): 0 | 1 | 2 {
   if (p >= BEAT_AFTER) return 2
   if (p >= BEAT_ACTION) return 1

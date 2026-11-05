@@ -1,11 +1,11 @@
 import { Backdrop, Burst, Desk, Face, INK, K, Ln, PAPER, Person, Rain, SKIN, type Mood } from './cast'
-import { css, fade, flip, mood, shakeStops, tw, type Scene } from './timeline'
+import { css, fade, flip, mood, shakeStops, tw, wiggleStops, type Scene } from './timeline'
 
 /* adjacent — the drummer next door hits the cymbal; through the shared wall, the frame lands on your bed. */
 export const adjacent: Scene = {
   id: 'adjacent',
   label: '深夜想睡觉，隔壁房间有人打鼓，一记重镲震得共用墙上的画框砸到床上',
-  sfx: 'crash',
+  sfx: 'cymbal',
   hit: 0.75,
   render: () => (
     <g>
@@ -309,7 +309,7 @@ export const available: Scene = {
 export const impact: Scene = {
   id: 'impact',
   label: '一脚把球踢出去，砸碎了窗户玻璃，刻薄邻居从破洞里探出头怒视',
-  sfx: 'crash',
+  sfx: 'shatter',
   hit: 0.76,
   render: () => (
     <g>
@@ -362,6 +362,9 @@ export const impact: Scene = {
     tw('stu-head', [[0, {}], [0.86, {}], [0.92, { r: -10 }]]),
     tw('ball', [
       [0, {}],
+      [0.12, {}],
+      // Build-up: a few keepy-uppies off the foot before the big kick.
+      ...wiggleStops(0.12, 0.62, 3, { y: -46, r: 120 }, { y: 0, r: 0 }),
       [0.7, {}],
       [0.73, { x: 60, y: -110, r: 180, s: 0.85 }, 'linear'],
       [0.76, { x: 127, y: -163, r: 360, s: 0.7 }],
@@ -398,136 +401,242 @@ function Head({ id }: { id: string }) {
   )
 }
 
-/* strategy — the smug opponent leans back; one quiet knight move topples the king. */
+/** Chess pieces drawn base-centred at (0,0), roughly 1.7× the old size. */
+function King() {
+  return (
+    <g>
+      <path d="M-15 0 L15 0 L10 -7 L7 -34 L12 -40 L-12 -40 L-7 -34 L-10 -7 Z" fill="#2b2a28" stroke={INK} strokeWidth={1.4} />
+      <Ln d="M0 -40 L0 -58 M-7 -51 L7 -51" w={4} c="#2b2a28" />
+    </g>
+  )
+}
+
+function Knight() {
+  return (
+    <g>
+      <path d="M-15 0 L15 0 L12 -10 L10 -24 Q14 -38 4 -48 L-10 -44 L-15 -34 L-7 -30 L-10 -10 Z" fill="#f6f1e6" stroke={INK} strokeWidth={1.8} />
+      <circle cx={0} cy={-37} r={2} fill={INK} />
+      <Ln d="M4 -48 L-2 -40" w={1.2} />
+    </g>
+  )
+}
+
+const PLAN = 'M204 236 Q184 176 140 222'
+
+/* strategy — while the opponent smirks, a plan forms in a thought bubble and is traced on the board; the knight follows it and the king falls. */
 export const strategy: Scene = {
   id: 'strategy',
-  label: '对面刻薄考官抱着胳膊等着赢，你不动声色地走出一步马，对方的王应声倒下',
-  sfx: 'thunk',
+  label: '对面刻薄考官抱着胳膊等着赢，你脑中先想好路线，棋盘上浮现虚线箭头，马沿着计划一跳，对方的王应声倒下',
+  sfx: 'clack',
   hit: 0.77,
   render: () => (
     <g>
       <Backdrop sky="#efe9dd" ground="#c2ae8f" groundY={344} />
-      <rect x={110} y={40} width={100} height={70} fill="#e3d6bf" stroke={INK} strokeWidth={1.3} />
-      <circle cx={160} cy={75} r={22} fill="#fff" stroke={INK} strokeWidth={1.3} />
-      <Ln d="M160 75 L160 60 M160 75 L171 80" w={1.8} />
-      <K k="exa-pos" x={54} y={344} s={1.3}>
+      <K k="exa-pos" x={40} y={350} s={1.3}>
         <Person id="exa" moods={['smug', 'stern', 'nervous', 'shock']} shirt="#3f3b4f" hair="bun" hairColor="#4a3226" glasses tie="#a33d3d" legs="none" arms={[-36, 36]} look={1} />
       </K>
-      <K k="stu-pos" x={268} y={344} s={1.3}>
-        <Person id="stu" moods={['focus', 'smug']} shirt="#5d86b8" hair="messy" legs="none" arms={[80, -150]} look={-1} />
+      <K k="stu-pos" x={282} y={350} s={1.3}>
+        <Person id="stu" moods={['focus', 'smug']} shirt="#5d86b8" hair="messy" legs="none" arms={[60, -10]} look={-1} />
       </K>
-      <Desk x={70} y={266} w={180} color="#a77b4f" legs={78} />
-      <path d="M104 266 L216 266 L206 252 L114 252 Z" fill="#efe2c6" stroke={INK} strokeWidth={1.2} />
-      <path d="M118 266 L124 252 M132 266 L136 252 M146 266 L148 252 M174 266 L172 252 M188 266 L184 252 M202 266 L196 252" stroke="#bfa979" strokeWidth={1} />
+      <K k="idea" x={214} y={84} o={0}>
+        <circle cx={44} cy={74} r={5} fill="#fff" stroke={INK} strokeWidth={1.4} />
+        <circle cx={56} cy={92} r={3.4} fill="#fff" stroke={INK} strokeWidth={1.2} />
+        <ellipse rx={58} ry={44} fill="#fff" stroke={INK} strokeWidth={1.8} />
+        <g transform="translate(-34 -26)">
+          {[0, 1, 2, 3].map((r) =>
+            [0, 1, 2, 3].map((c) => (
+              <rect key={`${r}${c}`} x={c * 17} y={r * 13} width={17} height={13} fill={(r + c) % 2 ? '#bfa979' : '#efe2c6'} />
+            )),
+          )}
+          <rect width={68} height={52} fill="none" stroke={INK} strokeWidth={1.2} />
+          <path d="M58 46 L58 20 L24 20" pathLength={1} data-k="plan-mini" fill="none" stroke="#e2574c" strokeWidth={3.4} strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 1" />
+        </g>
+        <K k="bulb" x={42} y={-30} o={0}>
+          <circle r={18} fill="#ffe08a" opacity={0.5} />
+          <circle r={10} fill="#ffd34d" stroke={INK} strokeWidth={1.4} />
+          <rect x={-5} y={8} width={10} height={7} fill="#9a958a" stroke={INK} strokeWidth={1} />
+        </K>
+      </K>
+      <Desk x={60} y={268} w={200} color="#a77b4f" legs={76} />
+      <path d="M78 268 L242 268 L226 216 L94 216 Z" fill="#efe2c6" stroke={INK} strokeWidth={1.5} />
+      <path d="M94 216 L78 268 M126 216 L119 268 M160 216 L160 268 M194 216 L201 268 M226 216 L242 268 M86 242 L234 242" stroke="#bfa979" strokeWidth={1.4} fill="none" />
       <g fill="#2b2a28">
-        <path d="M122 260 Q128 248 134 260 Z M120 260 L136 260 L136 263 L120 263 Z" />
-        <circle cx={128} cy={248} r={4} />
-        <path d="M164 260 Q170 248 176 260 Z M162 260 L178 260 L178 263 L162 263 Z" />
-        <circle cx={170} cy={248} r={4} />
+        <path d="M96 262 Q104 244 112 262 Z M93 262 L115 262 L115 266 L93 266 Z" />
+        <circle cx={104} cy={243} r={5.5} />
+        <path d="M168 238 Q174 226 180 238 Z M166 238 L182 238 L182 241 L166 241 Z" />
+        <circle cx={174} cy={225} r={4.4} />
       </g>
-      <K k="king" x={148} y={262}>
-        <path d="M-9 0 L9 0 L6 -4 L4 -20 L7 -24 L-7 -24 L-4 -20 L-6 -4 Z" fill="#2b2a28" stroke={INK} strokeWidth={1} />
-        <Ln d="M0 -24 L0 -34 M-4 -30 L4 -30" w={2.4} c="#2b2a28" />
+      <path d={PLAN} pathLength={1} data-k="plan" fill="none" stroke="#e2574c" strokeWidth={4} strokeLinecap="round" strokeDasharray="1 1" opacity={0.85} />
+      <K k="plan-head" x={140} y={222} o={0}>
+        <path d="M0 0 L14 -2 L6 -13 Z" fill="#e2574c" />
       </K>
-      <K k="knight" x={200} y={262}>
-        <path d="M-9 0 L9 0 L7 -6 L6 -14 Q8 -22 2 -28 L-6 -26 L-9 -20 L-4 -18 L-6 -6 Z" fill="#f6f1e6" stroke={INK} strokeWidth={1.3} />
-        <circle cx={0} cy={-22} r={1.2} fill={INK} />
+      <K k="ghost" x={140} y={262} o={0}>
+        <Knight />
       </K>
-      <K k="check" x={148} y={246} o={0}>
-        <Burst r0={16} r1={28} n={10} color="#d64541" w={2.2} />
+      <K k="king" x={140} y={262}>
+        <King />
+      </K>
+      <K k="knight" x={204} y={262}>
+        <Knight />
+      </K>
+      <K k="check" x={136} y={232} o={0}>
+        <Burst r0={26} r1={44} n={12} color="#d64541" w={3} />
       </K>
     </g>
   ),
   tracks: [
+    // Build-up: the plan forms in the bubble, then gets traced on the real board.
+    tw('idea', [[0, { o: 0, s: 0.5 }], [0.1, { o: 0, s: 0.5 }], [0.2, { o: 1, s: 1 }, 'ease-out'], [0.74, { o: 1 }], [0.8, { o: 0, s: 0.8 }]]),
+    css('plan-mini', [[0, { strokeDashoffset: 1 }], [0.2, { strokeDashoffset: 1 }], [0.42, { strokeDashoffset: 0 }]], 'linear'),
+    tw('bulb', [[0, { o: 0, s: 0.4 }], [0.42, { o: 0, s: 0.4 }], [0.48, { o: 1, s: 1.25 }, 'ease-out'], [0.54, { s: 1 }]]),
+    css('plan', [[0, { strokeDashoffset: 1, opacity: 0.85 }], [0.46, { strokeDashoffset: 1, opacity: 0.85 }], [0.66, { strokeDashoffset: 0, opacity: 0.85 }], [0.74, { strokeDashoffset: 0, opacity: 0.85 }], [0.8, { strokeDashoffset: 0, opacity: 0 }]], 'linear'),
+    tw('plan-head', [[0, { o: 0 }], [0.64, { o: 0 }], [0.67, { o: 1 }], [0.74, { o: 1 }], [0.8, { o: 0 }]]),
+    tw('ghost', [[0, { o: 0 }], [0.6, { o: 0 }], [0.68, { o: 0.35 }], [0.74, { o: 0.35 }], [0.76, { o: 0 }]]),
+    tw('stu-armL', [[0, {}], [0.46, {}], [0.6, { r: -20 }], [0.7, { r: 10 }], [0.76, { r: -8 }], [0.9, { r: -50 }]]),
+    tw('stu-head', [[0, {}], [0.12, { r: -6 }], [0.46, { r: 6 }], [0.7, { r: -4 }], [0.84, { r: 0 }]]),
+    // Action: the knight follows the traced route; the king topples.
     tw('knight', [
       [0, {}],
-      [0.4, {}],
-      [0.55, { y: -32, r: -8 }],
-      [0.7, { x: -18, y: -36, r: -8 }],
-      [0.76, { x: -24, y: 0, r: 0 }, 'ease-in'],
+      [0.62, {}],
+      [0.7, { y: -16, r: -6 }],
+      [0.735, { x: -30, y: -64, r: -14 }, 'ease-out'],
+      [0.765, { x: -64, y: 0, r: 0 }, 'ease-in'],
+      [0.78, { x: -64, y: -4 }],
+      [0.8, { x: -64, y: 0 }],
     ]),
-    tw('stu-armL', [[0, {}], [0.4, {}], [0.55, { r: 12 }], [0.7, { r: 16 }], [0.76, { r: 4 }], [0.9, { r: -40 }]]),
-    tw('king', [[0, {}], [0.76, {}], [0.79, { r: -14 }], [0.85, { r: -92, x: -4 }, 'ease-in'], [0.88, { r: -86, x: -4 }], [0.91, { r: -90, x: -4 }]]),
-    tw('check', [[0, { o: 0, s: 0.5 }], [0.77, { o: 0, s: 0.5 }], [0.8, { o: 1, s: 1 }], [0.9, { o: 0, s: 1.3 }]]),
-    tw('exa-body', [[0, { r: -6 }], [0.5, { r: -6 }], [0.66, { r: 4 }], [0.8, { r: 4 }], [0.86, { r: -12 }]]),
+    tw('king', [[0, {}], [0.765, {}], [0.79, { r: -16, x: -4 }], [0.85, { r: -90, x: -26, y: -2 }, 'ease-in'], [0.88, { r: -84, x: -26, y: -4 }], [0.91, { r: -90, x: -26, y: -2 }]]),
+    tw('check', [[0, { o: 0, s: 0.5 }], [0.765, { o: 0, s: 0.5 }], [0.79, { o: 1, s: 1 }], [0.9, { o: 0, s: 1.3 }]]),
+    tw('exa-body', [[0, { r: -8 }], [0.4, { r: -8 }], [0.6, { r: 2 }], [0.78, { r: 4 }], [0.86, { r: -14 }]]),
     tw('exa-armL', [[0, {}], [0.8, {}], [0.86, { r: 150 }]]),
     tw('exa-armR', [[0, {}], [0.8, {}], [0.86, { r: -150 }]]),
-    ...mood('exa', [[0, 'smug'], [0.45, 'stern'], [0.62, 'nervous'], [0.8, 'shock']]),
+    tw('exa-pos', [[0, {}], [0.8, {}], [0.84, { y: -10 }, 'ease-out'], [0.9, { y: 0 }]]),
+    ...mood('exa', [[0, 'smug'], [0.5, 'stern'], [0.64, 'nervous'], [0.79, 'shock']]),
     ...mood('stu', [[0, 'focus'], [0.84, 'smug']]),
   ],
 }
 
 const RESUMES = [44, 101, 158, 215, 272]
 
-/* arbitrary — the interviewer, eyes shut, flings a dart over the shoulder and picks the scribbled CV. */
+/** Big throwing dart with its tip at (0,0), pointing along +x. */
+function Dart() {
+  return (
+    <g>
+      <path d="M-46 0 L-58 -11 L-40 -10 L-34 0 L-40 10 L-58 11 Z" fill="#d64541" stroke={INK} strokeWidth={1.4} strokeLinejoin="round" />
+      <rect x={-36} y={-4} width={24} height={8} rx={2.5} fill="#f2c94c" stroke={INK} strokeWidth={1.3} />
+      <path d="M-13 -2.4 L0 0 L-13 2.4 Z" fill="#8a8f98" stroke={INK} strokeWidth={1.1} />
+    </g>
+  )
+}
+
+/* arbitrary — blindfolded, the interviewer spins and flings a dart; it lands on the scribbled CV and that one gets the job. */
 export const arbitrary: Scene = {
   id: 'arbitrary',
-  label: '面试官背对简历墙闭眼盲扔飞镖，扎中一份潦草简历就定了，精心准备的你当场愣住',
+  label: '面试官蒙上眼睛乱转着瞄准，随手一扔飞镖，正中一份潦草简历，当场盖章录用，精心准备的你手里的简历掉在地上',
   sfx: 'thunk',
   hit: 0.78,
   render: () => (
     <g>
       <Backdrop sky="#efeae2" ground="#c9bca7" groundY={342} />
-      <rect x={14} y={40} width={292} height={98} rx={3} fill="#c9a77a" stroke={INK} strokeWidth={1.5} />
+      <rect x={14} y={30} width={292} height={108} rx={3} fill="#c9a77a" stroke={INK} strokeWidth={1.6} />
       {RESUMES.map((cx, i) => (
-        <K key={cx} k={i === 1 ? 'r2' : undefined} x={cx} y={52}>
+        <K key={cx} k={i === 1 ? 'r2' : undefined} x={cx} y={40}>
           <g transform={i === 1 ? 'rotate(6)' : undefined}>
-            <rect x={-23} y={0} width={46} height={72} fill={PAPER} stroke={INK} strokeWidth={1.2} />
-            <circle cx={-11} cy={14} r={6.5} fill={i === 3 ? '#f4d6bb' : '#d8d2c4'} stroke={INK} strokeWidth={0.8} />
+            <rect x={-25} y={0} width={50} height={80} fill={PAPER} stroke={INK} strokeWidth={1.3} />
+            <circle cx={-12} cy={15} r={7} fill={i === 3 ? '#f4d6bb' : '#d8d2c4'} stroke={INK} strokeWidth={0.9} />
             {i === 1 ? (
               <g>
-                <Ln d="M-18 30 L-6 34 L4 28 L16 33 M-18 42 L-2 46 L12 40 M-16 54 L10 58" w={1} c="#6b6b6b" />
-                <circle cx={10} cy={18} r={7} fill="none" stroke="#9a6b3a" strokeWidth={1.4} opacity={0.7} />
+                <Ln d="M-20 32 L-6 37 L4 30 L18 36 M-20 46 L-2 51 L14 44 M-18 60 L12 66" w={1.6} c="#6b6b6b" />
+                <circle cx={10} cy={18} r={8} fill="none" stroke="#9a6b3a" strokeWidth={2} opacity={0.75} />
               </g>
             ) : (
-              <Ln d="M2 10 L18 10 M2 18 L14 18 M-18 32 L18 32 M-18 40 L18 40 M-18 48 L12 48 M-18 56 L16 56" w={0.9} c="#9a958a" />
+              <Ln d="M2 11 L19 11 M2 19 L15 19 M-19 34 L19 34 M-19 43 L19 43 M-19 52 L13 52 M-19 61 L17 61" w={1} c="#9a958a" />
             )}
-            {i === 3 && <path d="M14 58 l2.4 5 l5.4 0.6 l-4 3.6 l1.2 5.4 l-5 -2.8 l-5 2.8 l1.2 -5.4 l-4 -3.6 l5.4 -0.6 Z" fill="#f2c94c" stroke={INK} strokeWidth={0.7} />}
-            <circle cx={0} cy={0} r={2.6} fill="#d64541" />
+            <circle cx={0} cy={0} r={3} fill="#d64541" />
           </g>
         </K>
       ))}
-      <K k="pick" x={101} y={88} o={0}>
-        <circle r={34} fill="none" stroke="#d64541" strokeWidth={2.6} />
+      <K k="pick" x={104} y={82} o={0}>
+        <circle r={40} fill="none" stroke="#d64541" strokeWidth={4} />
       </K>
-      <K k="exa-pos" x={160} y={344} s={1.3}>
-        <Person id="exa" moods={['blind', 'smug']} shirt="#3f3b4f" hair="bun" hairColor="#4a3226" glasses tie="#a33d3d" arms={[6, -10]} />
+      <K k="hired" x={104} y={104} r={-12} o={0}>
+        <rect x={-34} y={-15} width={68} height={30} rx={4} fill="#fff" opacity={0.85} stroke="#d23b2f" strokeWidth={3.4} />
+        <text y={8} textAnchor="middle" fontSize={20} fontWeight={800} fill="#d23b2f">
+          录用
+        </text>
       </K>
-      <K k="dart" x={192} y={200}>
-        <Ln d="M0 0 L16 4" w={2} c="#5a5a5a" />
-        <path d="M14 3.5 L22 0 L20 5 L24 9 Z" fill="#d64541" />
-        <path d="M0 0 L4 -1 L4 2 Z" fill={INK} />
+      <K k="qs" x={150} y={186} o={0}>
+        <g fill="#6b4a2a" stroke="#fff" strokeWidth={1} fontSize={32} fontWeight={800} fontFamily="Georgia, serif" textAnchor="middle">
+          <text x={-46} y={0}>?</text>
+          <text x={44} y={-6}>?</text>
+          <text x={-2} y={-26}>?</text>
+        </g>
       </K>
-      <K k="stu-pos" x={282} y={344} s={1.2}>
+      <K k="exa-pos" x={150} y={344} s={1.35}>
         <Person
-          id="stu"
-          moods={['calm', 'nervous', 'shock', 'angry']}
-          shirt="#5d86b8"
-          hair="messy"
-          arms={[10, -36]}
-          look={-1}
-          handR={<rect x={-10} y={-4} width={20} height={26} rx={1.5} fill="#2f6f8f" stroke={INK} strokeWidth={1} />}
+          id="exa"
+          moods={['blind', 'smug']}
+          shirt="#3f3b4f"
+          hair="bun"
+          hairColor="#4a3226"
+          tie="#a33d3d"
+          arms={[6, 0]}
+          headExtra={
+            <g>
+              <path d="M-18 -7 Q0 -11 18 -7 L18 4 Q0 0 -18 4 Z" fill="#2b2a28" stroke={INK} strokeWidth={1} />
+              <path d="M-17 -2 L-27 -8 M-17 0 L-28 4" stroke="#2b2a28" strokeWidth={3.6} strokeLinecap="round" />
+            </g>
+          }
+          handR={
+            <K k="dart-hand">
+              <g transform="rotate(90) translate(26 0) scale(0.75)">
+                <Dart />
+              </g>
+            </K>
+          }
         />
+      </K>
+      <K k="dart" x={104} y={82} o={0}>
+        <Dart />
+      </K>
+      <K k="cv" x={232} y={256}>
+        <rect x={-18} y={-24} width={36} height={48} rx={1.5} fill="#fff" stroke={INK} strokeWidth={1.4} />
+        <circle cx={-7} cy={-14} r={5} fill="#f4d6bb" stroke={INK} strokeWidth={0.8} />
+        <Ln d="M2 -16 L13 -16 M2 -11 L10 -11 M-13 -2 L13 -2 M-13 5 L13 5 M-13 12 L9 12" w={0.9} c="#9a958a" />
+        <path d="M9 14 l2.4 5 l5.4 0.6 l-4 3.6 l1.2 5.4 l-5 -2.8 l-5 2.8 l1.2 -5.4 l-4 -3.6 l5.4 -0.6 Z" fill="#f2c94c" stroke={INK} strokeWidth={0.8} transform="translate(-2 -10)" />
+      </K>
+      <K k="stu-pos" x={272} y={344} s={1.2}>
+        <Person id="stu" moods={['calm', 'nervous', 'shock', 'angry']} shirt="#5d86b8" hair="messy" arms={[46, -10]} look={-1} />
       </K>
     </g>
   ),
   tracks: [
-    tw('exa-armR', [[0, {}], [0.12, {}], [0.62, { r: -150 }], [0.72, { r: -165 }], [0.76, { r: -120 }, 'ease-out'], [0.9, { r: -20 }]]),
+    // Build-up: blindfolded, the interviewer turns this way and that, dart cocked, aiming at nothing.
+    tw('exa-body', [[0, {}], [0.12, {}], ...wiggleStops(0.12, 0.66, 3, { r: -12 }, { r: 10 }), [0.7, { r: 6 }], [0.76, { r: -8 }, 'ease-out'], [0.9, { r: 0 }]]),
+    tw('exa-armR', [[0, {}], [0.12, {}], [0.3, { r: -150 }], ...wiggleStops(0.3, 0.66, 3, { r: -130 }, { r: -170 }), [0.72, { r: -175 }], [0.76, { r: -110 }, 'ease-out'], [0.9, { r: -20 }]]),
     tw('exa-armL', [[0, {}], [0.84, {}], [0.92, { r: 150 }]]),
-    tw('exa-body', [[0, {}], [0.62, { r: 4 }], [0.72, { r: 6 }], [0.76, { r: -6 }], [0.9, { r: 0 }]]),
+    tw('qs', [[0, { o: 0, s: 0.6 }], [0.2, { o: 0, s: 0.6 }], [0.3, { o: 1, s: 1 }], ...wiggleStops(0.3, 0.68, 3, { r: 8, y: -4 }, { r: -8, y: 2 }), [0.74, { o: 0, s: 1.3 }]]),
+    flip('dart-hand', [[0, 1], [0.725, 0]]),
+    // Action: the dart flies over in an arc and sticks in the scribbled CV.
     tw('dart', [
-      [0, { o: 0 }],
-      [0.6, { o: 0 }],
-      [0.62, { o: 1 }],
-      [0.72, { o: 1 }],
-      [0.75, { x: -46, y: -124, r: 22 }, 'linear'],
-      [0.78, { x: -91, y: -110, r: -18 }],
+      [0, { o: 0, x: 86, y: 98, r: -110 }],
+      [0.72, { o: 0, x: 86, y: 98, r: -110 }],
+      [0.725, { o: 1, x: 86, y: 98, r: -110 }],
+      [0.75, { x: 40, y: -10, r: -160 }, 'linear'],
+      [0.775, { x: 0, y: 0, r: -200 }, 'ease-in'],
+      [0.79, { r: -194 }],
+      [0.8, { r: -204 }],
+      [0.81, { r: -198 }],
+      [0.83, { r: -200 }],
     ]),
-    tw('r2', [[0, {}], [0.775, {}], [0.8, { r: 6 }], [0.83, { r: -4 }], [0.86, { r: 2 }], [0.9, { r: 0 }]]),
-    tw('pick', [[0, { o: 0, s: 1.5 }], [0.8, { o: 0, s: 1.5 }], [0.86, { o: 1, s: 1 }]]),
+    tw('r2', [[0, {}], [0.775, {}], [0.79, { r: 6 }], [0.82, { r: -4 }], [0.85, { r: 2 }], [0.88, { r: 0 }]]),
+    tw('pick', [[0, { o: 0, s: 1.6 }], [0.78, { o: 0, s: 1.6 }], [0.83, { o: 1, s: 1 }, 'ease-out']]),
+    tw('hired', [[0, { o: 0, s: 2.4 }], [0.84, { o: 0, s: 2.4 }], [0.88, { o: 1, s: 0.9 }, 'ease-in'], [0.91, { s: 1 }]]),
     ...mood('exa', [[0, 'blind'], [0.86, 'smug']]),
-    ...mood('stu', [[0, 'calm'], [0.42, 'nervous'], [0.79, 'shock'], [0.9, 'angry']]),
+    // The prepared candidate: proud, then crushed; the polished CV slips to the floor.
+    tw('cv', [[0, {}], [0.86, {}], [0.9, { x: 4, y: 40, r: 30 }, 'ease-in'], [0.94, { x: 8, y: 80, r: 80 }, 'ease-in'], [0.97, { x: 8, y: 76, r: 84 }]]),
+    tw('stu-armL', [[0, {}], [0.86, {}], [0.92, { r: -50 }]]),
     tw('stu-body', [[0, {}], [0.79, {}], [0.83, { r: -8 }], [0.9, { r: 0 }]]),
+    ...mood('stu', [[0, 'calm'], [0.4, 'nervous'], [0.79, 'shock'], [0.9, 'angry']]),
   ],
 }
 
@@ -535,7 +644,7 @@ export const arbitrary: Scene = {
 export const process: Scene = {
   id: 'process',
   label: '传送带上麦子进磨坊、面粉进烤箱，一步一步地亮灯，最后一声叮，面包出炉',
-  sfx: 'pop',
+  sfx: 'ding',
   hit: 0.76,
   render: () => (
     <g>
@@ -716,7 +825,7 @@ function Penguin({ id, moods, look, special }: { id: string; moods: Mood[]; look
 export const feature: Scene = {
   id: 'feature',
   label: '舞台上一排一模一样的企鹅，追光扫来扫去，停在第四只身上，它亮出红领结和金冠羽',
-  sfx: 'pop',
+  sfx: 'tada',
   hit: 0.76,
   render: () => (
     <g>
@@ -779,8 +888,8 @@ const RIDERS: { id: string; x: number; shirt: string; hair: 'short' | 'long' | '
 /* capacity — one person too many: the overload light flares red and every head turns. */
 export const capacity: Scene = {
   id: 'capacity',
-  label: '挤满人的电梯，最后一个人硬挤进去，超载红灯亮起蜂鸣，全电梯的人转头瞪着他',
-  sfx: 'buzzer',
+  label: '挤满人的电梯，最后一个人硬挤进去，电梯猛地一沉，超载红灯闪烁、警铃叮叮响，全电梯的人转头瞪着他',
+  sfx: 'overload',
   hit: 0.76,
   render: () => (
     <g>
@@ -805,6 +914,7 @@ export const capacity: Scene = {
           超载
         </text>
       </K>
+      <K k="cab">
       <K k="crowdL">
         {RIDERS.slice(0, 2).map((p) => (
           <K key={p.id} x={p.x} y={340} s={0.98}>
@@ -831,6 +941,10 @@ export const capacity: Scene = {
       <K k="stu-pos" x={160} y={394} s={1.12}>
         <Person id="stu" moods={['calm', 'nervous', 'shock', 'awkward']} shirt="#e3a24a" hair="messy" />
       </K>
+      </K>
+      <K k="sag" x={160} y={352} o={0}>
+        <Ln d="M-90 8 L-90 22 M-96 16 L-90 24 L-84 16 M90 8 L90 22 M84 16 L90 24 L96 16" w={3} c="#d64541" />
+      </K>
       <K k="wash" o={0}>
         <rect x={-400} y={-400} width={1120} height={1200} fill="#e53935" />
       </K>
@@ -853,5 +967,8 @@ export const capacity: Scene = {
     ]),
     ...mood('stu', [[0, 'calm'], [0.46, 'nervous'], [0.76, 'shock'], [0.86, 'awkward']]),
     tw('stu-head', [[0, {}], [0.86, {}], [0.92, { r: 8, y: 2 }]]),
+    // The cab sinks on its cables and bounces as the overload trips.
+    tw('cab', [[0, {}], [0.745, {}], [0.77, { y: 12 }, 'ease-in'], [0.81, { y: 3 }, 'ease-out'], [0.85, { y: 9 }], [0.9, { y: 6 }]]),
+    tw('sag', [[0, { o: 0, y: -6 }], [0.755, { o: 0, y: -6 }], [0.78, { o: 1, y: 0 }], [0.9, { o: 1 }], [1, { o: 0.6 }]]),
   ],
 }

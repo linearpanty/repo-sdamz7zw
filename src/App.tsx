@@ -91,6 +91,9 @@ export default function App() {
   const [runtime, setRuntime] = useState<RuntimeModule | null>(null)
   const [progress, setProgress] = useState<Progress>(() => readInitialPreview())
   const [route, setRoute] = useState<Route>(() => readRoute())
+  // A bare `/` with unfinished work auto-jumps to `#/word` once the runtime loads:
+  // render nothing until then instead of flashing TodayView for a frame.
+  const [awaitingAutoJump] = useState(() => window.location.hash === '' && !progress.finished)
 
   const go = useCallback((next: Route, mode: 'push' | 'replace' = 'push') => {
     const hash = hashFor(next)
@@ -222,7 +225,7 @@ export default function App() {
       <div className="cw-ambient-grid" aria-hidden="true" />
       <div className="cw-studio-container">
         <main className="cw-stage-main">
-          {route === 'today' && (
+          {route === 'today' && !(awaitingAutoJump && !runtime) && (
             <TodayView
               progress={progress}
               doneWords={doneWords}

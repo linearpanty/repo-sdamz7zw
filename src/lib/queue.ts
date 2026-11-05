@@ -119,9 +119,21 @@ export function ensureToday(progress: Progress, today: string): Progress {
   return { ...rolled, queue, finished: false }
 }
 
+/** Clean-pass spacing ladder (days). System-judged mastery jumps straight to the top. */
+export const INTERVAL_LADDER = [1, 2, 4, 8, 21] as const
+export const MASTERED_INTERVAL = 21
+
+/** Next rung strictly above `prev`; legacy off-ladder values (3, 16…) snap up to the next rung. */
+export function nextInterval(prev: number): number {
+  if (!(prev > 0)) return INTERVAL_LADDER[0]
+  return INTERVAL_LADDER.find((step) => step > prev) ?? MASTERED_INTERVAL
+}
+
 /**
  * The current card was spelled correctly.
  * A miss schedules one quiet replay later in today's queue, then waits until a later day.
+ * `mastered` (system-judged: blind-typed a brand-new word before it was shown) is only
+ * honoured on `learn` cards; recall cards always climb the ladder one rung at a time.
  */
 export function settleCard(
   progress: Progress,
@@ -150,11 +162,8 @@ export function settleCard(
       replayed.push(current.id)
     }
   } else {
-    const interval = mastered
-      ? 21
-      : prev.interval <= 0
-        ? 1
-        : Math.min(21, prev.interval * 2)
+    const interval =
+      mastered && current.mode === 'learn' ? MASTERED_INTERVAL : nextInterval(prev.interval)
     memory[current.id] = {
       interval,
       next: addDays(today, interval),
