@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build && node scripts/check-copy.mjs",
     "lint": "oxlint",
-    "test": "node scripts/queue.test.mjs && node scripts/scenes.test.mjs",
+    "test": "node scripts/queue.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

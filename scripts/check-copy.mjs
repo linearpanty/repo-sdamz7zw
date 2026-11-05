@@ -39,7 +39,7 @@ const REQUIRED_IN_JS = [
   'just adequate to bridge the gap',
   'two adjacent doors sharing a wall',
   'a blind, arbitrary dart throw',
-  'the stone pillar collapsed',
+  'the stone bridge collapsed',
   'illus/abandon.webp',
   'illus/adequate.webp',
   'illus/adjacent.webp',
