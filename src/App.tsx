@@ -175,9 +175,9 @@ export default function App() {
     })
   }
 
-  function handleAdvance(hadMiss: boolean) {
+  function handleAdvance(hadMiss: boolean, mastered = false) {
     if (!runtime) return
-    const next = runtime.settleCard(progress, hadMiss)
+    const next = runtime.settleCard(progress, hadMiss, undefined, mastered)
     commit(runtime, next)
     if (next.finished) go('done')
   }

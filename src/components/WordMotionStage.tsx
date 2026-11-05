@@ -1,14 +1,18 @@
 import { illustrationUrl, videoUrl, type Word } from '../data/types'
 
-export type MotionArchetype =
-  | 'collapse'
-  | 'ascend'
-  | 'converge'
-  | 'diverge'
-  | 'oscillate'
-  | 'focus'
-  | 'barrier'
-  | 'orbit'
+export type SceneType =
+  | 'cliff_climb'
+  | 'harvest_basket'
+  | 'tall_pillar'
+  | 'river_valley'
+  | 'winding_path'
+  | 'collapsing_bridge'
+  | 'balance_scale'
+  | 'open_book'
+  | 'sprouting_seed'
+  | 'clockwork_system'
+  | 'funnel_filter'
+  | 'keystone_arch'
 
 function hashWord(s: string): number {
   let h = 2166136261
@@ -19,54 +23,62 @@ function hashWord(s: string): number {
   return h
 }
 
-export function pickArchetype(word: Word): MotionArchetype {
-  const hay = `${word.id} ${word.sceneHook} ${word.senses.map((s) => s.zh).join(' ')}`.toLowerCase()
-  if (/(collapse|fall|drop|declin|reduc|shrink|sink|crash|down|倒塌|下降|减少|缩|跌|沉)/.test(hay)) {
-    return 'collapse'
-  }
-  if (/(increas|rise|grow|expand|acceler|boost|emerg|achiev|peak|high|上升|增长|加速|扩大|提高|达到)/.test(hay)) {
-    return 'ascend'
-  }
-  if (/(merg|combin|connect|attach|link|integrat|gather|accumul|compil|coincid|结合|连接|汇集|积累|合并)/.test(hay)) {
-    return 'converge'
-  }
-  if (/(divid|separat|allocat|spread|distribut|divers|categor|branch|分配|分离|传播|分类|散)/.test(hay)) {
-    return 'diverge'
-  }
-  if (/(fluctuat|cycl|shift|chang|adapt|adjust|transform|alternat|balanc|affect|变化|调整|适应|波动|影响|转换)/.test(hay)) {
-    return 'oscillate'
-  }
-  if (/(focus|accurat|core|specif|identif|select|target|point|defin|assess|准确|核心|特定|识别|评估|聚焦)/.test(hay)) {
-    return 'focus'
-  }
-  if (/(challeng|block|limit|restrict|ban|conflict|obstacl|resist|defend|挑战|限制|阻止|冲突|抵御)/.test(hay)) {
-    return 'barrier'
-  }
-  const all: MotionArchetype[] = [
-    'orbit',
-    'ascend',
-    'converge',
-    'oscillate',
-    'focus',
-    'diverge',
-    'barrier',
-    'collapse',
-  ]
-  return all[hashWord(word.id) % all.length]
-}
+export function pickConcreteScene(word: Word): SceneType {
+  const id = word.id.toLowerCase()
+  const hay = `${id} ${word.sceneHook} ${word.senses.map((s) => s.zh).join(' ')}`.toLowerCase()
 
-export function computeTypingProgress(input: string, target: string, passed: boolean): number {
-  if (passed) return 1
-  const cleanIn = input.trim().toLowerCase()
-  const cleanTarget = target.trim().toLowerCase()
-  if (!cleanIn || !cleanTarget) return 0
-  let matched = 0
-  const len = Math.min(cleanIn.length, cleanTarget.length)
-  for (let i = 0; i < len; i++) {
-    if (cleanIn[i] === cleanTarget[i]) matched++
-    else break
+  if (/(challeng|climb|overcom|effort|struggl|risk|difficult|obstacle|barrier|挑战|攀|克服|困难|阻碍)/.test(hay)) {
+    return 'cliff_climb'
   }
-  return Math.min(0.95, matched / cleanTarget.length)
+  if (/(benefit|reward|gain|profit|yield|resourc|supply|wealth|advantage|益处|好处|收获|资源|供应|利)/.test(hay)) {
+    return 'harvest_basket'
+  }
+  if (/(significant|major|primar|dominant|crucial|essential|peak|outstanding|extreme|显著|重要|主要|突出|极)/.test(hay)) {
+    return 'tall_pillar'
+  }
+  if (/(environment|natur|ecosystem|habitat|landscap|climat|species|forest|river|环境|自然|生态|气候|物种)/.test(hay)) {
+    return 'river_valley'
+  }
+  if (/(approach|method|way|path|route|direction|access|strateg|step|proceed|方法|途径|通道|接近|策略|步)/.test(hay)) {
+    return 'winding_path'
+  }
+  if (/(collapse|fall|declin|drop|damag|destroy|crisis|fail|break|shrink|倒塌|崩溃|下降|跌|毁|减)/.test(hay)) {
+    return 'collapsing_bridge'
+  }
+  if (/(assess|evaluat|compar|balanc|polic|law|authorit|principl|rule|judg|propor|评估|权衡|法律|权威|原则|比例)/.test(hay)) {
+    return 'balance_scale'
+  }
+  if (/(study|research|theor|evidenc|knowledg|interpret|analy|concept|abstract|inform|研究|理论|证据|概念|抽象|解释)/.test(hay)) {
+    return 'open_book'
+  }
+  if (/(grow|develop|emerg|generat|creat|produc|evolv|adapt|maintain|potent|生长|发展|产生|创造|适应|潜)/.test(hay)) {
+    return 'sprouting_seed'
+  }
+  if (/(function|system|structur|mechan|factor|techniqu|operat|involv|requir|process|系统|结构|功能|机制|因素|过程)/.test(hay)) {
+    return 'clockwork_system'
+  }
+  if (/(select|identif|specif|accurat|categor|limit|focus|featur|distinguish|defin|识别|准确|类别|特征|筛选|特定)/.test(hay)) {
+    return 'funnel_filter'
+  }
+  if (/(contribut|support|communit|communicat|cooperat|connect|combin|establish|relat|支持|贡献|社区|连接|建立|合作)/.test(hay)) {
+    return 'keystone_arch'
+  }
+
+  const all: SceneType[] = [
+    'winding_path',
+    'open_book',
+    'sprouting_seed',
+    'clockwork_system',
+    'balance_scale',
+    'river_valley',
+    'harvest_basket',
+    'tall_pillar',
+    'funnel_filter',
+    'keystone_arch',
+    'cliff_climb',
+    'collapsing_bridge',
+  ]
+  return all[hashWord(id) % all.length]
 }
 
 type WordMotionStageProps = {
@@ -75,26 +87,16 @@ type WordMotionStageProps = {
   passed: boolean
 }
 
-export function WordMotionStage({ word, spellInput, passed }: WordMotionStageProps) {
+export function WordMotionStage({ word, passed }: WordMotionStageProps) {
   const vidSrc = videoUrl(word)
   const illusSrc = illustrationUrl(word)
-  const archetype = pickArchetype(word)
-  const progress = computeTypingProgress(spellInput, word.word, passed)
-  const circumference = 2 * Math.PI * 104
-  const dashOffset = circumference * (1 - progress)
+  const scene = pickConcreteScene(word)
   const accent = word.color || '#243b55'
 
   return (
     <div
-      className={`cw-motion-stage is-${archetype}${passed ? ' is-passed' : ''}${
-        spellInput.length > 0 ? ' is-typing' : ''
-      }`}
-      style={
-        {
-          '--cw-word-color': accent,
-          '--cw-type-progress': String(progress),
-        } as React.CSSProperties
-      }
+      className={`cw-motion-stage is-scene-${scene}${passed ? ' is-passed' : ''}`}
+      style={{ '--cw-word-color': accent } as React.CSSProperties}
       aria-hidden="true"
     >
       {vidSrc ? (
@@ -118,257 +120,277 @@ export function WordMotionStage({ word, spellInput, passed }: WordMotionStagePro
             height={800}
             draggable={false}
           />
-          <svg className="cw-illus-aura-svg" viewBox="0 0 260 260" fill="none">
-            <circle
-              className="cw-progress-ring"
-              cx="130"
-              cy="130"
-              r="104"
-              stroke={accent}
-              strokeWidth="2.5"
-              strokeDasharray={circumference}
-              strokeDashoffset={dashOffset}
-              strokeLinecap="round"
-            />
-          </svg>
         </div>
       ) : (
-        <>
-          <div className="cw-poster-grid-overlay" />
-          <div className="cw-motion-glow" />
-          <svg className="cw-motion-svg" viewBox="0 0 260 260" fill="none">
-            {/* Ambient base guide */}
-            <circle
-              cx="130"
-              cy="130"
-              r="104"
-              stroke="currentColor"
-              strokeOpacity="0.14"
-              strokeWidth="1"
-            />
-            {/* Real-time typing progress halo */}
-            <circle
-              className="cw-progress-ring"
-              cx="130"
-              cy="130"
-              r="104"
-              stroke={accent}
-              strokeWidth="2.6"
-              strokeDasharray={circumference}
-              strokeDashoffset={dashOffset}
-              strokeLinecap="round"
-            />
+        <svg className="cw-scene-svg" viewBox="0 0 320 400" fill="none">
+          {/* Warm editorial paper wash */}
+          <rect width="320" height="400" fill="#f3efe6" />
+          <ellipse cx="160" cy="210" rx="118" ry="118" fill={accent} fillOpacity="0.06" />
 
-            {archetype === 'orbit' && (
-              <g className="cw-arch-orbit">
-                <ellipse
-                  className="cw-orbit-ring-1"
-                  cx="130"
-                  cy="130"
-                  rx="82"
-                  ry="38"
-                  stroke={accent}
-                  strokeWidth="1.4"
-                  strokeOpacity="0.65"
-                />
-                <ellipse
-                  className="cw-orbit-ring-2"
-                  cx="130"
-                  cy="130"
-                  rx="38"
-                  ry="82"
-                  stroke={accent}
-                  strokeWidth="1.4"
-                  strokeOpacity="0.45"
-                />
-                <circle className="cw-core-pulse" cx="130" cy="130" r="14" fill={accent} fillOpacity="0.85" />
-                <circle className="cw-sat-1" cx="212" cy="130" r="5" fill={accent} />
-                <circle className="cw-sat-2" cx="130" cy="48" r="4" fill={accent} />
-              </g>
-            )}
-
-            {archetype === 'ascend' && (
-              <g className="cw-arch-ascend">
+          {scene === 'cliff_climb' && (
+            <g className="cw-scene-group">
+              {/* Drifting clouds */}
+              <g className="cw-scene-cloud">
                 <path
-                  className="cw-ascend-arc-1"
-                  d="M74 166 L130 110 L186 166"
-                  stroke={accent}
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
+                  d="M62 108 H128 C134 108 138 102 132 97 C127 92 118 95 114 89 C108 81 92 82 86 91 C78 90 68 95 62 108 Z"
+                  fill="#ffffff"
+                  fillOpacity="0.7"
+                  stroke="#3a3832"
+                  strokeWidth="1.3"
+                />
+              </g>
+              {/* Steep cliff face */}
+              <path
+                d="M178 64 L268 64 L284 326 L124 326 L146 218 L164 148 Z"
+                fill="#d8d2c5"
+                stroke="#2c2a25"
+                strokeWidth="1.8"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M196 64 L182 152 L162 224 L152 326 M228 110 L204 190 L216 280"
+                stroke="#2c2a25"
+                strokeWidth="1.1"
+                strokeOpacity="0.55"
+              />
+              {/* Ground line */}
+              <path d="M36 326 H288" stroke="#2c2a25" strokeWidth="1.8" strokeLinecap="round" />
+              {/* Rope */}
+              <line
+                x1="178"
+                y1="68"
+                x2="138"
+                y2="246"
+                stroke="#2c2a25"
+                strokeWidth="1.3"
+                strokeDasharray="3 3"
+              />
+              {/* Animated climber ascending */}
+              <g className="cw-scene-climber">
+                <circle cx="142" cy="214" r="8" fill="#f3efe6" stroke="#2c2a25" strokeWidth="1.8" />
+                <path
+                  d="M134 224 L150 224 L154 252 L130 252 Z"
+                  fill={accent}
+                  stroke="#2c2a25"
+                  strokeWidth="1.6"
                   strokeLinejoin="round"
                 />
+                <path d="M148 228 L162 208 M136 252 L130 274 M148 252 L156 270" stroke="#2c2a25" strokeWidth="1.8" strokeLinecap="round" />
+              </g>
+            </g>
+          )}
+
+          {scene === 'harvest_basket' && (
+            <g className="cw-scene-group">
+              {/* Warm sun rays */}
+              <circle className="cw-scene-sun" cx="160" cy="116" r="34" fill="#eab308" fillOpacity="0.22" />
+              <circle cx="160" cy="116" r="22" fill="#eab308" fillOpacity="0.35" stroke="#2c2a25" strokeWidth="1.4" />
+              {/* Floating harvest fruits */}
+              <g className="cw-scene-bob">
+                <circle cx="128" cy="204" r="18" fill="#e07a5f" stroke="#2c2a25" strokeWidth="1.6" />
+                <circle cx="162" cy="194" r="21" fill="#f2cc8f" stroke="#2c2a25" strokeWidth="1.6" />
+                <circle cx="194" cy="206" r="17" fill="#81b29a" stroke="#2c2a25" strokeWidth="1.6" />
+                <path d="M162 173 C168 162 180 162 184 170 C174 174 166 174 162 173 Z" fill="#52796f" stroke="#2c2a25" strokeWidth="1.3" />
+              </g>
+              {/* Woven basket */}
+              <path
+                d="M86 214 H234 L212 296 C209 306 200 312 190 312 H130 C120 312 111 306 108 296 Z"
+                fill="#d4a373"
+                fillOpacity="0.55"
+                stroke="#2c2a25"
+                strokeWidth="1.8"
+                strokeLinejoin="round"
+              />
+              <path d="M96 242 H224 M102 270 H218 M134 214 L142 312 M160 214 V312 M186 214 L178 312" stroke="#2c2a25" strokeWidth="1.1" strokeOpacity="0.55" />
+              <path d="M52 314 H268" stroke="#2c2a25" strokeWidth="1.6" strokeLinecap="round" />
+            </g>
+          )}
+
+          {scene === 'tall_pillar' && (
+            <g className="cw-scene-group">
+              <path d="M44 316 H276" stroke="#2c2a25" strokeWidth="1.8" strokeLinecap="round" />
+              <rect x="62" y="252" width="28" height="64" fill="#d6d1c4" stroke="#2c2a25" strokeWidth="1.6" />
+              <rect x="104" y="236" width="28" height="80" fill="#d6d1c4" stroke="#2c2a25" strokeWidth="1.6" />
+              {/* Towering center pillar */}
+              <g className="cw-scene-rise">
+                <rect x="146" y="108" width="30" height="208" fill={accent} fillOpacity="0.82" stroke="#2c2a25" strokeWidth="1.8" />
+                <circle cx="161" cy="86" r="7" fill={accent} stroke="#2c2a25" strokeWidth="1.5" />
+              </g>
+              <rect x="190" y="244" width="28" height="72" fill="#d6d1c4" stroke="#2c2a25" strokeWidth="1.6" />
+              <rect x="232" y="260" width="28" height="56" fill="#d6d1c4" stroke="#2c2a25" strokeWidth="1.6" />
+            </g>
+          )}
+
+          {scene === 'river_valley' && (
+            <g className="cw-scene-group">
+              <circle className="cw-scene-sun" cx="232" cy="102" r="24" fill="#f4a261" fillOpacity="0.45" stroke="#2c2a25" strokeWidth="1.4" />
+              {/* Distant hills */}
+              <path
+                d="M36 248 Q98 168 168 228 T284 218 L284 316 L36 316 Z"
+                fill="#cad2c5"
+                stroke="#2c2a25"
+                strokeWidth="1.6"
+              />
+              {/* Pine trees */}
+              <path d="M82 172 L66 216 H98 Z M82 192 L62 238 H102 Z" fill="#52796f" stroke="#2c2a25" strokeWidth="1.4" />
+              <path d="M238 164 L224 204 H252 Z M238 182 L220 224 H256 Z" fill="#52796f" stroke="#2c2a25" strokeWidth="1.4" />
+              {/* Winding river */}
+              <path
+                className="cw-scene-river"
+                d="M152 222 C132 246 188 268 142 316 H198 C228 270 168 246 176 222 Z"
+                fill="#74b9ff"
+                fillOpacity="0.55"
+                stroke="#2c2a25"
+                strokeWidth="1.5"
+              />
+              <path d="M36 316 H284" stroke="#2c2a25" strokeWidth="1.8" />
+            </g>
+          )}
+
+          {scene === 'winding_path' && (
+            <g className="cw-scene-group">
+              {/* Distant doorway / arch */}
+              <path
+                d="M134 156 V104 C134 88 186 88 186 104 V156 Z"
+                fill="#f6bd60"
+                fillOpacity="0.65"
+                stroke="#2c2a25"
+                strokeWidth="1.8"
+              />
+              <path d="M44 156 H276" stroke="#2c2a25" strokeWidth="1.5" />
+              {/* Winding perspective path */}
+              <path
+                d="M144 156 C122 204 188 242 104 324 H216 C234 242 162 204 176 156 Z"
+                fill="#e6ccb2"
+                stroke="#2c2a25"
+                strokeWidth="1.8"
+              />
+              {/* Animated footsteps / lantern */}
+              <circle className="cw-scene-step-1" cx="160" cy="282" r="5" fill={accent} />
+              <circle className="cw-scene-step-2" cx="166" cy="238" r="4.5" fill={accent} />
+              <circle className="cw-scene-step-3" cx="156" cy="196" r="4" fill={accent} />
+            </g>
+          )}
+
+          {scene === 'collapsing_bridge' && (
+            <g className="cw-scene-group">
+              {/* Left & right bridge piers */}
+              <path d="M36 186 H122 L134 206 L112 218 H82 V296 H44 V186 Z" fill="#cbbfa9" stroke="#2c2a25" strokeWidth="1.8" />
+              <path d="M284 186 H198 L186 206 L208 218 H238 V296 H276 V186 Z" fill="#cbbfa9" stroke="#2c2a25" strokeWidth="1.8" />
+              {/* Falling masonry stones */}
+              <g className="cw-scene-debris">
+                <rect x="138" y="192" width="18" height="12" transform="rotate(24 138 192)" fill="#d63031" stroke="#2c2a25" strokeWidth="1.5" />
+                <rect x="166" y="210" width="16" height="11" transform="rotate(-18 166 210)" fill="#cbbfa9" stroke="#2c2a25" strokeWidth="1.5" />
+                <rect x="148" y="236" width="14" height="10" transform="rotate(35 148 236)" fill="#d63031" stroke="#2c2a25" strokeWidth="1.5" />
+              </g>
+              {/* Water surface */}
+              <path d="M32 296 H288" stroke="#2c2a25" strokeWidth="1.8" />
+              <path className="cw-scene-bob" d="M84 312 H236 M112 326 H208" stroke="#2c2a25" strokeWidth="1.3" strokeOpacity="0.6" strokeLinecap="round" />
+            </g>
+          )}
+
+          {scene === 'balance_scale' && (
+            <g className="cw-scene-group">
+              <path d="M64 316 H256" stroke="#2c2a25" strokeWidth="1.8" />
+              <path d="M136 316 L160 292 L184 316 Z" fill="#b5a895" stroke="#2c2a25" strokeWidth="1.8" />
+              <line x1="160" y1="112" x2="160" y2="292" stroke="#2c2a25" strokeWidth="2.4" />
+              <g className="cw-scene-scale-beam">
+                <line x1="84" y1="146" x2="236" y2="146" stroke="#2c2a25" strokeWidth="2.2" strokeLinecap="round" />
+                <path d="M84 146 L68 216 H100 Z" fill="none" stroke="#2c2a25" strokeWidth="1.3" />
+                <path d="M62 216 C62 228 106 228 106 216 Z" fill={accent} fillOpacity="0.65" stroke="#2c2a25" strokeWidth="1.6" />
+                <path d="M236 146 L220 216 H252 Z" fill="none" stroke="#2c2a25" strokeWidth="1.3" />
+                <path d="M214 216 C214 228 258 228 258 216 Z" fill="#e9c46a" fillOpacity="0.75" stroke="#2c2a25" strokeWidth="1.6" />
+              </g>
+              <circle cx="160" cy="146" r="6" fill="#f3efe6" stroke="#2c2a25" strokeWidth="1.8" />
+            </g>
+          )}
+
+          {scene === 'open_book' && (
+            <g className="cw-scene-group">
+              {/* Warm study lamp glow */}
+              <path d="M160 78 L82 260 H238 Z" fill="#f6bd60" fillOpacity="0.16" />
+              <path d="M136 78 H184 L172 58 H148 Z" fill={accent} stroke="#2c2a25" strokeWidth="1.6" />
+              {/* Open hardcover book */}
+              <g className="cw-scene-bob">
                 <path
-                  className="cw-ascend-arc-2"
-                  d="M90 134 L130 94 L170 134"
-                  stroke={accent}
+                  d="M68 216 C98 206 134 210 160 224 C186 210 222 206 252 216 V296 C222 286 186 290 160 304 C134 290 98 286 68 296 Z"
+                  fill="#faf7f0"
+                  stroke="#2c2a25"
                   strokeWidth="1.8"
-                  strokeOpacity="0.65"
-                  strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <circle className="cw-ascend-orb" cx="130" cy="84" r="9" fill={accent} />
-                <line
-                  className="cw-ascend-stem"
-                  x1="130"
-                  y1="100"
-                  x2="130"
-                  y2="188"
-                  stroke={accent}
-                  strokeWidth="1.5"
-                  strokeDasharray="4 4"
-                />
+                <line x1="160" y1="224" x2="160" y2="304" stroke="#2c2a25" strokeWidth="1.6" />
+                <path d="M88 240 H142 M88 258 H138 M88 276 H132 M178 240 H232 M178 258 H228 M178 276 H222" stroke="#2c2a25" strokeWidth="1.3" strokeOpacity="0.6" strokeLinecap="round" />
               </g>
-            )}
+            </g>
+          )}
 
-            {archetype === 'collapse' && (
-              <g className="cw-arch-collapse">
-                <rect
-                  className="cw-fall-block-1"
-                  x="92"
-                  y="74"
-                  width="76"
-                  height="18"
-                  rx="4"
-                  stroke={accent}
-                  strokeWidth="1.8"
-                  fill={accent}
-                  fillOpacity="0.16"
-                />
-                <rect
-                  className="cw-fall-block-2"
-                  x="84"
-                  y="112"
-                  width="92"
-                  height="18"
-                  rx="4"
-                  stroke={accent}
-                  strokeWidth="1.8"
-                  fill={accent}
-                  fillOpacity="0.24"
-                />
-                <ellipse
-                  className="cw-ripple-ring"
-                  cx="130"
-                  cy="176"
-                  rx="58"
-                  ry="14"
-                  stroke={accent}
-                  strokeWidth="1.5"
-                  strokeOpacity="0.6"
-                />
+          {scene === 'sprouting_seed' && (
+            <g className="cw-scene-group">
+              <path d="M64 316 H256" stroke="#2c2a25" strokeWidth="1.8" />
+              {/* Terracotta pot */}
+              <path d="M114 232 H206 L192 316 H128 Z" fill="#e07a5f" fillOpacity="0.72" stroke="#2c2a25" strokeWidth="1.8" strokeLinejoin="round" />
+              <rect x="106" y="218" width="108" height="16" rx="3" fill="#e07a5f" stroke="#2c2a25" strokeWidth="1.8" />
+              {/* Growing stem & leaves */}
+              <g className="cw-scene-grow">
+                <path d="M160 218 V122" stroke="#2d6a4f" strokeWidth="2.6" strokeLinecap="round" />
+                <path d="M160 176 C126 172 114 146 136 136 C154 142 160 162 160 176 Z" fill="#52b788" stroke="#2c2a25" strokeWidth="1.6" />
+                <path d="M160 152 C194 148 206 122 184 112 C166 118 160 138 160 152 Z" fill="#74c69d" stroke="#2c2a25" strokeWidth="1.6" />
               </g>
-            )}
+            </g>
+          )}
 
-            {archetype === 'converge' && (
-              <g className="cw-arch-converge">
-                <circle
-                  className="cw-merge-left"
-                  cx="98"
-                  cy="130"
-                  r="36"
-                  stroke={accent}
-                  strokeWidth="1.8"
-                  fill={accent}
-                  fillOpacity="0.18"
-                />
-                <circle
-                  className="cw-merge-right"
-                  cx="162"
-                  cy="130"
-                  r="36"
-                  stroke={accent}
-                  strokeWidth="1.8"
-                  fill={accent}
-                  fillOpacity="0.18"
-                />
-                <circle className="cw-core-pulse" cx="130" cy="130" r="8" fill={accent} />
+          {scene === 'clockwork_system' && (
+            <g className="cw-scene-group">
+              <g className="cw-scene-gear-1">
+                <circle cx="132" cy="184" r="42" fill="#d4a373" fillOpacity="0.45" stroke="#2c2a25" strokeWidth="1.8" strokeDasharray="12 6" />
+                <circle cx="132" cy="184" r="28" fill="#f3efe6" stroke="#2c2a25" strokeWidth="1.6" />
+                <circle cx="132" cy="184" r="10" fill={accent} stroke="#2c2a25" strokeWidth="1.5" />
               </g>
-            )}
+              <g className="cw-scene-gear-2">
+                <circle cx="198" cy="236" r="32" fill={accent} fillOpacity="0.35" stroke="#2c2a25" strokeWidth="1.8" strokeDasharray="10 5" />
+                <circle cx="198" cy="236" r="20" fill="#f3efe6" stroke="#2c2a25" strokeWidth="1.6" />
+                <circle cx="198" cy="236" r="7" fill="#d4a373" stroke="#2c2a25" strokeWidth="1.5" />
+              </g>
+            </g>
+          )}
 
-            {archetype === 'diverge' && (
-              <g className="cw-arch-diverge">
-                <line x1="130" y1="130" x2="82" y2="82" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5" />
-                <line x1="130" y1="130" x2="178" y2="82" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5" />
-                <line x1="130" y1="130" x2="82" y2="178" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5" />
-                <line x1="130" y1="130" x2="178" y2="178" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5" />
-                <circle className="cw-div-node-1" cx="82" cy="82" r="9" fill={accent} fillOpacity="0.75" />
-                <circle className="cw-div-node-2" cx="178" cy="82" r="9" fill={accent} fillOpacity="0.75" />
-                <circle className="cw-div-node-3" cx="82" cy="178" r="9" fill={accent} fillOpacity="0.75" />
-                <circle className="cw-div-node-4" cx="178" cy="178" r="9" fill={accent} fillOpacity="0.75" />
-                <circle className="cw-core-pulse" cx="130" cy="130" r="12" stroke={accent} strokeWidth="2" />
+          {scene === 'funnel_filter' && (
+            <g className="cw-scene-group">
+              {/* Unsorted top particles */}
+              <g className="cw-scene-debris">
+                <circle cx="122" cy="104" r="6" fill="#a8a29e" stroke="#2c2a25" strokeWidth="1.4" />
+                <circle cx="160" cy="96" r="7" fill={accent} stroke="#2c2a25" strokeWidth="1.4" />
+                <circle cx="196" cy="108" r="6" fill="#a8a29e" stroke="#2c2a25" strokeWidth="1.4" />
               </g>
-            )}
+              {/* Glass funnel */}
+              <path
+                d="M92 132 H228 L172 214 V268 H148 V214 Z"
+                fill="#e0fbfc"
+                fillOpacity="0.55"
+                stroke="#2c2a25"
+                strokeWidth="1.8"
+                strokeLinejoin="round"
+              />
+              {/* Filtered pure drop */}
+              <circle className="cw-scene-drop" cx="160" cy="296" r="8" fill={accent} stroke="#2c2a25" strokeWidth="1.6" />
+              <path d="M112 324 H208" stroke="#2c2a25" strokeWidth="1.8" strokeLinecap="round" />
+            </g>
+          )}
 
-            {archetype === 'oscillate' && (
-              <g className="cw-arch-oscillate">
-                <path
-                  className="cw-wave-1"
-                  d="M 52 130 Q 91 78, 130 130 T 208 130"
-                  stroke={accent}
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  fill="none"
-                />
-                <path
-                  className="cw-wave-2"
-                  d="M 52 130 Q 91 182, 130 130 T 208 130"
-                  stroke={accent}
-                  strokeWidth="1.5"
-                  strokeOpacity="0.45"
-                  strokeLinecap="round"
-                  fill="none"
-                />
-                <circle className="cw-core-pulse" cx="130" cy="130" r="7" fill={accent} />
+          {scene === 'keystone_arch' && (
+            <g className="cw-scene-group">
+              <path d="M48 316 H272" stroke="#2c2a25" strokeWidth="1.8" />
+              {/* Left & right stone arch pillars */}
+              <path d="M72 316 V196 C72 152 104 126 138 120 L144 154 C120 160 104 176 104 198 V316 Z" fill="#d6d1c4" stroke="#2c2a25" strokeWidth="1.8" />
+              <path d="M248 316 V196 C248 152 216 126 182 120 L176 154 C200 160 216 176 216 198 V316 Z" fill="#d6d1c4" stroke="#2c2a25" strokeWidth="1.8" />
+              {/* Keystone lowering into place */}
+              <g className="cw-scene-keystone">
+                <path d="M140 112 H180 L172 154 H148 Z" fill={accent} stroke="#2c2a25" strokeWidth="1.8" strokeLinejoin="round" />
               </g>
-            )}
-
-            {archetype === 'focus' && (
-              <g className="cw-arch-focus">
-                <circle
-                  className="cw-aperture-outer"
-                  cx="130"
-                  cy="130"
-                  r="68"
-                  stroke={accent}
-                  strokeWidth="1.5"
-                  strokeDasharray="14 8"
-                />
-                <circle
-                  className="cw-aperture-inner"
-                  cx="130"
-                  cy="130"
-                  r="40"
-                  stroke={accent}
-                  strokeWidth="1.8"
-                  strokeDasharray="8 6"
-                />
-                <circle className="cw-core-pulse" cx="130" cy="130" r="11" fill={accent} />
-              </g>
-            )}
-
-            {archetype === 'barrier' && (
-              <g className="cw-arch-barrier">
-                <path
-                  className="cw-shield-arc"
-                  d="M 152 72 A 64 64 0 0 1 152 188"
-                  stroke={accent}
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-                <circle className="cw-impact-orb" cx="104" cy="130" r="12" fill={accent} fillOpacity="0.85" />
-                <circle
-                  className="cw-impact-wave"
-                  cx="134"
-                  cy="130"
-                  r="28"
-                  stroke={accent}
-                  strokeWidth="1.4"
-                  strokeOpacity="0.5"
-                />
-              </g>
-            )}
-          </svg>
-        </>
+            </g>
+          )}
+        </svg>
       )}
     </div>
   )

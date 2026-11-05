@@ -19,7 +19,7 @@ type WordViewProps = {
   total: number
   canReplay: boolean
   capsules?: SessionCapsule[]
-  onAdvance: (hadMiss: boolean) => void
+  onAdvance: (hadMiss: boolean, mastered?: boolean) => void
   onExit: () => void
 }
 
@@ -108,15 +108,19 @@ export function WordView({
   const [missed, setMissed] = useState(false)
   const [tried, setTried] = useState(false)
   const [missCount, setMissCount] = useState(0)
+  const [probeRevealed, setProbeRevealed] = useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const advancedRef = useRef(false)
   const timerRef = useRef<number | null>(null)
+  const probeTimerRef = useRef<number | null>(null)
+  const firstKeyAtRef = useRef<number | null>(null)
+  const hadTypoRef = useRef(false)
 
   const learn = mode === 'learn'
   const passed = gradeExact(spellInput, word.word).ok
   const revealed = missCount >= 2
-  const showHead = learn || passed || revealed
-  const showCaption = learn || revealed
+  const showHead = (learn && probeRevealed) || passed || revealed
+  const showCaption = (learn && probeRevealed) || passed || revealed
   const illusSrc = illustrationUrl(word)
   const vidSrc = videoUrl(word)
   const hasMedia = Boolean(illusSrc || vidSrc)
@@ -129,13 +133,30 @@ export function WordView({
   useEffect(() => {
     if (learn) {
       speakWord(word.word, word.id)
+      probeTimerRef.current = window.setTimeout(() => {
+        setProbeRevealed(true)
+      }, 1800)
     }
     return () => {
       if (timerRef.current !== null) {
         window.clearTimeout(timerRef.current)
       }
+      if (probeTimerRef.current !== null) {
+        window.clearTimeout(probeTimerRef.current)
+      }
     }
   }, [learn, word.id, word.word])
+
+  function computeSystemMastered(): boolean {
+    if (missed || hadTypoRef.current) return false
+    if (!probeRevealed) return true
+    if (firstKeyAtRef.current !== null) {
+      const typingSpan = performance.now() - firstKeyAtRef.current
+      const msPerChar = typingSpan / Math.max(1, word.word.length)
+      if (msPerChar <= 190) return true
+    }
+    return false
+  }
 
   function triggerAdvance(hadMiss: boolean) {
     if (advancedRef.current) return
@@ -144,7 +165,11 @@ export function WordView({
       window.clearTimeout(timerRef.current)
       timerRef.current = null
     }
-    onAdvance(hadMiss)
+    if (probeTimerRef.current !== null) {
+      window.clearTimeout(probeTimerRef.current)
+      probeTimerRef.current = null
+    }
+    onAdvance(hadMiss, !hadMiss && computeSystemMastered())
   }
 
   function noteMiss() {
@@ -300,11 +325,28 @@ export function WordView({
                 spellCheck={false}
                 enterKeyHint="done"
                 value={spellInput}
-                placeholder={learn ? '输入这个词' : maskWordHint(word.word)}
+                placeholder={showHead ? '输入这个词' : maskWordHint(word.word)}
                 aria-label="输入这个词"
                 onChange={(e) => {
                   const val = e.target.value
                   setSpellInput(val)
+                  const cleanVal = val.trim().toLowerCase()
+                  const cleanTarget = word.word.trim().toLowerCase()
+                  if (cleanVal.length > 0 && firstKeyAtRef.current === null) {
+                    firstKeyAtRef.current = performance.now()
+                  }
+                  const isPrefix = cleanTarget.startsWith(cleanVal)
+                  if (cleanVal.length > 0 && isPrefix && !probeRevealed) {
+                    if (probeTimerRef.current !== null) {
+                      window.clearTimeout(probeTimerRef.current)
+                      probeTimerRef.current = null
+                    }
+                  } else if (cleanVal.length > 0 && !isPrefix) {
+                    hadTypoRef.current = true
+                    if (learn && !probeRevealed) {
+                      setProbeRevealed(true)
+                    }
+                  }
                   const isOk = gradeExact(val, word.word).ok
                   if (tried && isOk) setTried(false)
                   if (isOk && !advancedRef.current) {
@@ -315,13 +357,12 @@ export function WordView({
                   }
                 }}
                 onKeyDown={(e) => {
-                  if (learn && e.key === 'Tab' && !spellInput.trim()) {
-                    e.preventDefault()
-                    triggerAdvance(false)
-                    return
-                  }
                   if (e.key !== 'Enter') return
                   e.preventDefault()
+                  if (learn && !probeRevealed && !passed) {
+                    setProbeRevealed(true)
+                    return
+                  }
                   commit()
                 }}
               />
@@ -344,15 +385,6 @@ export function WordView({
             >
               <span>{nextLabel}</span>
             </button>
-            {learn && !passed && (
-              <button
-                type="button"
-                className="cw-skip-known"
-                onClick={() => triggerAdvance(false)}
-              >
-                太熟，直接过
-              </button>
-            )}
           </footer>
         </div>
       </article>

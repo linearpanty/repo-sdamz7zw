@@ -123,7 +123,12 @@ export function ensureToday(progress: Progress, today: string): Progress {
  * The current card was spelled correctly.
  * A miss schedules one quiet replay later in today's queue, then waits until a later day.
  */
-export function settleCard(progress: Progress, hadMiss: boolean, today = progress.todayKey): Progress {
+export function settleCard(
+  progress: Progress,
+  hadMiss: boolean,
+  today = progress.todayKey,
+  mastered = false,
+): Progress {
   const current = progress.queue[0]
   if (!current) return progress
 
@@ -145,7 +150,11 @@ export function settleCard(progress: Progress, hadMiss: boolean, today = progres
       replayed.push(current.id)
     }
   } else {
-    const interval = prev.interval <= 0 ? 1 : Math.min(21, prev.interval * 2)
+    const interval = mastered
+      ? 21
+      : prev.interval <= 0
+        ? 1
+        : Math.min(21, prev.interval * 2)
     memory[current.id] = {
       interval,
       next: addDays(today, interval),
