@@ -23,6 +23,8 @@ export type Word = {
   sceneHook: string
   /** Text-free poster under Vite `public/`, e.g. `illus/abandon.webp`. */
   illustration?: string
+  /** Optional looping micro-video under Vite `public/`, e.g. `video/abandon.webm`. */
+  video?: string
   color: string
   /** Proficiency band stored strictly in data (never displayed in UI). */
   level?: LexiconLevel
@@ -35,5 +37,15 @@ export type Word = {
 /** Public URL for a text-free poster, honoring the Vite base path. */
 export function illustrationUrl(word: Word): string | null {
   if (!word.illustration) return null
+  if (/\.(mp4|webm)$/i.test(word.illustration)) return null
   return import.meta.env.BASE_URL + word.illustration.replace(/^\//, '')
+}
+
+/** Public URL for a looping micro-video, honoring the Vite base path. */
+export function videoUrl(word: Word): string | null {
+  const src =
+    word.video ??
+    (word.illustration && /\.(mp4|webm)$/i.test(word.illustration) ? word.illustration : undefined)
+  if (!src) return null
+  return import.meta.env.BASE_URL + src.replace(/^\//, '')
 }

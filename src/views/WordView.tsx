@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { illustrationUrl, type Word } from '../data/types'
+import { WordMotionStage } from '../components/WordMotionStage'
+import { illustrationUrl, videoUrl, type Word } from '../data/types'
 import { speakWord } from '../lib/audio'
 import { gradeExact, maskWordHint } from '../lib/grader'
 import type { CardMode } from '../lib/model'
@@ -117,6 +118,8 @@ export function WordView({
   const showHead = learn || passed || revealed
   const showCaption = learn || revealed
   const illusSrc = illustrationUrl(word)
+  const vidSrc = videoUrl(word)
+  const hasMedia = Boolean(illusSrc || vidSrc)
   const example = word.examples[0]
   const collocations = (word.collocations ?? []).slice(0, 3)
   const fraction = `${index}/${total}`
@@ -213,27 +216,8 @@ export function WordView({
       </div>
 
       <article className="cw-lexicon-folio" aria-label="词">
-        <div className={`cw-poster-frame${illusSrc ? ' has-illus' : ''}`}>
-          {illusSrc ? (
-            <img
-              className="cw-poster-photo"
-              src={illusSrc}
-              alt=""
-              width={640}
-              height={800}
-              draggable={false}
-            />
-          ) : (
-            <>
-              <div className="cw-poster-grid-overlay" aria-hidden="true" />
-              <svg className="cw-poster-art-svg" viewBox="0 0 260 260" fill="none" aria-hidden="true">
-                <circle cx="130" cy="130" r="96" stroke="currentColor" strokeWidth="1" strokeDasharray="3 5" />
-                <circle cx="130" cy="130" r="68" stroke="currentColor" strokeWidth="0.75" />
-                <line x1="20" y1="130" x2="240" y2="130" stroke="currentColor" strokeWidth="0.6" />
-                <line x1="130" y1="20" x2="130" y2="240" stroke="currentColor" strokeWidth="0.6" />
-              </svg>
-            </>
-          )}
+        <div className={`cw-poster-frame${hasMedia ? ' has-illus' : ''}`}>
+          <WordMotionStage word={word} spellInput={spellInput} passed={passed} />
           {showCaption && (
             <div className="cw-poster-centerpiece">
               <p className="cw-poster-hook">{highlightLexeme(word.sceneHook, word)}</p>

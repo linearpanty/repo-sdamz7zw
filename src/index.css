@@ -680,6 +680,319 @@ mark.cw-target-hl {
   font-weight: 700;
 }
 
+/* Motion Stage & Looping Video / Kinetic Archetypes */
+.cw-motion-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cw-poster-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cw-kenburns-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.cw-poster-kenburns {
+  animation: cw-kenburns 11s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+.cw-illus-aura-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 18px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cw-motion-glow {
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--cw-word-color, #243b55) 0%, transparent 70%);
+  opacity: calc(0.11 + var(--cw-type-progress, 0) * 0.16);
+  filter: blur(22px);
+  animation: cw-breathe 4.2s ease-in-out infinite;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cw-motion-stage.is-passed .cw-motion-glow {
+  opacity: 0.32;
+  transform: scale(1.22);
+}
+
+.cw-motion-svg {
+  width: 224px;
+  height: 224px;
+  color: var(--cw-text-muted);
+  z-index: 1;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cw-motion-stage.is-typing .cw-motion-svg {
+  transform: scale(calc(1 + var(--cw-type-progress, 0) * 0.05));
+}
+
+.cw-motion-stage.is-passed .cw-motion-svg {
+  transform: scale(1.08);
+}
+
+.cw-progress-ring {
+  transform: rotate(-90deg);
+  transform-origin: 130px 130px;
+  transition: stroke-dashoffset 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cw-orbit-ring-1 {
+  transform-origin: 130px 130px;
+  animation: cw-spin-slow 9s linear infinite;
+}
+
+.cw-orbit-ring-2 {
+  transform-origin: 130px 130px;
+  animation: cw-spin-rev 12s linear infinite;
+}
+
+.cw-sat-1 {
+  transform-origin: 130px 130px;
+  animation: cw-spin-slow 6s linear infinite;
+}
+
+.cw-sat-2 {
+  transform-origin: 130px 130px;
+  animation: cw-spin-rev 8s linear infinite;
+}
+
+.cw-core-pulse {
+  transform-origin: 130px 130px;
+  animation: cw-pulse-node 2.8s ease-in-out infinite;
+}
+
+.cw-ascend-arc-1,
+.cw-ascend-arc-2,
+.cw-ascend-orb {
+  animation: cw-float-up 2.6s ease-in-out infinite;
+}
+
+.cw-ascend-arc-2 {
+  animation-delay: 0.25s;
+}
+
+.cw-fall-block-1 {
+  transform-origin: 130px 83px;
+  animation: cw-tilt-drop-1 3.2s ease-in-out infinite;
+}
+
+.cw-fall-block-2 {
+  transform-origin: 130px 121px;
+  animation: cw-tilt-drop-2 3.2s ease-in-out infinite;
+}
+
+.cw-ripple-ring {
+  transform-origin: 130px 176px;
+  animation: cw-ripple-expand 3.2s ease-out infinite;
+}
+
+.cw-merge-left {
+  animation: cw-converge-l 3.4s ease-in-out infinite;
+}
+
+.cw-merge-right {
+  animation: cw-converge-r 3.4s ease-in-out infinite;
+}
+
+.cw-div-node-1,
+.cw-div-node-2,
+.cw-div-node-3,
+.cw-div-node-4 {
+  transform-origin: 130px 130px;
+  animation: cw-radiate 3s ease-in-out infinite;
+}
+
+.cw-wave-1 {
+  animation: cw-wave-bob 2.6s ease-in-out infinite alternate;
+}
+
+.cw-wave-2 {
+  animation: cw-wave-bob 2.6s ease-in-out infinite alternate-reverse;
+}
+
+.cw-aperture-outer {
+  transform-origin: 130px 130px;
+  animation: cw-spin-slow 14s linear infinite;
+}
+
+.cw-aperture-inner {
+  transform-origin: 130px 130px;
+  animation: cw-spin-rev 8s linear infinite;
+}
+
+.cw-impact-orb {
+  animation: cw-strike 2.4s ease-in-out infinite;
+}
+
+.cw-impact-wave {
+  transform-origin: 134px 130px;
+  animation: cw-ripple-expand 2.4s ease-out infinite;
+}
+
+@keyframes cw-kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.09) translate(-1.5%, -1.5%);
+  }
+}
+
+@keyframes cw-breathe {
+  0%,
+  100% {
+    transform: scale(0.92);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes cw-spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cw-spin-rev {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes cw-pulse-node {
+  0%,
+  100% {
+    transform: scale(0.88);
+    opacity: 0.78;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes cw-float-up {
+  0%,
+  100% {
+    transform: translateY(8px);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+@keyframes cw-tilt-drop-1 {
+  0%,
+  100% {
+    transform: translateY(-4px) rotate(-2deg);
+  }
+  60% {
+    transform: translateY(12px) rotate(9deg);
+  }
+}
+
+@keyframes cw-tilt-drop-2 {
+  0%,
+  100% {
+    transform: translateY(0) rotate(1deg);
+  }
+  60% {
+    transform: translateY(15px) rotate(-6deg);
+  }
+}
+
+@keyframes cw-ripple-expand {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0.1;
+  }
+}
+
+@keyframes cw-converge-l {
+  0%,
+  100% {
+    transform: translateX(-8px);
+  }
+  50% {
+    transform: translateX(14px);
+  }
+}
+
+@keyframes cw-converge-r {
+  0%,
+  100% {
+    transform: translateX(8px);
+  }
+  50% {
+    transform: translateX(-14px);
+  }
+}
+
+@keyframes cw-radiate {
+  0%,
+  100% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes cw-wave-bob {
+  0% {
+    transform: translateY(-8px) scaleY(0.92);
+  }
+  100% {
+    transform: translateY(8px) scaleY(1.08);
+  }
+}
+
+@keyframes cw-strike {
+  0%,
+  100% {
+    transform: translateX(-12px);
+  }
+  50% {
+    transform: translateX(14px);
+  }
+}
+
 .cw-done-actions {
   display: flex;
   flex-direction: column;
