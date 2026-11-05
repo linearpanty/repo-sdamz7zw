@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { WordMotionStage } from '../components/WordMotionStage'
+import { hasScene, WordMotionStage } from '../components/WordMotionStage'
 import { illustrationUrl, videoUrl, type Word } from '../data/types'
 import { speakWord } from '../lib/audio'
 import { gradeExact, maskWordHint } from '../lib/grader'
@@ -94,6 +94,9 @@ function maskLexemeInSentence(text: string, word: Word): ReactNode {
   )
 }
 
+/** Time the After memory frame stays on screen after a correct spelling. */
+const CLIMAX_HOLD_MS = 650
+
 export function WordView({
   word,
   mode,
@@ -123,7 +126,10 @@ export function WordView({
   const showCaption = (learn && probeRevealed) || passed || revealed
   const illusSrc = illustrationUrl(word)
   const vidSrc = videoUrl(word)
-  const hasMedia = Boolean(illusSrc || vidSrc)
+  const withScene = hasScene(word)
+  const hasMedia = Boolean(withScene || illusSrc || vidSrc)
+  // Scenes get a short hold so the After frame lands; Enter still advances at once.
+  const passHoldMs = withScene ? CLIMAX_HOLD_MS : 180
   const example = word.examples[0]
   const collocations = (word.collocations ?? []).slice(0, 3)
   const fraction = `${index}/${total}`
@@ -242,8 +248,8 @@ export function WordView({
 
       <article className={`cw-lexicon-folio${hasMedia ? '' : ' is-text-only'}`} aria-label="词">
         {hasMedia && (
-          <div className="cw-poster-frame has-illus">
-            <WordMotionStage word={word} passed={passed} />
+          <div className={`cw-poster-frame has-illus${withScene ? ' has-scene' : ''}`}>
+            <WordMotionStage word={word} mode={mode} typed={spellInput} passed={passed} missCount={missCount} />
             {showCaption && (
               <div className="cw-poster-centerpiece">
                 <p className="cw-poster-hook">{highlightLexeme(word.sceneHook, word)}</p>
@@ -355,7 +361,7 @@ export function WordView({
                     if (timerRef.current !== null) window.clearTimeout(timerRef.current)
                     timerRef.current = window.setTimeout(() => {
                       triggerAdvance(missed)
-                    }, 180)
+                    }, passHoldMs)
                   }
                 }}
                 onKeyDown={(e) => {
