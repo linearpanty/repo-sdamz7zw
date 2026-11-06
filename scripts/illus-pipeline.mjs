@@ -127,9 +127,15 @@ function auditWord(w) {
     if (exactSyls.join('').toLowerCase() !== lower) {
       issues.push(`EXACT_SYLLABLES["${lower}"] join mismatch ("${exactSyls.join('')}" !== "${lower}")`)
     }
-    for (const part of exactSyls) {
+    for (let sIdx = 0; sIdx < exactSyls.length; sIdx += 1) {
+      const part = exactSyls[sIdx]
       if (!/[aeiouy]/i.test(part)) {
         issues.push(`syllable chunk "${part}" in EXACT_SYLLABLES["${lower}"] lacks a vowel`)
+      }
+      if (sIdx > 0 && part.length === 1 && !/[aeiouy]$/i.test(exactSyls[sIdx - 1])) {
+        issues.push(
+          `stranded 1-letter syllable "${part}" after consonant in EXACT_SYLLABLES["${lower}"] (${exactSyls.join('·')}); use CV onset split`,
+        )
       }
     }
   }
