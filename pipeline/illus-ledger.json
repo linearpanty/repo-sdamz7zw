@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T02:16:51.168Z",
+  "updatedAt": "2026-11-06T09:50:22.844Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -201,6 +201,46 @@
       "sceneHookZh": "合适穿着",
       "illustration": "illus/appropriate.webp",
       "verifiedAt": "2026-11-06T02:16:51.168Z"
+    },
+    "principle": {
+      "index": 26,
+      "status": "live",
+      "sceneHook": "basic principle",
+      "sceneHookZh": "基本原理",
+      "illustration": "illus/principle.webp",
+      "verifiedAt": "2026-11-06T09:50:22.828Z"
+    },
+    "capable": {
+      "index": 27,
+      "status": "live",
+      "sceneHook": "capable hands",
+      "sceneHookZh": "巧手能干",
+      "illustration": "illus/capable.webp",
+      "verifiedAt": "2026-11-06T09:50:22.842Z"
+    },
+    "perspective": {
+      "index": 28,
+      "status": "live",
+      "sceneHook": "new perspective",
+      "sceneHookZh": "全新视角",
+      "illustration": "illus/perspective.webp",
+      "verifiedAt": "2026-11-06T09:50:22.843Z"
+    },
+    "affect": {
+      "index": 29,
+      "status": "live",
+      "sceneHook": "directly affect",
+      "sceneHookZh": "直接影响",
+      "illustration": "illus/affect.webp",
+      "verifiedAt": "2026-11-06T09:50:22.843Z"
+    },
+    "function": {
+      "index": 30,
+      "status": "live",
+      "sceneHook": "main function",
+      "sceneHookZh": "主要功能",
+      "illustration": "illus/function.webp",
+      "verifiedAt": "2026-11-06T09:50:22.844Z"
     }
   }
 }
