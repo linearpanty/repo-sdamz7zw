@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T10:31:15.315Z",
+  "updatedAt": "2026-11-06T10:40:08.897Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -401,6 +401,46 @@
       "sceneHookZh": "自然现象",
       "illustration": "illus/phenomenon.webp",
       "verifiedAt": "2026-11-06T10:31:15.314Z"
+    },
+    "support": {
+      "index": 51,
+      "status": "live",
+      "sceneHook": "support the plant",
+      "sceneHookZh": "支撑植株",
+      "illustration": "illus/support.webp",
+      "verifiedAt": "2026-11-06T10:40:08.887Z"
+    },
+    "issue": {
+      "index": 52,
+      "status": "live",
+      "sceneHook": "fix the issue",
+      "sceneHookZh": "解决问题",
+      "illustration": "illus/issue.webp",
+      "verifiedAt": "2026-11-06T10:40:08.896Z"
+    },
+    "create": {
+      "index": 53,
+      "status": "live",
+      "sceneHook": "create a new colour",
+      "sceneHookZh": "调出新色",
+      "illustration": "illus/create.webp",
+      "verifiedAt": "2026-11-06T10:40:08.896Z"
+    },
+    "community": {
+      "index": 54,
+      "status": "live",
+      "sceneHook": "local community",
+      "sceneHookZh": "当地社区",
+      "illustration": "illus/community.webp",
+      "verifiedAt": "2026-11-06T10:40:08.897Z"
+    },
+    "source": {
+      "index": 55,
+      "status": "live",
+      "sceneHook": "river source",
+      "sceneHookZh": "河流源头",
+      "illustration": "illus/source.webp",
+      "verifiedAt": "2026-11-06T10:40:08.897Z"
     }
   }
 }
