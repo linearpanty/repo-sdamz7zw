@@ -32,7 +32,11 @@ export function TodayView({
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [onStart])
 
-  const hasSlip = doneWords.length > 0 || queueWords.length > 0
+  const queuedIds = new Set(queueWords.map((item) => item.word.id))
+  const doneSlots = Math.max(0, progress.dailyCount - queueWords.length)
+  const roundDoneWords =
+    doneSlots > 0 ? doneWords.filter((w) => !queuedIds.has(w.id)).slice(-doneSlots) : []
+  const hasSlip = roundDoneWords.length > 0 || queueWords.length > 0
 
   return (
     <section className="cw-sheet cw-sheet-slip" aria-label="今天">
@@ -43,7 +47,7 @@ export function TodayView({
 
       {hasSlip && (
         <ul className="cw-done-list" aria-label="今日词笺">
-          {doneWords.slice(-progress.dailyCount).map((w) => (
+          {roundDoneWords.map((w) => (
             <li key={`done-${w.id}`} className="cw-done-item">
               <button
                 type="button"

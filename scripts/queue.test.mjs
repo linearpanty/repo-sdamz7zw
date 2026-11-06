@@ -11,7 +11,7 @@ await bundle.write({ file: outfile, format: 'esm' })
 await bundle.close()
 
 const queue = await import(pathToFileURL(outfile).href)
-const { selectQueue, ensureToday, settleCard, sanitizeProgress } = queue
+const { selectQueue, ensureToday, settleCard, sanitizeProgress, startBonusRound } = queue
 
 const today = '2026-10-27'
 const blank = {
@@ -81,6 +81,7 @@ assert.equal(missed.queue.at(-1)?.id, 'abandon')
 assert.equal(missed.queue.at(-1)?.mode, 'recall')
 assert.equal(missed.queue[0].id, 'challenge')
 assert.equal(missed.replayed.includes('abandon'), true)
+assert.equal(missed.doneIds.includes('abandon'), false, 're-queued word must not appear in doneIds yet')
 assert.equal(missed.memory.abandon.next, '2026-10-28')
 
 const again = settleCard(
@@ -98,7 +99,14 @@ let clean = ensureToday(blank, today)
 for (let i = 0; i < 5; i += 1) clean = settleCard(clean, false, today)
 assert.equal(clean.finished, true)
 assert.equal(clean.queue.length, 0)
+assert.equal(clean.doneIds.length, 5)
 assert.equal(clean.memory.abandon.next, '2026-10-28')
+
+const bonus = startBonusRound(clean, today)
+assert.equal(bonus.queue.length, 5)
+assert.deepEqual(bonus.doneIds, [], 'bonus round resets doneIds so slip shows only the new 5 words')
+assert.equal(bonus.doneCount, 0)
+assert.deepEqual(bonus.replayed, [])
 
 const nextDay = ensureToday(clean, '2026-10-28')
 assert.equal(nextDay.finished, false)

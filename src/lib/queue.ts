@@ -172,7 +172,11 @@ export function settleCard(
   }
 
   const prevDoneIds = progress.doneIds ?? []
-  const doneIds = prevDoneIds.includes(current.id) ? prevDoneIds : [...prevDoneIds, current.id]
+  const stillQueued = queue.some((card) => card.id === current.id)
+  const doneIds =
+    stillQueued || prevDoneIds.includes(current.id)
+      ? prevDoneIds
+      : [...prevDoneIds, current.id]
 
   return {
     ...progress,
@@ -198,6 +202,9 @@ export function startBonusRound(progress: Progress, today = progress.todayKey): 
     ...progress,
     todayKey: today,
     queue: bonus,
+    doneCount: 0,
+    doneIds: [],
+    replayed: [],
     started: true,
     finished: false,
   }

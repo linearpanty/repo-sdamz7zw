@@ -203,9 +203,14 @@ export default function App() {
         .filter((item): item is NonNullable<typeof item> => Boolean(item))
     : []
 
+  const queuedIdSet = new Set(progress.queue.map((c) => c.id))
+  const doneSlots = Math.max(0, progress.dailyCount - progress.queue.length)
+  const roundDoneWords =
+    doneSlots > 0 ? doneWords.filter((w) => !queuedIdSet.has(w.id)).slice(-doneSlots) : []
+
   const sessionCapsules = runtime
     ? [
-        ...doneWords.slice(-progress.dailyCount).map((w) => ({
+        ...roundDoneWords.map((w) => ({
           id: w.id,
           word: w.word,
           status: 'done' as const,
@@ -228,14 +233,14 @@ export default function App() {
           {route === 'today' && !(awaitingAutoJump && !runtime) && (
             <TodayView
               progress={progress}
-              doneWords={doneWords}
+              doneWords={roundDoneWords}
               queueWords={queueWords}
               onStart={handleStart}
             />
           )}
           {route === 'done' && progress.finished && (
             <DoneView
-              words={doneWords}
+              words={doneWords.slice(-progress.dailyCount)}
               onMore={handleStart}
               onBack={() => {
                 go('today')
@@ -247,8 +252,8 @@ export default function App() {
               key={`${card.id}:${card.mode}:${progress.doneCount}`}
               word={word}
               mode={card.mode}
-              index={progress.doneCount + 1}
-              total={progress.doneCount + progress.queue.length}
+              index={roundDoneWords.length + 1}
+              total={roundDoneWords.length + progress.queue.length}
               canReplay={!progress.replayed.includes(card.id)}
               capsules={sessionCapsules}
               onAdvance={handleAdvance}
