@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T17:39:04.514Z",
+  "updatedAt": "2026-11-06T17:55:42.593Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -8,7 +8,7 @@
       "sceneHook": "abandon the dog",
       "sceneHookZh": "抛弃小狗",
       "illustration": "illus/abandon.webp",
-      "verifiedAt": "2026-11-06T17:39:04.427Z"
+      "verifiedAt": "2026-11-06T17:55:42.511Z"
     },
     "challenge": {
       "index": 2,
@@ -16,7 +16,7 @@
       "sceneHook": "big challenge",
       "sceneHookZh": "巨大挑战",
       "illustration": "illus/challenge.webp",
-      "verifiedAt": "2026-11-06T17:39:04.456Z"
+      "verifiedAt": "2026-11-06T17:55:42.543Z"
     },
     "benefit": {
       "index": 3,
@@ -24,7 +24,7 @@
       "sceneHook": "enjoy the benefit",
       "sceneHookZh": "享受好处",
       "illustration": "illus/benefit.webp",
-      "verifiedAt": "2026-11-06T17:39:04.456Z"
+      "verifiedAt": "2026-11-06T17:55:42.544Z"
     },
     "collapse": {
       "index": 4,
@@ -32,7 +32,7 @@
       "sceneHook": "bridge collapsed",
       "sceneHookZh": "大桥坍塌",
       "illustration": "illus/collapse.webp",
-      "verifiedAt": "2026-11-06T17:39:04.457Z"
+      "verifiedAt": "2026-11-06T17:55:42.544Z"
     },
     "significant": {
       "index": 5,
@@ -40,7 +40,7 @@
       "sceneHook": "significant rise",
       "sceneHookZh": "显著上涨",
       "illustration": "illus/significant.webp",
-      "verifiedAt": "2026-11-06T17:39:04.458Z"
+      "verifiedAt": "2026-11-06T17:55:42.545Z"
     },
     "adequate": {
       "index": 6,
@@ -48,7 +48,7 @@
       "sceneHook": "just adequate",
       "sceneHookZh": "刚好够用",
       "illustration": "illus/adequate.webp",
-      "verifiedAt": "2026-11-06T17:39:04.459Z"
+      "verifiedAt": "2026-11-06T17:55:42.546Z"
     },
     "environment": {
       "index": 7,
@@ -56,7 +56,7 @@
       "sceneHook": "clean environment",
       "sceneHookZh": "干净环境",
       "illustration": "illus/environment.webp",
-      "verifiedAt": "2026-11-06T17:39:04.460Z"
+      "verifiedAt": "2026-11-06T17:55:42.546Z"
     },
     "factor": {
       "index": 8,
@@ -64,7 +64,7 @@
       "sceneHook": "key factor",
       "sceneHookZh": "关键因素",
       "illustration": "illus/factor.webp",
-      "verifiedAt": "2026-11-06T17:39:04.461Z"
+      "verifiedAt": "2026-11-06T17:55:42.547Z"
     },
     "approach": {
       "index": 9,
@@ -72,7 +72,7 @@
       "sceneHook": "gentle approach",
       "sceneHookZh": "温和靠近",
       "illustration": "illus/approach.webp",
-      "verifiedAt": "2026-11-06T17:39:04.462Z"
+      "verifiedAt": "2026-11-06T17:55:42.547Z"
     },
     "evidence": {
       "index": 10,
@@ -80,7 +80,7 @@
       "sceneHook": "clear evidence",
       "sceneHookZh": "确凿证据",
       "illustration": "illus/evidence.webp",
-      "verifiedAt": "2026-11-06T17:39:04.462Z"
+      "verifiedAt": "2026-11-06T17:55:42.547Z"
     },
     "adjacent": {
       "index": 11,
@@ -88,7 +88,7 @@
       "sceneHook": "adjacent doors",
       "sceneHookZh": "相邻两门",
       "illustration": "illus/adjacent.webp",
-      "verifiedAt": "2026-11-06T17:39:04.463Z"
+      "verifiedAt": "2026-11-06T17:55:42.548Z"
     },
     "structure": {
       "index": 12,
@@ -96,7 +96,7 @@
       "sceneHook": "strong structure",
       "sceneHookZh": "稳固结构",
       "illustration": "illus/structure.webp",
-      "verifiedAt": "2026-11-06T17:39:04.463Z"
+      "verifiedAt": "2026-11-06T17:55:42.548Z"
     },
     "available": {
       "index": 13,
@@ -104,7 +104,7 @@
       "sceneHook": "available taxi",
       "sceneHookZh": "亮灯空车",
       "illustration": "illus/available.webp",
-      "verifiedAt": "2026-11-06T17:39:04.464Z"
+      "verifiedAt": "2026-11-06T17:55:42.548Z"
     },
     "impact": {
       "index": 14,
@@ -112,7 +112,7 @@
       "sceneHook": "moment of impact",
       "sceneHookZh": "撞击瞬间",
       "illustration": "illus/impact.webp",
-      "verifiedAt": "2026-11-06T17:39:04.464Z"
+      "verifiedAt": "2026-11-06T17:55:42.549Z"
     },
     "strategy": {
       "index": 15,
@@ -120,7 +120,7 @@
       "sceneHook": "winning strategy",
       "sceneHookZh": "制胜策略",
       "illustration": "illus/strategy.webp",
-      "verifiedAt": "2026-11-06T17:39:04.465Z"
+      "verifiedAt": "2026-11-06T17:55:42.549Z"
     },
     "arbitrary": {
       "index": 16,
@@ -128,7 +128,7 @@
       "sceneHook": "arbitrary choice",
       "sceneHookZh": "武断选择",
       "illustration": "illus/arbitrary.webp",
-      "verifiedAt": "2026-11-06T17:39:04.465Z"
+      "verifiedAt": "2026-11-06T17:55:42.549Z"
     },
     "process": {
       "index": 17,
@@ -136,7 +136,7 @@
       "sceneHook": "making process",
       "sceneHookZh": "制作过程",
       "illustration": "illus/process.webp",
-      "verifiedAt": "2026-11-06T17:39:04.465Z"
+      "verifiedAt": "2026-11-06T17:55:42.549Z"
     },
     "authority": {
       "index": 18,
@@ -144,7 +144,7 @@
       "sceneHook": "official authority",
       "sceneHookZh": "官方权威",
       "illustration": "illus/authority.webp",
-      "verifiedAt": "2026-11-06T17:39:04.465Z"
+      "verifiedAt": "2026-11-06T17:55:42.549Z"
     },
     "feature": {
       "index": 19,
@@ -152,7 +152,7 @@
       "sceneHook": "special feature",
       "sceneHookZh": "独特特征",
       "illustration": "illus/feature.webp",
-      "verifiedAt": "2026-11-06T17:39:04.466Z"
+      "verifiedAt": "2026-11-06T17:55:42.549Z"
     },
     "capacity": {
       "index": 20,
@@ -160,7 +160,7 @@
       "sceneHook": "full capacity",
       "sceneHookZh": "满载容量",
       "illustration": "illus/capacity.webp",
-      "verifiedAt": "2026-11-06T17:39:04.466Z"
+      "verifiedAt": "2026-11-06T17:55:42.550Z"
     },
     "resource": {
       "index": 21,
@@ -168,7 +168,7 @@
       "sceneHook": "natural resource",
       "sceneHookZh": "自然资源",
       "illustration": "illus/resource.webp",
-      "verifiedAt": "2026-11-06T17:39:04.466Z"
+      "verifiedAt": "2026-11-06T17:55:42.550Z"
     },
     "access": {
       "index": 22,
@@ -176,7 +176,7 @@
       "sceneHook": "gain access",
       "sceneHookZh": "获准进入",
       "illustration": "illus/access.webp",
-      "verifiedAt": "2026-11-06T17:39:04.466Z"
+      "verifiedAt": "2026-11-06T17:55:42.550Z"
     },
     "potential": {
       "index": 23,
@@ -184,7 +184,7 @@
       "sceneHook": "great potential",
       "sceneHookZh": "巨大潜力",
       "illustration": "illus/potential.webp",
-      "verifiedAt": "2026-11-06T17:39:04.467Z"
+      "verifiedAt": "2026-11-06T17:55:42.550Z"
     },
     "method": {
       "index": 24,
@@ -192,7 +192,7 @@
       "sceneHook": "smart method",
       "sceneHookZh": "巧妙方法",
       "illustration": "illus/method.webp",
-      "verifiedAt": "2026-11-06T17:39:04.467Z"
+      "verifiedAt": "2026-11-06T17:55:42.551Z"
     },
     "appropriate": {
       "index": 25,
@@ -200,7 +200,7 @@
       "sceneHook": "appropriate clothes",
       "sceneHookZh": "合适穿着",
       "illustration": "illus/appropriate.webp",
-      "verifiedAt": "2026-11-06T17:39:04.467Z"
+      "verifiedAt": "2026-11-06T17:55:42.551Z"
     },
     "principle": {
       "index": 26,
@@ -208,7 +208,7 @@
       "sceneHook": "lever principle",
       "sceneHookZh": "杠杆原理",
       "illustration": "illus/principle.webp",
-      "verifiedAt": "2026-11-06T17:39:04.467Z"
+      "verifiedAt": "2026-11-06T17:55:42.551Z"
     },
     "capable": {
       "index": 27,
@@ -216,7 +216,7 @@
       "sceneHook": "capable hands",
       "sceneHookZh": "巧手能干",
       "illustration": "illus/capable.webp",
-      "verifiedAt": "2026-11-06T17:39:04.467Z"
+      "verifiedAt": "2026-11-06T17:55:42.551Z"
     },
     "perspective": {
       "index": 28,
@@ -224,7 +224,7 @@
       "sceneHook": "new perspective",
       "sceneHookZh": "全新视角",
       "illustration": "illus/perspective.webp",
-      "verifiedAt": "2026-11-06T17:39:04.467Z"
+      "verifiedAt": "2026-11-06T17:55:42.552Z"
     },
     "affect": {
       "index": 29,
@@ -232,7 +232,7 @@
       "sceneHook": "directly affect",
       "sceneHookZh": "直接影响",
       "illustration": "illus/affect.webp",
-      "verifiedAt": "2026-11-06T17:39:04.468Z"
+      "verifiedAt": "2026-11-06T17:55:42.552Z"
     },
     "function": {
       "index": 30,
@@ -240,7 +240,7 @@
       "sceneHook": "main function",
       "sceneHookZh": "主要功能",
       "illustration": "illus/function.webp",
-      "verifiedAt": "2026-11-06T17:39:04.468Z"
+      "verifiedAt": "2026-11-06T17:55:42.552Z"
     },
     "require": {
       "index": 31,
@@ -248,7 +248,7 @@
       "sceneHook": "require water",
       "sceneHookZh": "需要水分",
       "illustration": "illus/require.webp",
-      "verifiedAt": "2026-11-06T17:39:04.468Z"
+      "verifiedAt": "2026-11-06T17:55:42.552Z"
     },
     "accurate": {
       "index": 32,
@@ -256,7 +256,7 @@
       "sceneHook": "accurate aim",
       "sceneHookZh": "精准命中",
       "illustration": "illus/accurate.webp",
-      "verifiedAt": "2026-11-06T17:39:04.468Z"
+      "verifiedAt": "2026-11-06T17:55:42.552Z"
     },
     "maintain": {
       "index": 33,
@@ -264,7 +264,7 @@
       "sceneHook": "maintain balance",
       "sceneHookZh": "保持平衡",
       "illustration": "illus/maintain.webp",
-      "verifiedAt": "2026-11-06T17:39:04.469Z"
+      "verifiedAt": "2026-11-06T17:55:42.553Z"
     },
     "indicate": {
       "index": 34,
@@ -272,7 +272,7 @@
       "sceneHook": "indicate direction",
       "sceneHookZh": "指示方向",
       "illustration": "illus/indicate.webp",
-      "verifiedAt": "2026-11-06T17:39:04.469Z"
+      "verifiedAt": "2026-11-06T17:55:42.553Z"
     },
     "achieve": {
       "index": 35,
@@ -280,7 +280,7 @@
       "sceneHook": "achieve a goal",
       "sceneHookZh": "实现目标",
       "illustration": "illus/achieve.webp",
-      "verifiedAt": "2026-11-06T17:39:04.469Z"
+      "verifiedAt": "2026-11-06T17:55:42.553Z"
     },
     "establish": {
       "index": 36,
@@ -288,7 +288,7 @@
       "sceneHook": "establish a shop",
       "sceneHookZh": "创立小店",
       "illustration": "illus/establish.webp",
-      "verifiedAt": "2026-11-06T17:39:04.469Z"
+      "verifiedAt": "2026-11-06T17:55:42.553Z"
     },
     "assume": {
       "index": 37,
@@ -296,7 +296,7 @@
       "sceneHook": "falsely assume",
       "sceneHookZh": "想当然以为",
       "illustration": "illus/assume.webp",
-      "verifiedAt": "2026-11-06T17:39:04.470Z"
+      "verifiedAt": "2026-11-06T17:55:42.553Z"
     },
     "identify": {
       "index": 38,
@@ -304,7 +304,7 @@
       "sceneHook": "identify the leaf",
       "sceneHookZh": "辨认树叶",
       "illustration": "illus/identify.webp",
-      "verifiedAt": "2026-11-06T17:39:04.470Z"
+      "verifiedAt": "2026-11-06T17:55:42.554Z"
     },
     "category": {
       "index": 39,
@@ -312,7 +312,7 @@
       "sceneHook": "different categories",
       "sceneHookZh": "不同类别",
       "illustration": "illus/category.webp",
-      "verifiedAt": "2026-11-06T17:39:04.470Z"
+      "verifiedAt": "2026-11-06T17:55:42.554Z"
     },
     "generate": {
       "index": 40,
@@ -320,7 +320,7 @@
       "sceneHook": "generate electricity",
       "sceneHookZh": "产生电力",
       "illustration": "illus/generate.webp",
-      "verifiedAt": "2026-11-06T17:39:04.470Z"
+      "verifiedAt": "2026-11-06T17:55:42.554Z"
     },
     "involve": {
       "index": 41,
@@ -328,7 +328,7 @@
       "sceneHook": "involve everyone",
       "sceneHookZh": "全员参与",
       "illustration": "illus/involve.webp",
-      "verifiedAt": "2026-11-06T17:39:04.471Z"
+      "verifiedAt": "2026-11-06T17:55:42.555Z"
     },
     "abstract": {
       "index": 42,
@@ -336,7 +336,7 @@
       "sceneHook": "abstract art",
       "sceneHookZh": "抽象艺术",
       "illustration": "illus/abstract.webp",
-      "verifiedAt": "2026-11-06T17:39:04.471Z"
+      "verifiedAt": "2026-11-06T17:55:42.555Z"
     },
     "contribute": {
       "index": 43,
@@ -344,7 +344,7 @@
       "sceneHook": "contribute money",
       "sceneHookZh": "捐款出资",
       "illustration": "illus/contribute.webp",
-      "verifiedAt": "2026-11-06T17:39:04.471Z"
+      "verifiedAt": "2026-11-06T17:55:42.555Z"
     },
     "demonstrate": {
       "index": 44,
@@ -352,7 +352,7 @@
       "sceneHook": "demonstrate how",
       "sceneHookZh": "示范做法",
       "illustration": "illus/demonstrate.webp",
-      "verifiedAt": "2026-11-06T17:39:04.471Z"
+      "verifiedAt": "2026-11-06T17:55:42.555Z"
     },
     "aware": {
       "index": 45,
@@ -360,7 +360,7 @@
       "sceneHook": "aware of danger",
       "sceneHookZh": "察觉危险",
       "illustration": "illus/aware.webp",
-      "verifiedAt": "2026-11-06T17:39:04.472Z"
+      "verifiedAt": "2026-11-06T17:55:42.555Z"
     },
     "interpret": {
       "index": 46,
@@ -368,7 +368,7 @@
       "sceneHook": "interpret the signs",
       "sceneHookZh": "解读符号",
       "illustration": "illus/interpret.webp",
-      "verifiedAt": "2026-11-06T17:39:04.473Z"
+      "verifiedAt": "2026-11-06T17:55:42.556Z"
     },
     "consequence": {
       "index": 47,
@@ -376,7 +376,7 @@
       "sceneHook": "direct consequence",
       "sceneHookZh": "直接后果",
       "illustration": "illus/consequence.webp",
-      "verifiedAt": "2026-11-06T17:39:04.473Z"
+      "verifiedAt": "2026-11-06T17:55:42.556Z"
     },
     "proportion": {
       "index": 48,
@@ -384,7 +384,7 @@
       "sceneHook": "large proportion",
       "sceneHookZh": "很大比例",
       "illustration": "illus/proportion.webp",
-      "verifiedAt": "2026-11-06T17:39:04.473Z"
+      "verifiedAt": "2026-11-06T17:55:42.556Z"
     },
     "technique": {
       "index": 49,
@@ -392,7 +392,7 @@
       "sceneHook": "special technique",
       "sceneHookZh": "独特手法",
       "illustration": "illus/technique.webp",
-      "verifiedAt": "2026-11-06T17:39:04.473Z"
+      "verifiedAt": "2026-11-06T17:55:42.556Z"
     },
     "phenomenon": {
       "index": 50,
@@ -400,7 +400,7 @@
       "sceneHook": "natural phenomenon",
       "sceneHookZh": "自然现象",
       "illustration": "illus/phenomenon.webp",
-      "verifiedAt": "2026-11-06T17:39:04.474Z"
+      "verifiedAt": "2026-11-06T17:55:42.557Z"
     },
     "support": {
       "index": 51,
@@ -408,7 +408,7 @@
       "sceneHook": "support the plant",
       "sceneHookZh": "支撑植株",
       "illustration": "illus/support.webp",
-      "verifiedAt": "2026-11-06T17:39:04.474Z"
+      "verifiedAt": "2026-11-06T17:55:42.557Z"
     },
     "issue": {
       "index": 52,
@@ -416,7 +416,7 @@
       "sceneHook": "fix the issue",
       "sceneHookZh": "解决问题",
       "illustration": "illus/issue.webp",
-      "verifiedAt": "2026-11-06T17:39:04.474Z"
+      "verifiedAt": "2026-11-06T17:55:42.557Z"
     },
     "create": {
       "index": 53,
@@ -424,7 +424,7 @@
       "sceneHook": "create a new colour",
       "sceneHookZh": "调出新色",
       "illustration": "illus/create.webp",
-      "verifiedAt": "2026-11-06T17:39:04.475Z"
+      "verifiedAt": "2026-11-06T17:55:42.557Z"
     },
     "community": {
       "index": 54,
@@ -432,7 +432,7 @@
       "sceneHook": "local community",
       "sceneHookZh": "当地社区",
       "illustration": "illus/community.webp",
-      "verifiedAt": "2026-11-06T17:39:04.475Z"
+      "verifiedAt": "2026-11-06T17:55:42.558Z"
     },
     "source": {
       "index": 55,
@@ -440,7 +440,7 @@
       "sceneHook": "river source",
       "sceneHookZh": "河流源头",
       "illustration": "illus/source.webp",
-      "verifiedAt": "2026-11-06T17:39:04.475Z"
+      "verifiedAt": "2026-11-06T17:55:42.558Z"
     },
     "policy": {
       "index": 56,
@@ -448,7 +448,7 @@
       "sceneHook": "insurance policy",
       "sceneHookZh": "保险单据",
       "illustration": "illus/policy.webp",
-      "verifiedAt": "2026-11-06T17:39:04.475Z"
+      "verifiedAt": "2026-11-06T17:55:42.558Z"
     },
     "industry": {
       "index": 57,
@@ -456,7 +456,7 @@
       "sceneHook": "heavy industry",
       "sceneHookZh": "重工业厂",
       "illustration": "illus/industry.webp",
-      "verifiedAt": "2026-11-06T17:39:04.476Z"
+      "verifiedAt": "2026-11-06T17:55:42.558Z"
     },
     "produce": {
       "index": 58,
@@ -464,7 +464,7 @@
       "sceneHook": "produce honey",
       "sceneHookZh": "酿造蜂蜜",
       "illustration": "illus/produce.webp",
-      "verifiedAt": "2026-11-06T17:39:04.476Z"
+      "verifiedAt": "2026-11-06T17:55:42.558Z"
     },
     "energy": {
       "index": 59,
@@ -472,7 +472,7 @@
       "sceneHook": "full of energy",
       "sceneHookZh": "精力充沛",
       "illustration": "illus/energy.webp",
-      "verifiedAt": "2026-11-06T17:39:04.476Z"
+      "verifiedAt": "2026-11-06T17:55:42.559Z"
     },
     "individual": {
       "index": 60,
@@ -480,7 +480,7 @@
       "sceneHook": "individual pots",
       "sceneHookZh": "独立小盆",
       "illustration": "illus/individual.webp",
-      "verifiedAt": "2026-11-06T17:39:04.476Z"
+      "verifiedAt": "2026-11-06T17:55:42.559Z"
     },
     "range": {
       "index": 61,
@@ -488,7 +488,7 @@
       "sceneHook": "mountain range",
       "sceneHookZh": "连绵山脉",
       "illustration": "illus/range.webp",
-      "verifiedAt": "2026-11-06T17:39:04.477Z"
+      "verifiedAt": "2026-11-06T17:55:42.559Z"
     },
     "suggest": {
       "index": 62,
@@ -496,7 +496,7 @@
       "sceneHook": "suggest a route",
       "sceneHookZh": "建议路线",
       "illustration": "illus/suggest.webp",
-      "verifiedAt": "2026-11-06T17:39:04.477Z"
+      "verifiedAt": "2026-11-06T17:55:42.559Z"
     },
     "material": {
       "index": 63,
@@ -504,7 +504,7 @@
       "sceneHook": "raw material",
       "sceneHookZh": "天然原料",
       "illustration": "illus/material.webp",
-      "verifiedAt": "2026-11-06T17:39:04.477Z"
+      "verifiedAt": "2026-11-06T17:55:42.560Z"
     },
     "reduce": {
       "index": 64,
@@ -512,7 +512,7 @@
       "sceneHook": "reduce waste",
       "sceneHookZh": "减少浪费",
       "illustration": "illus/reduce.webp",
-      "verifiedAt": "2026-11-06T17:39:04.477Z"
+      "verifiedAt": "2026-11-06T17:55:42.560Z"
     },
     "population": {
       "index": 65,
@@ -520,7 +520,7 @@
       "sceneHook": "penguin population",
       "sceneHookZh": "企鹅种群",
       "illustration": "illus/population.webp",
-      "verifiedAt": "2026-11-06T17:39:04.477Z"
+      "verifiedAt": "2026-11-06T17:55:42.561Z"
     },
     "theory": {
       "index": 66,
@@ -528,7 +528,7 @@
       "sceneHook": "test a theory",
       "sceneHookZh": "验证理论",
       "illustration": "illus/theory.webp",
-      "verifiedAt": "2026-11-06T17:39:04.478Z"
+      "verifiedAt": "2026-11-06T17:55:42.561Z"
     },
     "discover": {
       "index": 67,
@@ -536,7 +536,7 @@
       "sceneHook": "discover a fossil",
       "sceneHookZh": "发现化石",
       "illustration": "illus/discover.webp",
-      "verifiedAt": "2026-11-06T17:39:04.478Z"
+      "verifiedAt": "2026-11-06T17:55:42.561Z"
     },
     "depend": {
       "index": 68,
@@ -544,7 +544,7 @@
       "sceneHook": "depend on rain",
       "sceneHookZh": "依赖雨水",
       "illustration": "illus/depend.webp",
-      "verifiedAt": "2026-11-06T17:39:04.478Z"
+      "verifiedAt": "2026-11-06T17:55:42.562Z"
     },
     "behaviour": {
       "index": 69,
@@ -552,7 +552,7 @@
       "sceneHook": "animal behaviour",
       "sceneHookZh": "动物行为",
       "illustration": "illus/behaviour.webp",
-      "verifiedAt": "2026-11-06T17:39:04.478Z"
+      "verifiedAt": "2026-11-06T17:55:42.562Z"
     },
     "economy": {
       "index": 70,
@@ -560,7 +560,7 @@
       "sceneHook": "local economy",
       "sceneHookZh": "地方经济",
       "illustration": "illus/economy.webp",
-      "verifiedAt": "2026-11-06T17:39:04.479Z"
+      "verifiedAt": "2026-11-06T17:55:42.562Z"
     },
     "species": {
       "index": 71,
@@ -568,7 +568,7 @@
       "sceneHook": "bird species",
       "sceneHookZh": "鸟类物种",
       "illustration": "illus/species.webp",
-      "verifiedAt": "2026-11-06T17:39:04.479Z"
+      "verifiedAt": "2026-11-06T17:55:42.563Z"
     },
     "admit": {
       "index": 72,
@@ -576,7 +576,7 @@
       "sceneHook": "admit light",
       "sceneHookZh": "透入光线",
       "illustration": "illus/admit.webp",
-      "verifiedAt": "2026-11-06T17:39:04.479Z"
+      "verifiedAt": "2026-11-06T17:55:42.563Z"
     },
     "trouble": {
       "index": 73,
@@ -584,7 +584,7 @@
       "sceneHook": "engine trouble",
       "sceneHookZh": "引擎故障",
       "illustration": "illus/trouble.webp",
-      "verifiedAt": "2026-11-06T17:39:04.479Z"
+      "verifiedAt": "2026-11-06T17:55:42.563Z"
     },
     "traditional": {
       "index": 74,
@@ -592,7 +592,7 @@
       "sceneHook": "traditional lanterns",
       "sceneHookZh": "传统灯笼",
       "illustration": "illus/traditional.webp",
-      "verifiedAt": "2026-11-06T17:39:04.480Z"
+      "verifiedAt": "2026-11-06T17:55:42.563Z"
     },
     "recreate": {
       "index": 75,
@@ -600,7 +600,7 @@
       "sceneHook": "recreate a castle",
       "sceneHookZh": "重现城堡",
       "illustration": "illus/recreate.webp",
-      "verifiedAt": "2026-11-06T17:39:04.480Z"
+      "verifiedAt": "2026-11-06T17:55:42.563Z"
     },
     "southern": {
       "index": 76,
@@ -608,7 +608,7 @@
       "sceneHook": "southern coast",
       "sceneHookZh": "南部海岸",
       "illustration": "illus/southern.webp",
-      "verifiedAt": "2026-11-06T17:39:04.480Z"
+      "verifiedAt": "2026-11-06T17:55:42.563Z"
     },
     "expert": {
       "index": 77,
@@ -616,7 +616,7 @@
       "sceneHook": "watch expert",
       "sceneHookZh": "钟表专家",
       "illustration": "illus/expert.webp",
-      "verifiedAt": "2026-11-06T17:39:04.480Z"
+      "verifiedAt": "2026-11-06T17:55:42.564Z"
     },
     "strength": {
       "index": 78,
@@ -624,7 +624,7 @@
       "sceneHook": "great strength",
       "sceneHookZh": "强大力量",
       "illustration": "illus/strength.webp",
-      "verifiedAt": "2026-11-06T17:39:04.480Z"
+      "verifiedAt": "2026-11-06T17:55:42.564Z"
     },
     "prison": {
       "index": 79,
@@ -632,7 +632,7 @@
       "sceneHook": "prison cell",
       "sceneHookZh": "牢房铁窗",
       "illustration": "illus/prison.webp",
-      "verifiedAt": "2026-11-06T17:39:04.481Z"
+      "verifiedAt": "2026-11-06T17:55:42.564Z"
     },
     "totally": {
       "index": 80,
@@ -640,7 +640,7 @@
       "sceneHook": "totally empty",
       "sceneHookZh": "空空如也",
       "illustration": "illus/totally.webp",
-      "verifiedAt": "2026-11-06T17:39:04.481Z"
+      "verifiedAt": "2026-11-06T17:55:42.564Z"
     },
     "relation": {
       "index": 81,
@@ -648,7 +648,7 @@
       "sceneHook": "close relation",
       "sceneHookZh": "紧密关联",
       "illustration": "illus/relation.webp",
-      "verifiedAt": "2026-11-06T17:39:04.481Z"
+      "verifiedAt": "2026-11-06T17:55:42.564Z"
     },
     "resident": {
       "index": 82,
@@ -656,7 +656,7 @@
       "sceneHook": "local resident",
       "sceneHookZh": "当地住户",
       "illustration": "illus/resident.webp",
-      "verifiedAt": "2026-11-06T17:39:04.481Z"
+      "verifiedAt": "2026-11-06T17:55:42.564Z"
     },
     "limited": {
       "index": 83,
@@ -664,7 +664,7 @@
       "sceneHook": "limited time",
       "sceneHookZh": "有限时间",
       "illustration": "illus/limited.webp",
-      "verifiedAt": "2026-11-06T17:39:04.481Z"
+      "verifiedAt": "2026-11-06T17:55:42.565Z"
     },
     "previously": {
       "index": 84,
@@ -672,7 +672,7 @@
       "sceneHook": "previously locked",
       "sceneHookZh": "先前锁着",
       "illustration": "illus/previously.webp",
-      "verifiedAt": "2026-11-06T17:39:04.482Z"
+      "verifiedAt": "2026-11-06T17:55:42.565Z"
     },
     "critical": {
       "index": 85,
@@ -680,7 +680,7 @@
       "sceneHook": "critical piece",
       "sceneHookZh": "关键部件",
       "illustration": "illus/critical.webp",
-      "verifiedAt": "2026-11-06T17:39:04.482Z"
+      "verifiedAt": "2026-11-06T17:55:42.571Z"
     },
     "edge": {
       "index": 86,
@@ -688,7 +688,7 @@
       "sceneHook": "cliff edge",
       "sceneHookZh": "悬崖边缘",
       "illustration": "illus/edge.webp",
-      "verifiedAt": "2026-11-06T17:39:04.482Z"
+      "verifiedAt": "2026-11-06T17:55:42.572Z"
     },
     "ensure": {
       "index": 87,
@@ -696,7 +696,7 @@
       "sceneHook": "ensure safety",
       "sceneHookZh": "确保安全",
       "illustration": "illus/ensure.webp",
-      "verifiedAt": "2026-11-06T17:39:04.482Z"
+      "verifiedAt": "2026-11-06T17:55:42.572Z"
     },
     "ban": {
       "index": 88,
@@ -704,7 +704,7 @@
       "sceneHook": "ban campfires",
       "sceneHookZh": "禁止篝火",
       "illustration": "illus/ban.webp",
-      "verifiedAt": "2026-11-06T17:39:04.482Z"
+      "verifiedAt": "2026-11-06T17:55:42.572Z"
     },
     "hire": {
       "index": 89,
@@ -712,7 +712,7 @@
       "sceneHook": "hire a bike",
       "sceneHookZh": "租借单车",
       "illustration": "illus/hire.webp",
-      "verifiedAt": "2026-11-06T17:39:04.482Z"
+      "verifiedAt": "2026-11-06T17:55:42.572Z"
     },
     "stress": {
       "index": 90,
@@ -720,7 +720,7 @@
       "sceneHook": "relieve stress",
       "sceneHookZh": "缓解压力",
       "illustration": "illus/stress.webp",
-      "verifiedAt": "2026-11-06T17:39:04.483Z"
+      "verifiedAt": "2026-11-06T17:55:42.572Z"
     },
     "tough": {
       "index": 91,
@@ -728,7 +728,7 @@
       "sceneHook": "tough shell",
       "sceneHookZh": "坚硬外壳",
       "illustration": "illus/tough.webp",
-      "verifiedAt": "2026-11-06T17:39:04.483Z"
+      "verifiedAt": "2026-11-06T17:55:42.572Z"
     },
     "length": {
       "index": 92,
@@ -736,7 +736,7 @@
       "sceneHook": "measure the length",
       "sceneHookZh": "测量长度",
       "illustration": "illus/length.webp",
-      "verifiedAt": "2026-11-06T17:39:04.483Z"
+      "verifiedAt": "2026-11-06T17:55:42.572Z"
     },
     "escape": {
       "index": 93,
@@ -744,7 +744,7 @@
       "sceneHook": "escape from a cage",
       "sceneHookZh": "逃出鸟笼",
       "illustration": "illus/escape.webp",
-      "verifiedAt": "2026-11-06T17:39:04.483Z"
+      "verifiedAt": "2026-11-06T17:55:42.573Z"
     },
     "fresh": {
       "index": 94,
@@ -752,7 +752,7 @@
       "sceneHook": "fresh bread",
       "sceneHookZh": "新鲜面包",
       "illustration": "illus/fresh.webp",
-      "verifiedAt": "2026-11-06T17:39:04.483Z"
+      "verifiedAt": "2026-11-06T17:55:42.573Z"
     },
     "journal": {
       "index": 95,
@@ -760,7 +760,7 @@
       "sceneHook": "keep a journal",
       "sceneHookZh": "记录日记",
       "illustration": "illus/journal.webp",
-      "verifiedAt": "2026-11-06T17:39:04.483Z"
+      "verifiedAt": "2026-11-06T17:55:42.573Z"
     },
     "mental": {
       "index": 96,
@@ -768,7 +768,7 @@
       "sceneHook": "mental effort",
       "sceneHookZh": "脑力思考",
       "illustration": "illus/mental.webp",
-      "verifiedAt": "2026-11-06T17:39:04.484Z"
+      "verifiedAt": "2026-11-06T17:55:42.573Z"
     },
     "survive": {
       "index": 97,
@@ -776,7 +776,7 @@
       "sceneHook": "survive the winter",
       "sceneHookZh": "熬过寒冬",
       "illustration": "illus/survive.webp",
-      "verifiedAt": "2026-11-06T17:39:04.484Z"
+      "verifiedAt": "2026-11-06T17:55:42.573Z"
     },
     "progress": {
       "index": 98,
@@ -784,7 +784,7 @@
       "sceneHook": "steady progress",
       "sceneHookZh": "稳步进展",
       "illustration": "illus/progress.webp",
-      "verifiedAt": "2026-11-06T17:39:04.493Z"
+      "verifiedAt": "2026-11-06T17:55:42.573Z"
     },
     "plane": {
       "index": 99,
@@ -792,7 +792,7 @@
       "sceneHook": "board a plane",
       "sceneHookZh": "登上飞机",
       "illustration": "illus/plane.webp",
-      "verifiedAt": "2026-11-06T17:39:04.494Z"
+      "verifiedAt": "2026-11-06T17:55:42.573Z"
     },
     "encourage": {
       "index": 100,
@@ -800,7 +800,7 @@
       "sceneHook": "encourage growth",
       "sceneHookZh": "促进生长",
       "illustration": "illus/encourage.webp",
-      "verifiedAt": "2026-11-06T17:39:04.494Z"
+      "verifiedAt": "2026-11-06T17:55:42.574Z"
     },
     "zone": {
       "index": 101,
@@ -808,7 +808,7 @@
       "sceneHook": "safe zone",
       "sceneHookZh": "安全区域",
       "illustration": "illus/zone.webp",
-      "verifiedAt": "2026-11-06T17:39:04.495Z"
+      "verifiedAt": "2026-11-06T17:55:42.574Z"
     },
     "wild": {
       "index": 102,
@@ -816,7 +816,7 @@
       "sceneHook": "wild flowers",
       "sceneHookZh": "田野鲜花",
       "illustration": "illus/wild.webp",
-      "verifiedAt": "2026-11-06T17:39:04.495Z"
+      "verifiedAt": "2026-11-06T17:55:42.574Z"
     },
     "prefer": {
       "index": 103,
@@ -824,7 +824,7 @@
       "sceneHook": "prefer tea",
       "sceneHookZh": "偏爱喝茶",
       "illustration": "illus/prefer.webp",
-      "verifiedAt": "2026-11-06T17:39:04.496Z"
+      "verifiedAt": "2026-11-06T17:55:42.574Z"
     },
     "obtain": {
       "index": 104,
@@ -832,7 +832,7 @@
       "sceneHook": "obtain a key",
       "sceneHookZh": "取得钥匙",
       "illustration": "illus/obtain.webp",
-      "verifiedAt": "2026-11-06T17:39:04.496Z"
+      "verifiedAt": "2026-11-06T17:55:42.575Z"
     },
     "shift": {
       "index": 105,
@@ -840,7 +840,7 @@
       "sceneHook": "shift the gear",
       "sceneHookZh": "切换挡位",
       "illustration": "illus/shift.webp",
-      "verifiedAt": "2026-11-06T17:39:04.496Z"
+      "verifiedAt": "2026-11-06T17:55:42.575Z"
     },
     "accident": {
       "index": 106,
@@ -848,7 +848,7 @@
       "sceneHook": "spill by accident",
       "sceneHookZh": "不慎打翻",
       "illustration": "illus/accident.webp",
-      "verifiedAt": "2026-11-06T17:39:04.496Z"
+      "verifiedAt": "2026-11-06T17:55:42.575Z"
     },
     "port": {
       "index": 107,
@@ -856,7 +856,7 @@
       "sceneHook": "busy port",
       "sceneHookZh": "繁忙港口",
       "illustration": "illus/port.webp",
-      "verifiedAt": "2026-11-06T17:39:04.497Z"
+      "verifiedAt": "2026-11-06T17:55:42.575Z"
     },
     "theme": {
       "index": 108,
@@ -864,7 +864,7 @@
       "sceneHook": "ocean theme",
       "sceneHookZh": "海洋主题",
       "illustration": "illus/theme.webp",
-      "verifiedAt": "2026-11-06T17:39:04.497Z"
+      "verifiedAt": "2026-11-06T17:55:42.575Z"
     },
     "quote": {
       "index": 109,
@@ -872,7 +872,7 @@
       "sceneHook": "quote a line",
       "sceneHookZh": "引用名句",
       "illustration": "illus/quote.webp",
-      "verifiedAt": "2026-11-06T17:39:04.497Z"
+      "verifiedAt": "2026-11-06T17:55:42.575Z"
     },
     "fee": {
       "index": 110,
@@ -880,7 +880,7 @@
       "sceneHook": "entry fee",
       "sceneHookZh": "入场费用",
       "illustration": "illus/fee.webp",
-      "verifiedAt": "2026-11-06T17:39:04.497Z"
+      "verifiedAt": "2026-11-06T17:55:42.575Z"
     },
     "faith": {
       "index": 111,
@@ -888,7 +888,7 @@
       "sceneHook": "have faith in",
       "sceneHookZh": "抱有信心",
       "illustration": "illus/faith.webp",
-      "verifiedAt": "2026-11-06T17:39:04.498Z"
+      "verifiedAt": "2026-11-06T17:55:42.575Z"
     },
     "desire": {
       "index": 112,
@@ -896,7 +896,7 @@
       "sceneHook": "strong desire",
       "sceneHookZh": "强烈渴望",
       "illustration": "illus/desire.webp",
-      "verifiedAt": "2026-11-06T17:39:04.498Z"
+      "verifiedAt": "2026-11-06T17:55:42.576Z"
     },
     "boss": {
       "index": 113,
@@ -904,7 +904,7 @@
       "sceneHook": "meet the boss",
       "sceneHookZh": "面见老板",
       "illustration": "illus/boss.webp",
-      "verifiedAt": "2026-11-06T17:39:04.498Z"
+      "verifiedAt": "2026-11-06T17:55:42.576Z"
     },
     "task": {
       "index": 114,
@@ -912,7 +912,7 @@
       "sceneHook": "daily task",
       "sceneHookZh": "日常任务",
       "illustration": "illus/task.webp",
-      "verifiedAt": "2026-11-06T17:39:04.499Z"
+      "verifiedAt": "2026-11-06T17:55:42.576Z"
     },
     "theatre": {
       "index": 115,
@@ -920,7 +920,7 @@
       "sceneHook": "theatre stage",
       "sceneHookZh": "剧院舞台",
       "illustration": "illus/theatre.webp",
-      "verifiedAt": "2026-11-06T17:39:04.499Z"
+      "verifiedAt": "2026-11-06T17:55:42.577Z"
     },
     "prime": {
       "index": 116,
@@ -928,7 +928,7 @@
       "sceneHook": "prime seat",
       "sceneHookZh": "绝佳座位",
       "illustration": "illus/prime.webp",
-      "verifiedAt": "2026-11-06T17:39:04.499Z"
+      "verifiedAt": "2026-11-06T17:55:42.577Z"
     },
     "appeal": {
       "index": 117,
@@ -936,7 +936,7 @@
       "sceneHook": "strong appeal",
       "sceneHookZh": "强烈吸引",
       "illustration": "illus/appeal.webp",
-      "verifiedAt": "2026-11-06T17:39:04.499Z"
+      "verifiedAt": "2026-11-06T17:55:42.577Z"
     },
     "variety": {
       "index": 118,
@@ -944,7 +944,7 @@
       "sceneHook": "wide variety",
       "sceneHookZh": "丰富种类",
       "illustration": "illus/variety.webp",
-      "verifiedAt": "2026-11-06T17:39:04.499Z"
+      "verifiedAt": "2026-11-06T17:55:42.577Z"
     },
     "net": {
       "index": 119,
@@ -952,7 +952,7 @@
       "sceneHook": "fishing net",
       "sceneHookZh": "捕鱼网具",
       "illustration": "illus/net.webp",
-      "verifiedAt": "2026-11-06T17:39:04.499Z"
+      "verifiedAt": "2026-11-06T17:55:42.577Z"
     },
     "advance": {
       "index": 120,
@@ -960,7 +960,7 @@
       "sceneHook": "advance the pawn",
       "sceneHookZh": "推进棋子",
       "illustration": "illus/advance.webp",
-      "verifiedAt": "2026-11-06T17:39:04.500Z"
+      "verifiedAt": "2026-11-06T17:55:42.578Z"
     },
     "audience": {
       "index": 121,
@@ -968,7 +968,7 @@
       "sceneHook": "clapping audience",
       "sceneHookZh": "鼓掌观众",
       "illustration": "illus/audience.webp",
-      "verifiedAt": "2026-11-06T17:39:04.500Z"
+      "verifiedAt": "2026-11-06T17:55:42.578Z"
     },
     "combine": {
       "index": 122,
@@ -976,7 +976,7 @@
       "sceneHook": "combine colors",
       "sceneHookZh": "调合色彩",
       "illustration": "illus/combine.webp",
-      "verifiedAt": "2026-11-06T17:39:04.500Z"
+      "verifiedAt": "2026-11-06T17:55:42.578Z"
     },
     "background": {
       "index": 123,
@@ -984,7 +984,7 @@
       "sceneHook": "mountain background",
       "sceneHookZh": "群山背景",
       "illustration": "illus/background.webp",
-      "verifiedAt": "2026-11-06T17:39:04.500Z"
+      "verifiedAt": "2026-11-06T17:55:42.579Z"
     },
     "command": {
       "index": 124,
@@ -992,7 +992,7 @@
       "sceneHook": "obey a command",
       "sceneHookZh": "服从口令",
       "illustration": "illus/command.webp",
-      "verifiedAt": "2026-11-06T17:39:04.500Z"
+      "verifiedAt": "2026-11-06T17:55:42.579Z"
     },
     "van": {
       "index": 125,
@@ -1000,7 +1000,7 @@
       "sceneHook": "delivery van",
       "sceneHookZh": "送货厢车",
       "illustration": "illus/van.webp",
-      "verifiedAt": "2026-11-06T17:39:04.500Z"
+      "verifiedAt": "2026-11-06T17:55:42.579Z"
     },
     "balance": {
       "index": 126,
@@ -1008,7 +1008,7 @@
       "sceneHook": "keep your balance",
       "sceneHookZh": "保持平衡",
       "illustration": "illus/balance.webp",
-      "verifiedAt": "2026-11-06T17:39:04.500Z"
+      "verifiedAt": "2026-11-06T17:55:42.579Z"
     },
     "fellow": {
       "index": 127,
@@ -1016,7 +1016,7 @@
       "sceneHook": "fellow traveler",
       "sceneHookZh": "同行旅伴",
       "illustration": "illus/fellow.webp",
-      "verifiedAt": "2026-11-06T17:39:04.501Z"
+      "verifiedAt": "2026-11-06T17:55:42.579Z"
     },
     "silver": {
       "index": 128,
@@ -1024,7 +1024,7 @@
       "sceneHook": "silver spoon",
       "sceneHookZh": "纯银汤匙",
       "illustration": "illus/silver.webp",
-      "verifiedAt": "2026-11-06T17:39:04.501Z"
+      "verifiedAt": "2026-11-06T17:55:42.580Z"
     },
     "tear": {
       "index": 129,
@@ -1032,7 +1032,7 @@
       "sceneHook": "tear the paper",
       "sceneHookZh": "撕开纸张",
       "illustration": "illus/tear.webp",
-      "verifiedAt": "2026-11-06T17:39:04.501Z"
+      "verifiedAt": "2026-11-06T17:55:42.580Z"
     },
     "signal": {
       "index": 130,
@@ -1040,7 +1040,7 @@
       "sceneHook": "traffic signal",
       "sceneHookZh": "交通信号",
       "illustration": "illus/signal.webp",
-      "verifiedAt": "2026-11-06T17:39:04.502Z"
+      "verifiedAt": "2026-11-06T17:55:42.580Z"
     },
     "argument": {
       "index": 131,
@@ -1048,7 +1048,7 @@
       "sceneHook": "heated argument",
       "sceneHookZh": "激烈争吵",
       "illustration": "illus/argument.webp",
-      "verifiedAt": "2026-11-06T17:39:04.503Z"
+      "verifiedAt": "2026-11-06T17:55:42.580Z"
     },
     "temperature": {
       "index": 132,
@@ -1056,7 +1056,7 @@
       "sceneHook": "check the temperature",
       "sceneHookZh": "查看温度",
       "illustration": "illus/temperature.webp",
-      "verifiedAt": "2026-11-06T17:39:04.503Z"
+      "verifiedAt": "2026-11-06T17:55:42.580Z"
     },
     "capture": {
       "index": 133,
@@ -1064,7 +1064,7 @@
       "sceneHook": "capture a photo",
       "sceneHookZh": "拍摄照片",
       "illustration": "illus/capture.webp",
-      "verifiedAt": "2026-11-06T17:39:04.503Z"
+      "verifiedAt": "2026-11-06T17:55:42.581Z"
     },
     "negative": {
       "index": 134,
@@ -1072,7 +1072,7 @@
       "sceneHook": "negative reaction",
       "sceneHookZh": "负面反应",
       "illustration": "illus/negative.webp",
-      "verifiedAt": "2026-11-06T17:39:04.503Z"
+      "verifiedAt": "2026-11-06T17:55:42.581Z"
     },
     "intend": {
       "index": 135,
@@ -1080,7 +1080,7 @@
       "sceneHook": "intend to travel",
       "sceneHookZh": "打算旅行",
       "illustration": "illus/intend.webp",
-      "verifiedAt": "2026-11-06T17:39:04.504Z"
+      "verifiedAt": "2026-11-06T17:55:42.581Z"
     },
     "institution": {
       "index": 136,
@@ -1088,7 +1088,7 @@
       "sceneHook": "public institution",
       "sceneHookZh": "公共机构",
       "illustration": "illus/institution.webp",
-      "verifiedAt": "2026-11-06T17:39:04.504Z"
+      "verifiedAt": "2026-11-06T17:55:42.581Z"
     },
     "obviously": {
       "index": 137,
@@ -1096,7 +1096,7 @@
       "sceneHook": "obviously tired",
       "sceneHookZh": "明显疲惫",
       "illustration": "illus/obviously.webp",
-      "verifiedAt": "2026-11-06T17:39:04.504Z"
+      "verifiedAt": "2026-11-06T17:55:42.581Z"
     },
     "beginning": {
       "index": 138,
@@ -1104,7 +1104,7 @@
       "sceneHook": "very beginning",
       "sceneHookZh": "最初起点",
       "illustration": "illus/beginning.webp",
-      "verifiedAt": "2026-11-06T17:39:04.504Z"
+      "verifiedAt": "2026-11-06T17:55:42.582Z"
     },
     "reply": {
       "index": 139,
@@ -1112,7 +1112,7 @@
       "sceneHook": "write a reply",
       "sceneHookZh": "写信回复",
       "illustration": "illus/reply.webp",
-      "verifiedAt": "2026-11-06T17:39:04.504Z"
+      "verifiedAt": "2026-11-06T17:55:42.582Z"
     },
     "apparently": {
       "index": 140,
@@ -1120,7 +1120,7 @@
       "sceneHook": "apparently asleep",
       "sceneHookZh": "显然睡着",
       "illustration": "illus/apparently.webp",
-      "verifiedAt": "2026-11-06T17:39:04.505Z"
+      "verifiedAt": "2026-11-06T17:55:42.582Z"
     },
     "ignore": {
       "index": 141,
@@ -1128,7 +1128,7 @@
       "sceneHook": "ignore the toy",
       "sceneHookZh": "不理玩具",
       "illustration": "illus/ignore.webp",
-      "verifiedAt": "2026-11-06T17:39:04.505Z"
+      "verifiedAt": "2026-11-06T17:55:42.582Z"
     },
     "witness": {
       "index": 142,
@@ -1136,7 +1136,7 @@
       "sceneHook": "witness a rainbow",
       "sceneHookZh": "目睹彩虹",
       "illustration": "illus/witness.webp",
-      "verifiedAt": "2026-11-06T17:39:04.505Z"
+      "verifiedAt": "2026-11-06T17:55:42.583Z"
     },
     "client": {
       "index": 143,
@@ -1144,7 +1144,7 @@
       "sceneHook": "meet a client",
       "sceneHookZh": "会见客户",
       "illustration": "illus/client.webp",
-      "verifiedAt": "2026-11-06T17:39:04.505Z"
+      "verifiedAt": "2026-11-06T17:55:42.583Z"
     },
     "surround": {
       "index": 144,
@@ -1152,7 +1152,7 @@
       "sceneHook": "surround the cabin",
       "sceneHookZh": "环绕木屋",
       "illustration": "illus/surround.webp",
-      "verifiedAt": "2026-11-06T17:39:04.505Z"
+      "verifiedAt": "2026-11-06T17:55:42.583Z"
     },
     "lock": {
       "index": 145,
@@ -1160,7 +1160,7 @@
       "sceneHook": "lock the gate",
       "sceneHookZh": "锁上木门",
       "illustration": "illus/lock.webp",
-      "verifiedAt": "2026-11-06T17:39:04.505Z"
+      "verifiedAt": "2026-11-06T17:55:42.583Z"
     },
     "platform": {
       "index": 146,
@@ -1168,7 +1168,7 @@
       "sceneHook": "train platform",
       "sceneHookZh": "火车站台",
       "illustration": "illus/platform.webp",
-      "verifiedAt": "2026-11-06T17:39:04.506Z"
+      "verifiedAt": "2026-11-06T17:55:42.583Z"
     },
     "route": {
       "index": 147,
@@ -1176,7 +1176,7 @@
       "sceneHook": "hiking route",
       "sceneHookZh": "徒步路线",
       "illustration": "illus/route.webp",
-      "verifiedAt": "2026-11-06T17:39:04.506Z"
+      "verifiedAt": "2026-11-06T17:55:42.583Z"
     },
     "description": {
       "index": 148,
@@ -1184,7 +1184,7 @@
       "sceneHook": "give a description",
       "sceneHookZh": "描述特征",
       "illustration": "illus/description.webp",
-      "verifiedAt": "2026-11-06T17:39:04.506Z"
+      "verifiedAt": "2026-11-06T17:55:42.584Z"
     },
     "failure": {
       "index": 149,
@@ -1192,7 +1192,7 @@
       "sceneHook": "engine failure",
       "sceneHookZh": "引擎故障",
       "illustration": "illus/failure.webp",
-      "verifiedAt": "2026-11-06T17:39:04.506Z"
+      "verifiedAt": "2026-11-06T17:55:42.584Z"
     },
     "shipbuilding": {
       "index": 150,
@@ -1200,7 +1200,7 @@
       "sceneHook": "traditional shipbuilding",
       "sceneHookZh": "传统造船",
       "illustration": "illus/shipbuilding.webp",
-      "verifiedAt": "2026-11-06T17:39:04.506Z"
+      "verifiedAt": "2026-11-06T17:55:42.584Z"
     },
     "dangerous": {
       "index": 151,
@@ -1208,7 +1208,7 @@
       "sceneHook": "dangerous cliff",
       "sceneHookZh": "危险悬崖",
       "illustration": "illus/dangerous.webp",
-      "verifiedAt": "2026-11-06T17:39:04.506Z"
+      "verifiedAt": "2026-11-06T17:55:42.584Z"
     },
     "hunt": {
       "index": 152,
@@ -1216,7 +1216,7 @@
       "sceneHook": "hunt for food",
       "sceneHookZh": "觅食捕猎",
       "illustration": "illus/hunt.webp",
-      "verifiedAt": "2026-11-06T17:39:04.506Z"
+      "verifiedAt": "2026-11-06T17:55:42.584Z"
     },
     "debate": {
       "index": 153,
@@ -1224,7 +1224,7 @@
       "sceneHook": "public debate",
       "sceneHookZh": "公开辩论",
       "illustration": "illus/debate.webp",
-      "verifiedAt": "2026-11-06T17:39:04.506Z"
+      "verifiedAt": "2026-11-06T17:55:42.585Z"
     },
     "graduate": {
       "index": 154,
@@ -1232,7 +1232,7 @@
       "sceneHook": "college graduate",
       "sceneHookZh": "大学毕业",
       "illustration": "illus/graduate.webp",
-      "verifiedAt": "2026-11-06T17:39:04.507Z"
+      "verifiedAt": "2026-11-06T17:55:42.585Z"
     },
     "path": {
       "index": 155,
@@ -1240,7 +1240,7 @@
       "sceneHook": "garden path",
       "sceneHookZh": "花园小径",
       "illustration": "illus/path.webp",
-      "verifiedAt": "2026-11-06T17:39:04.507Z"
+      "verifiedAt": "2026-11-06T17:55:42.585Z"
     },
     "pattern": {
       "index": 156,
@@ -1248,7 +1248,7 @@
       "sceneHook": "floral pattern",
       "sceneHookZh": "花卉图案",
       "illustration": "illus/pattern.webp",
-      "verifiedAt": "2026-11-06T17:39:04.507Z"
+      "verifiedAt": "2026-11-06T17:55:42.585Z"
     },
     "extremely": {
       "index": 157,
@@ -1256,7 +1256,7 @@
       "sceneHook": "extremely cold",
       "sceneHookZh": "极其寒冷",
       "illustration": "illus/extremely.webp",
-      "verifiedAt": "2026-11-06T17:39:04.507Z"
+      "verifiedAt": "2026-11-06T17:55:42.586Z"
     },
     "sample": {
       "index": 158,
@@ -1264,7 +1264,7 @@
       "sceneHook": "collect a sample",
       "sceneHookZh": "采集样本",
       "illustration": "illus/sample.webp",
-      "verifiedAt": "2026-11-06T17:39:04.507Z"
+      "verifiedAt": "2026-11-06T17:55:42.586Z"
     },
     "organise": {
       "index": 159,
@@ -1272,7 +1272,7 @@
       "sceneHook": "organise the books",
       "sceneHookZh": "整理书籍",
       "illustration": "illus/organise.webp",
-      "verifiedAt": "2026-11-06T17:39:04.508Z"
+      "verifiedAt": "2026-11-06T17:55:42.586Z"
     },
     "finger": {
       "index": 160,
@@ -1280,7 +1280,7 @@
       "sceneHook": "point a finger",
       "sceneHookZh": "手指指向",
       "illustration": "illus/finger.webp",
-      "verifiedAt": "2026-11-06T17:39:04.508Z"
+      "verifiedAt": "2026-11-06T17:55:42.586Z"
     },
     "alternative": {
       "index": 161,
@@ -1288,7 +1288,7 @@
       "sceneHook": "healthy alternative",
       "sceneHookZh": "健康替代",
       "illustration": "illus/alternative.webp",
-      "verifiedAt": "2026-11-06T17:39:04.508Z"
+      "verifiedAt": "2026-11-06T17:55:42.586Z"
     },
     "spirit": {
       "index": 162,
@@ -1296,7 +1296,7 @@
       "sceneHook": "team spirit",
       "sceneHookZh": "团队精神",
       "illustration": "illus/spirit.webp",
-      "verifiedAt": "2026-11-06T17:39:04.508Z"
+      "verifiedAt": "2026-11-06T17:55:42.586Z"
     },
     "requirement": {
       "index": 163,
@@ -1304,7 +1304,7 @@
       "sceneHook": "safety requirement",
       "sceneHookZh": "安全要求",
       "illustration": "illus/requirement.webp",
-      "verifiedAt": "2026-11-06T17:39:04.508Z"
+      "verifiedAt": "2026-11-06T17:55:42.587Z"
     },
     "giant": {
       "index": 164,
@@ -1312,7 +1312,7 @@
       "sceneHook": "giant tree",
       "sceneHookZh": "参天巨树",
       "illustration": "illus/giant.webp",
-      "verifiedAt": "2026-11-06T17:39:04.508Z"
+      "verifiedAt": "2026-11-06T17:55:42.587Z"
     },
     "fuel": {
       "index": 165,
@@ -1320,7 +1320,7 @@
       "sceneHook": "add fuel",
       "sceneHookZh": "添加燃料",
       "illustration": "illus/fuel.webp",
-      "verifiedAt": "2026-11-06T17:39:04.509Z"
+      "verifiedAt": "2026-11-06T17:55:42.587Z"
     },
     "crowd": {
       "index": 166,
@@ -1328,7 +1328,7 @@
       "sceneHook": "cheering crowd",
       "sceneHookZh": "欢呼人群",
       "illustration": "illus/crowd.webp",
-      "verifiedAt": "2026-11-06T17:39:04.509Z"
+      "verifiedAt": "2026-11-06T17:55:42.587Z"
     },
     "impossible": {
       "index": 167,
@@ -1336,7 +1336,7 @@
       "sceneHook": "impossible knot",
       "sceneHookZh": "难解死结",
       "illustration": "illus/impossible.webp",
-      "verifiedAt": "2026-11-06T17:39:04.509Z"
+      "verifiedAt": "2026-11-06T17:55:42.587Z"
     },
     "youth": {
       "index": 168,
@@ -1344,7 +1344,7 @@
       "sceneHook": "energetic youth",
       "sceneHookZh": "活力青年",
       "illustration": "illus/youth.webp",
-      "verifiedAt": "2026-11-06T17:39:04.509Z"
+      "verifiedAt": "2026-11-06T17:55:42.587Z"
     },
     "consumer": {
       "index": 169,
@@ -1352,7 +1352,7 @@
       "sceneHook": "careful consumer",
       "sceneHookZh": "理性顾客",
       "illustration": "illus/consumer.webp",
-      "verifiedAt": "2026-11-06T17:39:04.509Z"
+      "verifiedAt": "2026-11-06T17:55:42.588Z"
     },
     "apart": {
       "index": 170,
@@ -1360,7 +1360,7 @@
       "sceneHook": "pull apart",
       "sceneHookZh": "拉开分开",
       "illustration": "illus/apart.webp",
-      "verifiedAt": "2026-11-06T17:39:04.509Z"
+      "verifiedAt": "2026-11-06T17:55:42.588Z"
     },
     "chain": {
       "index": 171,
@@ -1368,7 +1368,7 @@
       "sceneHook": "iron chain",
       "sceneHookZh": "铁链锁链",
       "illustration": "illus/chain.webp",
-      "verifiedAt": "2026-11-06T17:39:04.509Z"
+      "verifiedAt": "2026-11-06T17:55:42.588Z"
     },
     "engage": {
       "index": 172,
@@ -1376,7 +1376,7 @@
       "sceneHook": "engage the gears",
       "sceneHookZh": "齿轮啮合",
       "illustration": "illus/engage.webp",
-      "verifiedAt": "2026-11-06T17:39:04.510Z"
+      "verifiedAt": "2026-11-06T17:55:42.588Z"
     },
     "proud": {
       "index": 173,
@@ -1384,7 +1384,7 @@
       "sceneHook": "proud smile",
       "sceneHookZh": "自豪笑容",
       "illustration": "illus/proud.webp",
-      "verifiedAt": "2026-11-06T17:39:04.510Z"
+      "verifiedAt": "2026-11-06T17:55:42.588Z"
     },
     "rare": {
       "index": 174,
@@ -1392,7 +1392,7 @@
       "sceneHook": "rare flower",
       "sceneHookZh": "珍稀花朵",
       "illustration": "illus/rare.webp",
-      "verifiedAt": "2026-11-06T17:39:04.510Z"
+      "verifiedAt": "2026-11-06T17:55:42.588Z"
     },
     "engineering": {
       "index": 175,
@@ -1400,7 +1400,7 @@
       "sceneHook": "bridge engineering",
       "sceneHookZh": "桥梁工程",
       "illustration": "illus/engineering.webp",
-      "verifiedAt": "2026-11-06T17:39:04.510Z"
+      "verifiedAt": "2026-11-06T17:55:42.589Z"
     },
     "belong": {
       "index": 176,
@@ -1408,7 +1408,7 @@
       "sceneHook": "belong together",
       "sceneHookZh": "原本成对",
       "illustration": "illus/belong.webp",
-      "verifiedAt": "2026-11-06T17:39:04.510Z"
+      "verifiedAt": "2026-11-06T17:55:42.589Z"
     },
     "expand": {
       "index": 177,
@@ -1416,7 +1416,7 @@
       "sceneHook": "expand the balloon",
       "sceneHookZh": "吹大膨胀",
       "illustration": "illus/expand.webp",
-      "verifiedAt": "2026-11-06T17:39:04.510Z"
+      "verifiedAt": "2026-11-06T17:55:42.589Z"
     },
     "leadership": {
       "index": 178,
@@ -1424,7 +1424,7 @@
       "sceneHook": "strong leadership",
       "sceneHookZh": "出色领导",
       "illustration": "illus/leadership.webp",
-      "verifiedAt": "2026-11-06T17:39:04.511Z"
+      "verifiedAt": "2026-11-06T17:55:42.589Z"
     },
     "invite": {
       "index": 179,
@@ -1432,7 +1432,7 @@
       "sceneHook": "invite a friend",
       "sceneHookZh": "邀请朋友",
       "illustration": "illus/invite.webp",
-      "verifiedAt": "2026-11-06T17:39:04.511Z"
+      "verifiedAt": "2026-11-06T17:55:42.589Z"
     },
     "possibly": {
       "index": 180,
@@ -1440,7 +1440,7 @@
       "sceneHook": "possibly rain",
       "sceneHookZh": "可能下雨",
       "illustration": "illus/possibly.webp",
-      "verifiedAt": "2026-11-06T17:39:04.511Z"
+      "verifiedAt": "2026-11-06T17:55:42.589Z"
     },
     "beauty": {
       "index": 181,
@@ -1448,7 +1448,7 @@
       "sceneHook": "natural beauty",
       "sceneHookZh": "自然美景",
       "illustration": "illus/beauty.webp",
-      "verifiedAt": "2026-11-06T17:39:04.511Z"
+      "verifiedAt": "2026-11-06T17:55:42.590Z"
     },
     "software": {
       "index": 182,
@@ -1456,7 +1456,7 @@
       "sceneHook": "design software",
       "sceneHookZh": "设计软件",
       "illustration": "illus/software.webp",
-      "verifiedAt": "2026-11-06T17:39:04.511Z"
+      "verifiedAt": "2026-11-06T17:55:42.590Z"
     },
     "housing": {
       "index": 183,
@@ -1464,7 +1464,7 @@
       "sceneHook": "modern housing",
       "sceneHookZh": "现代住宅",
       "illustration": "illus/housing.webp",
-      "verifiedAt": "2026-11-06T17:39:04.511Z"
+      "verifiedAt": "2026-11-06T17:55:42.590Z"
     },
     "reflect": {
       "index": 184,
@@ -1472,7 +1472,7 @@
       "sceneHook": "reflect the mountains",
       "sceneHookZh": "映出群山",
       "illustration": "illus/reflect.webp",
-      "verifiedAt": "2026-11-06T17:39:04.511Z"
+      "verifiedAt": "2026-11-06T17:55:42.590Z"
     },
     "threat": {
       "index": 185,
@@ -1480,7 +1480,7 @@
       "sceneHook": "storm threat",
       "sceneHookZh": "风暴威胁",
       "illustration": "illus/threat.webp",
-      "verifiedAt": "2026-11-06T17:39:04.511Z"
+      "verifiedAt": "2026-11-06T17:55:42.590Z"
     },
     "entry": {
       "index": 186,
@@ -1488,7 +1488,7 @@
       "sceneHook": "main entry",
       "sceneHookZh": "主入口处",
       "illustration": "illus/entry.webp",
-      "verifiedAt": "2026-11-06T17:39:04.512Z"
+      "verifiedAt": "2026-11-06T17:55:42.590Z"
     },
     "transport": {
       "index": 187,
@@ -1496,7 +1496,7 @@
       "sceneHook": "public transport",
       "sceneHookZh": "公共交通",
       "illustration": "illus/transport.webp",
-      "verifiedAt": "2026-11-06T17:39:04.512Z"
+      "verifiedAt": "2026-11-06T17:55:42.590Z"
     },
     "marketing": {
       "index": 188,
@@ -1504,7 +1504,7 @@
       "sceneHook": "product marketing",
       "sceneHookZh": "产品推广",
       "illustration": "illus/marketing.webp",
-      "verifiedAt": "2026-11-06T17:39:04.512Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
     },
     "trend": {
       "index": 189,
@@ -1512,7 +1512,7 @@
       "sceneHook": "upward trend",
       "sceneHookZh": "上升趋势",
       "illustration": "illus/trend.webp",
-      "verifiedAt": "2026-11-06T17:39:04.512Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
     },
     "chapter": {
       "index": 190,
@@ -1520,7 +1520,7 @@
       "sceneHook": "new chapter",
       "sceneHookZh": "崭新篇章",
       "illustration": "illus/chapter.webp",
-      "verifiedAt": "2026-11-06T17:39:04.512Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
     },
     "ad": {
       "index": 191,
@@ -1528,7 +1528,7 @@
       "sceneHook": "street ad",
       "sceneHookZh": "街头广告",
       "illustration": "illus/ad.webp",
-      "verifiedAt": "2026-11-06T17:39:04.512Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
     },
     "alive": {
       "index": 192,
@@ -1536,7 +1536,7 @@
       "sceneHook": "keep it alive",
       "sceneHookZh": "保持生机",
       "illustration": "illus/alive.webp",
-      "verifiedAt": "2026-11-06T17:39:04.513Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
     },
     "conflict": {
       "index": 193,
@@ -1544,7 +1544,7 @@
       "sceneHook": "direct conflict",
       "sceneHookZh": "正面冲突",
       "illustration": "illus/conflict.webp",
-      "verifiedAt": "2026-11-06T17:39:04.513Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
     },
     "deny": {
       "index": 194,
@@ -1552,7 +1552,7 @@
       "sceneHook": "firmly deny",
       "sceneHookZh": "坚决否认",
       "illustration": "illus/deny.webp",
-      "verifiedAt": "2026-11-06T17:39:04.513Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
     },
     "aspect": {
       "index": 195,
@@ -1560,7 +1560,7 @@
       "sceneHook": "sunny aspect",
       "sceneHookZh": "向阳朝向",
       "illustration": "illus/aspect.webp",
-      "verifiedAt": "2026-11-06T17:39:04.513Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
     },
     "joint": {
       "index": 196,
@@ -1568,7 +1568,7 @@
       "sceneHook": "joint effort",
       "sceneHookZh": "共同努力",
       "illustration": "illus/joint.webp",
-      "verifiedAt": "2026-11-06T17:39:04.514Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
     },
     "assistant": {
       "index": 197,
@@ -1576,7 +1576,87 @@
       "sceneHook": "helpful assistant",
       "sceneHookZh": "得力助手",
       "illustration": "illus/assistant.webp",
-      "verifiedAt": "2026-11-06T17:39:04.514Z"
+      "verifiedAt": "2026-11-06T17:55:42.591Z"
+    },
+    "draft": {
+      "index": 198,
+      "status": "live",
+      "sceneHook": "rough draft",
+      "sceneHookZh": "初步草图",
+      "illustration": "illus/draft.webp",
+      "verifiedAt": "2026-11-06T17:55:42.592Z"
+    },
+    "branch": {
+      "index": 199,
+      "status": "live",
+      "sceneHook": "tree branch",
+      "sceneHookZh": "茂盛树枝",
+      "illustration": "illus/branch.webp",
+      "verifiedAt": "2026-11-06T17:55:42.592Z"
+    },
+    "tend": {
+      "index": 200,
+      "status": "live",
+      "sceneHook": "tend the garden",
+      "sceneHookZh": "照料花园",
+      "illustration": "illus/tend.webp",
+      "verifiedAt": "2026-11-06T17:55:42.592Z"
+    },
+    "settle": {
+      "index": 201,
+      "status": "live",
+      "sceneHook": "settle on a leaf",
+      "sceneHookZh": "停落叶面",
+      "illustration": "illus/settle.webp",
+      "verifiedAt": "2026-11-06T17:55:42.592Z"
+    },
+    "core": {
+      "index": 202,
+      "status": "live",
+      "sceneHook": "apple core",
+      "sceneHookZh": "苹果果核",
+      "illustration": "illus/core.webp",
+      "verifiedAt": "2026-11-06T17:55:42.592Z"
+    },
+    "magic": {
+      "index": 203,
+      "status": "live",
+      "sceneHook": "magic trick",
+      "sceneHookZh": "魔术表演",
+      "illustration": "illus/magic.webp",
+      "verifiedAt": "2026-11-06T17:55:42.592Z"
+    },
+    "sector": {
+      "index": 204,
+      "status": "live",
+      "sceneHook": "farming sector",
+      "sceneHookZh": "农业部门",
+      "illustration": "illus/sector.webp",
+      "verifiedAt": "2026-11-06T17:55:42.592Z"
+    },
+    "tank": {
+      "index": 205,
+      "status": "live",
+      "sceneHook": "water tank",
+      "sceneHookZh": "储水箱罐",
+      "illustration": "illus/tank.webp",
+      "verifiedAt": "2026-11-06T17:55:42.592Z"
+    },
+    "slightly": {
+      "index": 206,
+      "status": "live",
+      "sceneHook": "slightly open",
+      "sceneHookZh": "微微敞开",
+      "illustration": "illus/slightly.webp",
+      "verifiedAt": "2026-11-06T17:55:42.593Z"
+    },
+    "valley": {
+      "index": 207,
+      "status": "live",
+      "sceneHook": "green valley",
+      "sceneHookZh": "翠绿山谷",
+      "illustration": "illus/valley.webp",
+      "verifiedAt": "2026-11-06T17:55:42.593Z"
     }
   }
 }
