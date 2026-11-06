@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T11:39:04.994Z",
+  "updatedAt": "2026-11-06T11:43:45.950Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -681,6 +681,46 @@
       "sceneHookZh": "关键部件",
       "illustration": "illus/critical.webp",
       "verifiedAt": "2026-11-06T11:39:04.994Z"
+    },
+    "edge": {
+      "index": 86,
+      "status": "live",
+      "sceneHook": "cliff edge",
+      "sceneHookZh": "悬崖边缘",
+      "illustration": "illus/edge.webp",
+      "verifiedAt": "2026-11-06T11:43:45.934Z"
+    },
+    "ensure": {
+      "index": 87,
+      "status": "live",
+      "sceneHook": "ensure safety",
+      "sceneHookZh": "确保安全",
+      "illustration": "illus/ensure.webp",
+      "verifiedAt": "2026-11-06T11:43:45.948Z"
+    },
+    "ban": {
+      "index": 88,
+      "status": "live",
+      "sceneHook": "ban campfires",
+      "sceneHookZh": "禁止篝火",
+      "illustration": "illus/ban.webp",
+      "verifiedAt": "2026-11-06T11:43:45.949Z"
+    },
+    "hire": {
+      "index": 89,
+      "status": "live",
+      "sceneHook": "hire a bike",
+      "sceneHookZh": "租借单车",
+      "illustration": "illus/hire.webp",
+      "verifiedAt": "2026-11-06T11:43:45.949Z"
+    },
+    "stress": {
+      "index": 90,
+      "status": "live",
+      "sceneHook": "relieve stress",
+      "sceneHookZh": "缓解压力",
+      "illustration": "illus/stress.webp",
+      "verifiedAt": "2026-11-06T11:43:45.949Z"
     }
   }
 }
