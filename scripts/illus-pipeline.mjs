@@ -75,6 +75,11 @@ function auditWord(w) {
   }
   if (!Array.isArray(w.examples) || w.examples.length < 2) {
     issues.push(`needs >= 2 examples (easy i+1 + IELTS), got ${w.examples?.length ?? 0}`)
+  } else if (w.sceneHook && !w.examples[0].en.toLowerCase().includes(w.sceneHook.trim().toLowerCase())) {
+    issues.push(`examples[0].en ("${w.examples[0].en}") must contain sceneHook ("${w.sceneHook}") verbatim`)
+  }
+  if (w.sceneHook && (!Array.isArray(w.collocations) || !w.collocations.some((c) => c.toLowerCase() === w.sceneHook.trim().toLowerCase()))) {
+    issues.push(`collocations must include sceneHook ("${w.sceneHook}")`)
   }
   return issues
 }
