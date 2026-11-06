@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T11:12:37.750Z",
+  "updatedAt": "2026-11-06T11:18:26.109Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -561,6 +561,46 @@
       "sceneHookZh": "地方经济",
       "illustration": "illus/economy.webp",
       "verifiedAt": "2026-11-06T11:12:37.750Z"
+    },
+    "species": {
+      "index": 71,
+      "status": "live",
+      "sceneHook": "bird species",
+      "sceneHookZh": "鸟类物种",
+      "illustration": "illus/species.webp",
+      "verifiedAt": "2026-11-06T11:18:26.092Z"
+    },
+    "admit": {
+      "index": 72,
+      "status": "live",
+      "sceneHook": "admit light",
+      "sceneHookZh": "透入光线",
+      "illustration": "illus/admit.webp",
+      "verifiedAt": "2026-11-06T11:18:26.107Z"
+    },
+    "trouble": {
+      "index": 73,
+      "status": "live",
+      "sceneHook": "engine trouble",
+      "sceneHookZh": "引擎故障",
+      "illustration": "illus/trouble.webp",
+      "verifiedAt": "2026-11-06T11:18:26.108Z"
+    },
+    "traditional": {
+      "index": 74,
+      "status": "live",
+      "sceneHook": "traditional lanterns",
+      "sceneHookZh": "传统灯笼",
+      "illustration": "illus/traditional.webp",
+      "verifiedAt": "2026-11-06T11:18:26.108Z"
+    },
+    "recreate": {
+      "index": 75,
+      "status": "live",
+      "sceneHook": "recreate a castle",
+      "sceneHookZh": "重现城堡",
+      "illustration": "illus/recreate.webp",
+      "verifiedAt": "2026-11-06T11:18:26.108Z"
     }
   }
 }
