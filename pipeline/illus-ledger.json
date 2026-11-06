@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T10:54:55.682Z",
+  "updatedAt": "2026-11-06T11:03:45.308Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -481,6 +481,46 @@
       "sceneHookZh": "独立小盆",
       "illustration": "illus/individual.webp",
       "verifiedAt": "2026-11-06T10:54:55.681Z"
+    },
+    "range": {
+      "index": 61,
+      "status": "live",
+      "sceneHook": "mountain range",
+      "sceneHookZh": "连绵山脉",
+      "illustration": "illus/range.webp",
+      "verifiedAt": "2026-11-06T11:03:45.293Z"
+    },
+    "suggest": {
+      "index": 62,
+      "status": "live",
+      "sceneHook": "suggest a route",
+      "sceneHookZh": "建议路线",
+      "illustration": "illus/suggest.webp",
+      "verifiedAt": "2026-11-06T11:03:45.306Z"
+    },
+    "material": {
+      "index": 63,
+      "status": "live",
+      "sceneHook": "raw material",
+      "sceneHookZh": "天然原料",
+      "illustration": "illus/material.webp",
+      "verifiedAt": "2026-11-06T11:03:45.307Z"
+    },
+    "reduce": {
+      "index": 64,
+      "status": "live",
+      "sceneHook": "reduce waste",
+      "sceneHookZh": "减少浪费",
+      "illustration": "illus/reduce.webp",
+      "verifiedAt": "2026-11-06T11:03:45.307Z"
+    },
+    "population": {
+      "index": 65,
+      "status": "live",
+      "sceneHook": "penguin population",
+      "sceneHookZh": "企鹅种群",
+      "illustration": "illus/population.webp",
+      "verifiedAt": "2026-11-06T11:03:45.308Z"
     }
   }
 }
