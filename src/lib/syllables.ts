@@ -89,6 +89,21 @@ const EXACT_SYLLABLES: Record<string, string[]> = {
   limited: ['lim', 'it', 'ed'],
   previously: ['pre', 'vi', 'ous', 'ly'],
   critical: ['crit', 'i', 'cal'],
+  edge: ['edge'],
+  ensure: ['en', 'sure'],
+  ban: ['ban'],
+  hire: ['hire'],
+  stress: ['stress'],
+  tough: ['tough'],
+  length: ['length'],
+  escape: ['es', 'cape'],
+  fresh: ['fresh'],
+  journal: ['jour', 'nal'],
+  mental: ['men', 'tal'],
+  survive: ['sur', 'vive'],
+  progress: ['prog', 'ress'],
+  plane: ['plane'],
+  encourage: ['en', 'cour', 'age'],
 }
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u', 'y'])

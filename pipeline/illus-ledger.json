@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T11:18:26.109Z",
+  "updatedAt": "2026-11-06T11:39:04.994Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -601,6 +601,86 @@
       "sceneHookZh": "重现城堡",
       "illustration": "illus/recreate.webp",
       "verifiedAt": "2026-11-06T11:18:26.108Z"
+    },
+    "southern": {
+      "index": 76,
+      "status": "live",
+      "sceneHook": "southern coast",
+      "sceneHookZh": "南部海岸",
+      "illustration": "illus/southern.webp",
+      "verifiedAt": "2026-11-06T11:39:04.668Z"
+    },
+    "expert": {
+      "index": 77,
+      "status": "live",
+      "sceneHook": "watch expert",
+      "sceneHookZh": "钟表专家",
+      "illustration": "illus/expert.webp",
+      "verifiedAt": "2026-11-06T11:39:04.678Z"
+    },
+    "strength": {
+      "index": 78,
+      "status": "live",
+      "sceneHook": "great strength",
+      "sceneHookZh": "强大力量",
+      "illustration": "illus/strength.webp",
+      "verifiedAt": "2026-11-06T11:39:04.678Z"
+    },
+    "prison": {
+      "index": 79,
+      "status": "live",
+      "sceneHook": "prison cell",
+      "sceneHookZh": "牢房铁窗",
+      "illustration": "illus/prison.webp",
+      "verifiedAt": "2026-11-06T11:39:04.679Z"
+    },
+    "totally": {
+      "index": 80,
+      "status": "live",
+      "sceneHook": "totally empty",
+      "sceneHookZh": "空空如也",
+      "illustration": "illus/totally.webp",
+      "verifiedAt": "2026-11-06T11:39:04.679Z"
+    },
+    "relation": {
+      "index": 81,
+      "status": "live",
+      "sceneHook": "close relation",
+      "sceneHookZh": "紧密关联",
+      "illustration": "illus/relation.webp",
+      "verifiedAt": "2026-11-06T11:39:04.984Z"
+    },
+    "resident": {
+      "index": 82,
+      "status": "live",
+      "sceneHook": "local resident",
+      "sceneHookZh": "当地住户",
+      "illustration": "illus/resident.webp",
+      "verifiedAt": "2026-11-06T11:39:04.993Z"
+    },
+    "limited": {
+      "index": 83,
+      "status": "live",
+      "sceneHook": "limited time",
+      "sceneHookZh": "有限时间",
+      "illustration": "illus/limited.webp",
+      "verifiedAt": "2026-11-06T11:39:04.993Z"
+    },
+    "previously": {
+      "index": 84,
+      "status": "live",
+      "sceneHook": "previously locked",
+      "sceneHookZh": "先前锁着",
+      "illustration": "illus/previously.webp",
+      "verifiedAt": "2026-11-06T11:39:04.994Z"
+    },
+    "critical": {
+      "index": 85,
+      "status": "live",
+      "sceneHook": "critical piece",
+      "sceneHookZh": "关键部件",
+      "illustration": "illus/critical.webp",
+      "verifiedAt": "2026-11-06T11:39:04.994Z"
     }
   }
 }
