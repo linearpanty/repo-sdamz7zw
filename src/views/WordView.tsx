@@ -173,8 +173,6 @@ const HOLD_TEXT_MS = 900
 const HOLD_RECALL_MS = 1400
 /** Long enough to read and hit 撤回 on the auto-graduated badge. */
 const HOLD_MASTERED_MS = 2400
-/** Learn cards: the headword surfaces on its own if nobody types. */
-const PROBE_REVEAL_MS = 1800
 /** Learn cards: …or if the learner starts typing and then stalls. */
 const PAUSE_REVEAL_MS = 1200
 /** Ignore Enter this soon after a card mounts (late Enter from the previous card). */
@@ -197,7 +195,9 @@ export function WordView({
   const [missed, setMissed] = useState(false)
   const [tried, setTried] = useState(false)
   const [missCount, setMissCount] = useState(0)
-  const [probeRevealed, setProbeRevealed] = useState(false)
+  // Learn cards reveal headword + IPA + example + collocations immediately (0ms delay).
+  // Recall cards stay masked until typed or missed twice.
+  const [probeRevealed, setProbeRevealed] = useState(() => mode === 'learn')
   const [completion, setCompletion] = useState<Completion | null>(null)
   const [autoMastered, setAutoMastered] = useState(false)
   const [masteryUndone, setMasteryUndone] = useState(false)
@@ -222,7 +222,7 @@ export function WordView({
   const learn = mode === 'learn'
   const passed = gradeExact(spellInput, word.word).ok
   const revealed = missCount >= 2
-  const showHead = (learn && probeRevealed) || passed || revealed
+  const showHead = learn || probeRevealed || passed || revealed
   const illusSrc = illustrationUrl(word)
   const vidSrc = videoUrl(word)
   const withScene = hasScene(word)
@@ -263,10 +263,6 @@ export function WordView({
     mountedAtRef.current = performance.now()
     if (learn) {
       autoSpeakWord(word.word, word.id)
-      probeTimerRef.current = window.setTimeout(() => {
-        probeTimerRef.current = null
-        setProbeRevealed(true)
-      }, PROBE_REVEAL_MS)
     }
     return () => {
       if (timerRef.current !== null) window.clearTimeout(timerRef.current)

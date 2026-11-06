@@ -38,6 +38,8 @@ export function WordMotionStage({ word, passed }: WordMotionStageProps) {
               alt=""
               width={640}
               height={800}
+              fetchPriority="high"
+              decoding="sync"
               draggable={false}
             />
           </div>

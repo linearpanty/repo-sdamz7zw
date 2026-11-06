@@ -3410,6 +3410,25 @@ export const LOCAL_US_AUDIO_IDS: ReadonlySet<string> = new Set([
 ])
 
 let activeAudio: HTMLAudioElement | null = null
+const preloadedAudioMap = new Map<string, HTMLAudioElement>()
+
+export function preloadWordAudio(text: string, id?: string): void {
+  if (typeof Audio === 'undefined') return
+  const cleanId = (id ?? text).trim().toLowerCase()
+  const url = LOCAL_US_AUDIO_IDS.has(cleanId)
+    ? import.meta.env.BASE_URL + 'audio/us/' + encodeURIComponent(cleanId) + '.mp3'
+    : `https://0xlei.tech/words/atlas/audio/us/${encodeURIComponent(cleanId)}.mp3`
+  if (preloadedAudioMap.has(url)) return
+  try {
+    const audio = new Audio()
+    audio.preload = 'auto'
+    audio.src = url
+    audio.load()
+    preloadedAudioMap.set(url, audio)
+  } catch {
+    // ignore preload errors
+  }
+}
 
 function playAudioUrl(url: string): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -3421,7 +3440,15 @@ function playAudioUrl(url: string): Promise<void> {
       activeAudio.pause()
       activeAudio = null
     }
-    const audio = new Audio(url)
+    const cached = preloadedAudioMap.get(url)
+    const audio = cached ?? new Audio(url)
+    if (cached) {
+      try {
+        audio.currentTime = 0
+      } catch {
+        // ignore
+      }
+    }
     activeAudio = audio
     let settled = false
     const finish = (err?: unknown) => {

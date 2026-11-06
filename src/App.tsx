@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
+import { illustrationUrl } from './data/types'
+import { preloadWordAudio } from './lib/audio'
 import {
   blankProgress,
   DAILY_COUNT,
@@ -224,6 +226,24 @@ export default function App() {
         })),
       ]
     : []
+
+  // Preload illustrations (.webp) and pronunciation (.mp3) for the entire current round
+  // so advancing to the next word renders and speaks with zero network wait.
+  const queueIdsKey = progress.queue.map((c) => c.id).join(',')
+  useEffect(() => {
+    if (!runtime || progress.queue.length === 0) return
+    for (const cardItem of progress.queue) {
+      const w = runtime.getWord(cardItem.id)
+      if (!w) continue
+      const imgUrl = illustrationUrl(w)
+      if (imgUrl && typeof Image !== 'undefined') {
+        const img = new Image()
+        img.decoding = 'async'
+        img.src = imgUrl
+      }
+      preloadWordAudio(w.word, w.id)
+    }
+  }, [queueIdsKey, progress.queue, runtime])
 
   return (
     <div className="cw-viewport">
