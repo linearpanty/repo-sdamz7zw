@@ -75,6 +75,20 @@ const EXACT_SYLLABLES: Record<string, string[]> = {
   depend: ['de', 'pend'],
   behaviour: ['be', 'hav', 'iour'],
   economy: ['e', 'con', 'o', 'my'],
+  species: ['spe', 'cies'],
+  admit: ['ad', 'mit'],
+  trouble: ['trou', 'ble'],
+  traditional: ['tra', 'di', 'tion', 'al'],
+  southern: ['south', 'ern'],
+  expert: ['ex', 'pert'],
+  strength: ['strength'],
+  prison: ['pris', 'on'],
+  totally: ['to', 'tal', 'ly'],
+  relation: ['re', 'la', 'tion'],
+  resident: ['res', 'i', 'dent'],
+  limited: ['lim', 'it', 'ed'],
+  previously: ['pre', 'vi', 'ous', 'ly'],
+  critical: ['crit', 'i', 'cal'],
 }
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u', 'y'])

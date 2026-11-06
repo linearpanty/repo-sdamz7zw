@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T11:03:45.308Z",
+  "updatedAt": "2026-11-06T11:12:37.750Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -521,6 +521,46 @@
       "sceneHookZh": "企鹅种群",
       "illustration": "illus/population.webp",
       "verifiedAt": "2026-11-06T11:03:45.308Z"
+    },
+    "theory": {
+      "index": 66,
+      "status": "live",
+      "sceneHook": "test a theory",
+      "sceneHookZh": "验证理论",
+      "illustration": "illus/theory.webp",
+      "verifiedAt": "2026-11-06T11:12:37.737Z"
+    },
+    "discover": {
+      "index": 67,
+      "status": "live",
+      "sceneHook": "discover a fossil",
+      "sceneHookZh": "发现化石",
+      "illustration": "illus/discover.webp",
+      "verifiedAt": "2026-11-06T11:12:37.749Z"
+    },
+    "depend": {
+      "index": 68,
+      "status": "live",
+      "sceneHook": "depend on rain",
+      "sceneHookZh": "依赖雨水",
+      "illustration": "illus/depend.webp",
+      "verifiedAt": "2026-11-06T11:12:37.749Z"
+    },
+    "behaviour": {
+      "index": 69,
+      "status": "live",
+      "sceneHook": "animal behaviour",
+      "sceneHookZh": "动物行为",
+      "illustration": "illus/behaviour.webp",
+      "verifiedAt": "2026-11-06T11:12:37.750Z"
+    },
+    "economy": {
+      "index": 70,
+      "status": "live",
+      "sceneHook": "local economy",
+      "sceneHookZh": "地方经济",
+      "illustration": "illus/economy.webp",
+      "verifiedAt": "2026-11-06T11:12:37.750Z"
     }
   }
 }
