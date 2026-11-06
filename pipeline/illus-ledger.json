@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T10:17:40.323Z",
+  "updatedAt": "2026-11-06T10:31:15.315Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -361,6 +361,46 @@
       "sceneHookZh": "察觉危险",
       "illustration": "illus/aware.webp",
       "verifiedAt": "2026-11-06T10:17:40.322Z"
+    },
+    "interpret": {
+      "index": 46,
+      "status": "live",
+      "sceneHook": "interpret the signs",
+      "sceneHookZh": "解读符号",
+      "illustration": "illus/interpret.webp",
+      "verifiedAt": "2026-11-06T10:31:15.302Z"
+    },
+    "consequence": {
+      "index": 47,
+      "status": "live",
+      "sceneHook": "direct consequence",
+      "sceneHookZh": "直接后果",
+      "illustration": "illus/consequence.webp",
+      "verifiedAt": "2026-11-06T10:31:15.312Z"
+    },
+    "proportion": {
+      "index": 48,
+      "status": "live",
+      "sceneHook": "large proportion",
+      "sceneHookZh": "很大比例",
+      "illustration": "illus/proportion.webp",
+      "verifiedAt": "2026-11-06T10:31:15.313Z"
+    },
+    "technique": {
+      "index": 49,
+      "status": "live",
+      "sceneHook": "special technique",
+      "sceneHookZh": "独特手法",
+      "illustration": "illus/technique.webp",
+      "verifiedAt": "2026-11-06T10:31:15.313Z"
+    },
+    "phenomenon": {
+      "index": 50,
+      "status": "live",
+      "sceneHook": "natural phenomenon",
+      "sceneHookZh": "自然现象",
+      "illustration": "illus/phenomenon.webp",
+      "verifiedAt": "2026-11-06T10:31:15.314Z"
     }
   }
 }

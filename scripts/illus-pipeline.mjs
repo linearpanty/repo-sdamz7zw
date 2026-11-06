@@ -14,27 +14,51 @@
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-const CHUNK0_PATH = 'src/data/chunks/chunk0.ts'
+const CHUNK_PATHS = Array.from({ length: 8 }, (_, i) => `src/data/chunks/chunk${i}.ts`)
 const LEDGER_DIR = 'pipeline'
 const LEDGER_PATH = join(LEDGER_DIR, 'illus-ledger.json')
 const MAX_BATCH_SIZE = 5
+const INCLUDED_LEVELS = new Set(['A2', 'B1', 'B2', 'C1', 'C2'])
 
-function parseChunk0Words() {
-  const raw = readFileSync(CHUNK0_PATH, 'utf8')
-  const lines = raw.split('\n')
-  const words = []
-  for (let i = 0; i < lines.length; i += 1) {
-    const trimmed = lines[i].trim()
-    if (!trimmed.startsWith('{"id":')) continue
-    const jsonText = trimmed.replace(/,\s*$/, '')
-    try {
-      const obj = JSON.parse(jsonText)
-      words.push({ index: words.length + 1, lineNumber: i + 1, ...obj })
-    } catch {
-      // skip malformed line
+function fnv1a32(str) {
+  let h = 0x811c9dc5
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i)
+    h = Math.imul(h, 0x01000193) >>> 0
+  }
+  return h
+}
+
+function parseActiveWords() {
+  const pool = []
+  for (const chunkPath of CHUNK_PATHS) {
+    const raw = readFileSync(chunkPath, 'utf8')
+    const lines = raw.split('\n')
+    for (let i = 0; i < lines.length; i += 1) {
+      const trimmed = lines[i].trim()
+      if (!trimmed.startsWith('{"id":')) continue
+      const jsonText = trimmed.replace(/,\s*$/, '')
+      try {
+        const obj = JSON.parse(jsonText)
+        pool.push({ chunkPath, lineNumber: i + 1, ...obj })
+      } catch {
+        // skip malformed line
+      }
     }
   }
-  return words
+  const legacy = pool.slice(0, 50)
+  const graded = pool.slice(50).filter((w) => {
+    if (!w.level || !INCLUDED_LEVELS.has(w.level)) return false
+    const tags = w.lists ?? []
+    return tags.includes('cefrj') || tags.includes('nawl')
+  })
+  graded.sort((a, b) => {
+    const za = a.zipf ?? 0
+    const zb = b.zipf ?? 0
+    if (zb !== za) return zb - za
+    return fnv1a32(a.id) - fnv1a32(b.id)
+  })
+  return [...legacy, ...graded].map((w, idx) => ({ index: idx + 1, ...w }))
 }
 
 function loadLedger() {
@@ -85,7 +109,7 @@ function auditWord(w) {
 }
 
 const cmd = process.argv[2] ?? 'status'
-const words = parseChunk0Words()
+const words = parseActiveWords()
 const ledger = loadLedger()
 
 if (cmd === 'status') {
@@ -93,11 +117,11 @@ if (cmd === 'status') {
   const pending = words.filter((w) => !w.illustration)
   console.log(`=== ClawWords Illustration Pipeline Status ===`)
   console.log(`Quota-safe batch size cap: ${MAX_BATCH_SIZE} words / batch`)
-  console.log(`Chunk0 illustrated:        ${completed.length} / ${words.length}`)
-  console.log(`\nNext ${MAX_BATCH_SIZE} pending words in queue order:`)
+  console.log(`Active WORDS illustrated:  ${completed.length} / ${words.length}`)
+  console.log(`\nNext ${MAX_BATCH_SIZE} pending words in active WORDS queue order:`)
   for (const w of pending.slice(0, MAX_BATCH_SIZE)) {
     console.log(
-      `  #${w.index} ${w.id.padEnd(14)} (${w.senses?.[0]?.zh ?? ''}) | current hook: "${w.sceneHook ?? ''}"`,
+      `  #${w.index} ${w.id.padEnd(14)} (${w.senses?.[0]?.zh ?? ''}) | ${w.chunkPath}:${w.lineNumber} | hook: "${w.sceneHook ?? ''}"`,
     )
   }
   const completedWithIssues = completed
