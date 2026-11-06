@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T10:08:34.780Z",
+  "updatedAt": "2026-11-06T10:17:40.323Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -321,6 +321,46 @@
       "sceneHookZh": "产生电力",
       "illustration": "illus/generate.webp",
       "verifiedAt": "2026-11-06T10:08:34.779Z"
+    },
+    "involve": {
+      "index": 41,
+      "status": "live",
+      "sceneHook": "involve everyone",
+      "sceneHookZh": "全员参与",
+      "illustration": "illus/involve.webp",
+      "verifiedAt": "2026-11-06T10:17:40.305Z"
+    },
+    "abstract": {
+      "index": 42,
+      "status": "live",
+      "sceneHook": "abstract art",
+      "sceneHookZh": "抽象艺术",
+      "illustration": "illus/abstract.webp",
+      "verifiedAt": "2026-11-06T10:17:40.317Z"
+    },
+    "contribute": {
+      "index": 43,
+      "status": "live",
+      "sceneHook": "contribute money",
+      "sceneHookZh": "捐款出资",
+      "illustration": "illus/contribute.webp",
+      "verifiedAt": "2026-11-06T10:17:40.321Z"
+    },
+    "demonstrate": {
+      "index": 44,
+      "status": "live",
+      "sceneHook": "demonstrate how",
+      "sceneHookZh": "示范做法",
+      "illustration": "illus/demonstrate.webp",
+      "verifiedAt": "2026-11-06T10:17:40.322Z"
+    },
+    "aware": {
+      "index": 45,
+      "status": "live",
+      "sceneHook": "aware of danger",
+      "sceneHookZh": "察觉危险",
+      "illustration": "illus/aware.webp",
+      "verifiedAt": "2026-11-06T10:17:40.322Z"
     }
   }
 }
