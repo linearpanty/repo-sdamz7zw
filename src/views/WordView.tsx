@@ -187,12 +187,10 @@ export function WordView({
   mode,
   index,
   total,
-  canReplay,
   onAdvance,
   onExit,
 }: WordViewProps) {
   const [spellInput, setSpellInput] = useState('')
-  const [missed, setMissed] = useState(false)
   const [tried, setTried] = useState(false)
   const [missCount, setMissCount] = useState(0)
   // Learn cards reveal headword + IPA + example + collocations immediately (0ms delay).
@@ -232,8 +230,6 @@ export function WordView({
   const collocations = (word.collocations ?? []).slice(0, 3)
   const senses = groupSenses(word.senses)
   const fraction = `${index}/${total}`
-  const finishing = total - index === 0 && !(missed && canReplay)
-  const nextLabel = finishing ? '完成今天' : '下一词'
   const showMasteryBadge = passed && autoMastered
 
   function holdMsFor(mastered: boolean): number {
@@ -324,7 +320,6 @@ export function WordView({
     if (spellInput.trim() || !learn) {
       const nextCount = missCount + 1
       missedRef.current = true
-      setMissed(true)
       setTried(true)
       setMissCount(nextCount)
       if (nextCount === 2) {
@@ -593,20 +588,6 @@ export function WordView({
               </div>
             )}
           </section>
-
-          <footer className="cw-dossier-footer">
-            <button
-              type="button"
-              className="cw-cta-primary cw-cta-wide"
-              disabled={!passed}
-              onPointerDown={(e) => e.preventDefault()}
-              onClick={() => {
-                if (passed) triggerAdvance()
-              }}
-            >
-              <span>{nextLabel}</span>
-            </button>
-          </footer>
         </div>
       </article>
     </div>

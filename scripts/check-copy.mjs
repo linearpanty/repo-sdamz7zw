@@ -28,8 +28,6 @@ const BANNED = [
 const REQUIRED_IN_JS = [
   '开始',
   '继续',
-  '下一词',
-  '完成今天',
   '今天好了',
   '还有',
   '回今天',
