@@ -59,11 +59,22 @@ const EXACT_SYLLABLES: Record<string, string[]> = {
   create: ['cre', 'ate'],
   recreate: ['rec', 're', 'ate'],
   community: ['com', 'mu', 'ni', 'ty'],
+  source: ['source'],
   policy: ['pol', 'i', 'cy'],
   industry: ['in', 'dus', 'try'],
   produce: ['pro', 'duce'],
   energy: ['en', 'er', 'gy'],
   individual: ['in', 'di', 'vid', 'u', 'al'],
+  range: ['range'],
+  suggest: ['sug', 'gest'],
+  material: ['ma', 'te', 'ri', 'al'],
+  reduce: ['re', 'duce'],
+  population: ['pop', 'u', 'la', 'tion'],
+  theory: ['the', 'o', 'ry'],
+  discover: ['dis', 'cov', 'er'],
+  depend: ['de', 'pend'],
+  behaviour: ['be', 'hav', 'iour'],
+  economy: ['e', 'con', 'o', 'my'],
 }
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u', 'y'])

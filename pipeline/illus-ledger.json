@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T10:40:08.897Z",
+  "updatedAt": "2026-11-06T10:54:55.682Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -441,6 +441,46 @@
       "sceneHookZh": "河流源头",
       "illustration": "illus/source.webp",
       "verifiedAt": "2026-11-06T10:40:08.897Z"
+    },
+    "policy": {
+      "index": 56,
+      "status": "live",
+      "sceneHook": "insurance policy",
+      "sceneHookZh": "保险单据",
+      "illustration": "illus/policy.webp",
+      "verifiedAt": "2026-11-06T10:54:55.669Z"
+    },
+    "industry": {
+      "index": 57,
+      "status": "live",
+      "sceneHook": "heavy industry",
+      "sceneHookZh": "重工业厂",
+      "illustration": "illus/industry.webp",
+      "verifiedAt": "2026-11-06T10:54:55.680Z"
+    },
+    "produce": {
+      "index": 58,
+      "status": "live",
+      "sceneHook": "produce honey",
+      "sceneHookZh": "酿造蜂蜜",
+      "illustration": "illus/produce.webp",
+      "verifiedAt": "2026-11-06T10:54:55.680Z"
+    },
+    "energy": {
+      "index": 59,
+      "status": "live",
+      "sceneHook": "full of energy",
+      "sceneHookZh": "精力充沛",
+      "illustration": "illus/energy.webp",
+      "verifiedAt": "2026-11-06T10:54:55.681Z"
+    },
+    "individual": {
+      "index": 60,
+      "status": "live",
+      "sceneHook": "individual pots",
+      "sceneHookZh": "独立小盆",
+      "illustration": "illus/individual.webp",
+      "verifiedAt": "2026-11-06T10:54:55.681Z"
     }
   }
 }
