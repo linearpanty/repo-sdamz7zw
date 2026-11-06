@@ -129,10 +129,18 @@ function auditWord(w) {
     }
     for (let sIdx = 0; sIdx < exactSyls.length; sIdx += 1) {
       const part = exactSyls[sIdx]
-      if (!/[aeiouy]/i.test(part)) {
+      if (part === '-' || part === ' ') continue
+      const isLetterNameBeforeHyphen = part.length === 1 && exactSyls[sIdx + 1] === '-'
+      if (!/[aeiouy]/i.test(part) && !isLetterNameBeforeHyphen) {
         issues.push(`syllable chunk "${part}" in EXACT_SYLLABLES["${lower}"] lacks a vowel`)
       }
-      if (sIdx > 0 && part.length === 1 && !/[aeiouy]$/i.test(exactSyls[sIdx - 1])) {
+      if (
+        sIdx > 0 &&
+        part.length === 1 &&
+        exactSyls[sIdx - 1] !== '-' &&
+        exactSyls[sIdx - 1] !== ' ' &&
+        !/[aeiouy]$/i.test(exactSyls[sIdx - 1])
+      ) {
         issues.push(
           `stranded 1-letter syllable "${part}" after consonant in EXACT_SYLLABLES["${lower}"] (${exactSyls.join('·')}); use CV onset split`,
         )

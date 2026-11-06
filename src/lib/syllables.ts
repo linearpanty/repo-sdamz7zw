@@ -235,6 +235,39 @@ export const EXACT_SYLLABLES: Record<string, string[]> = {
   root: ['root'],
   error: ['er', 'ror'],
   corporation: ['cor', 'po', 'ra', 'tion'],
+  presence: ['pre', 'sence'],
+  shock: ['shock'],
+  solid: ['so', 'lid'],
+  climate: ['cli', 'mate'],
+  weak: ['weak'],
+  massive: ['mas', 'sive'],
+  upper: ['up', 'per'],
+  'large-scale': ['large', '-', 'scale'],
+  initial: ['i', 'ni', 'tial'],
+  't-shirt': ['t', '-', 'shirt'],
+  classic: ['clas', 'sic'],
+  proper: ['pro', 'per'],
+  delay: ['de', 'lay'],
+  secure: ['se', 'cure'],
+  willing: ['wil', 'ling'],
+  talent: ['ta', 'lent'],
+  proof: ['proof'],
+  finance: ['fi', 'nance'],
+  ill: ['ill'],
+  consist: ['con', 'sist'],
+  threaten: ['threa', 'ten'],
+  regional: ['re', 'gio', 'nal'],
+  plate: ['plate'],
+  citizen: ['ci', 'ti', 'zen'],
+  phase: ['phase'],
+  electric: ['e', 'lec', 'tric'],
+  entirely: ['en', 'tire', 'ly'],
+  rent: ['rent'],
+  chemical: ['che', 'mi', 'cal'],
+  fantastic: ['fan', 'tas', 'tic'],
+  steel: ['steel'],
+  industrial: ['in', 'dus', 'tri', 'al'],
+  declare: ['de', 'clare'],
 }
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u', 'y'])
@@ -351,7 +384,13 @@ export function splitWordSyllables(word: string): SyllableSegment[] {
     let pos = 0
     for (const part of EXACT_SYLLABLES[lower]) {
       const len = part.length
-      out.push({ text: word.slice(pos, pos + len), start: pos, end: pos + len })
+      const isSeparator = part === ' ' || part === '-'
+      out.push({
+        text: word.slice(pos, pos + len),
+        start: pos,
+        end: pos + len,
+        ...(isSeparator ? { isSeparator: true } : {}),
+      })
       pos += len
     }
     return out
