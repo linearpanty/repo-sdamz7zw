@@ -476,10 +476,13 @@ export function WordView({
                       const weights = syllables.map((s) => {
                         if (s.isSeparator) return 0
                         nonSepOrd += 1
-                        const base = Math.max(1, s.end - s.start)
-                        return nonSepOrd === stressedSylIdx ? base * 1.3 : base
+                        const charLen = Math.max(1, s.end - s.start)
+                        const base = 1.0 + charLen * 0.18
+                        return nonSepOrd === stressedSylIdx ? base * 1.22 : base
                       })
                       const totalWeight = Math.max(1, weights.reduce((a, b) => a + b, 0))
+                      // Bundled US MP3s include ~240-320ms of trailing silence; align karaoke sweep to active speech window.
+                      const speechDurMs = Math.max(420, (speaking.durationMs || 860) - 240)
                       let cumWeight = 0
                       nonSepOrd = -1
                       return syllables.map((syl, sylIdx) => {
@@ -493,11 +496,10 @@ export function WordView({
                         nonSepOrd += 1
                         const isStressed = isMultiSyllable && nonSepOrd === stressedSylIdx
                         const w = weights[sylIdx]
-                        const durMs = Math.max(420, speaking.durationMs || 720)
-                        const delayMs = Math.round((cumWeight / totalWeight) * durMs * 0.78)
+                        const delayMs = Math.round((cumWeight / totalWeight) * speechDurMs * 0.82)
                         const spanMs = Math.max(
-                          180,
-                          Math.round((w / totalWeight) * durMs * 0.98),
+                          170,
+                          Math.round((w / totalWeight) * speechDurMs * 1.05),
                         )
                         cumWeight += w
                         const isSylDone = matchedLen >= syl.end
@@ -514,24 +516,31 @@ export function WordView({
                           '--cw-syl-dur': `${spanMs}ms`,
                         } as CSSProperties
                         return (
-                          <span
-                            key={`${sylIdx}:${isWordSpeaking ? speaking.seq : 0}`}
-                            className={`cw-syl${hasNextSyllable ? ' has-dot' : ''}${isStressed ? ' is-syl-stressed' : ''}${isSylDone ? ' is-syl-done' : ''}${isSylCurrent ? ' is-syl-active' : ''}${isSylError ? ' is-syl-error' : ''}${isWordSpeaking ? ' is-syl-speaking' : ''}`}
-                            style={sylStyle}
-                          >
-                            {Array.from(syl.text).map((ch, cIdx) => {
-                              const charPos = syl.start + cIdx
-                              const isTyped = charPos < matchedLen
-                              const isErrorChar = hasTypo && charPos === matchedLen
-                              return (
-                                <span
-                                  key={cIdx}
-                                  className={`cw-char${isTyped ? ' is-typed' : ''}${isErrorChar ? ' is-char-error' : ''}`}
-                                >
-                                  {ch}
-                                </span>
-                              )
-                            })}
+                          <span key={sylIdx} className="cw-syl-group">
+                            <span
+                              key={`syl:${sylIdx}:${isWordSpeaking ? speaking.seq : 0}`}
+                              className={`cw-syl${isStressed ? ' is-syl-stressed' : ''}${isSylDone ? ' is-syl-done' : ''}${isSylCurrent ? ' is-syl-active' : ''}${isSylError ? ' is-syl-error' : ''}${isWordSpeaking ? ' is-syl-speaking' : ''}`}
+                              style={sylStyle}
+                            >
+                              {Array.from(syl.text).map((ch, cIdx) => {
+                                const charPos = syl.start + cIdx
+                                const isTyped = charPos < matchedLen
+                                const isErrorChar = hasTypo && charPos === matchedLen
+                                return (
+                                  <span
+                                    key={cIdx}
+                                    className={`cw-char${isTyped ? ' is-typed' : ''}${isErrorChar ? ' is-char-error' : ''}`}
+                                  >
+                                    {ch}
+                                  </span>
+                                )
+                              })}
+                            </span>
+                            {hasNextSyllable && (
+                              <span className="cw-syl-dot" aria-hidden="true">
+                                ·
+                              </span>
+                            )}
                           </span>
                         )
                       })

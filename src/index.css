@@ -364,19 +364,25 @@ mark.cw-target-hl {
   cursor: pointer;
 }
 
+.cw-syl-group {
+  display: inline-flex;
+  align-items: baseline;
+}
+
 .cw-syl {
   position: relative;
   display: inline-flex;
   align-items: baseline;
-  padding-bottom: 3px;
+  justify-content: center;
+  min-width: 0.52em;
+  padding: 0 1.5px 3px;
   border-radius: 4px;
   transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.18s ease;
 }
 
-.cw-syl.has-dot::after {
-  content: '·';
+.cw-syl-dot {
   display: inline-block;
-  margin: 0 2px;
+  margin: 0 1.5px;
   font-weight: 400;
   font-size: 0.62em;
   color: #b5b0a6;
@@ -389,7 +395,7 @@ mark.cw-target-hl {
   content: '';
   position: absolute;
   left: 1px;
-  right: 5px;
+  right: 1px;
   bottom: 0;
   height: 2.5px;
   border-radius: 999px;
@@ -397,10 +403,6 @@ mark.cw-target-hl {
   transform: scaleX(0.6);
   opacity: 0;
   transition: transform 0.18s ease, opacity 0.18s ease, background-color 0.18s ease;
-}
-
-.cw-syl:last-child::before {
-  right: 1px;
 }
 
 .cw-syl.is-syl-stressed::before {
