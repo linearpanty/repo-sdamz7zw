@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T09:50:22.844Z",
+  "updatedAt": "2026-11-06T09:58:55.747Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -241,6 +241,46 @@
       "sceneHookZh": "主要功能",
       "illustration": "illus/function.webp",
       "verifiedAt": "2026-11-06T09:50:22.844Z"
+    },
+    "require": {
+      "index": 31,
+      "status": "live",
+      "sceneHook": "require water",
+      "sceneHookZh": "需要水分",
+      "illustration": "illus/require.webp",
+      "verifiedAt": "2026-11-06T09:58:55.733Z"
+    },
+    "accurate": {
+      "index": 32,
+      "status": "live",
+      "sceneHook": "accurate aim",
+      "sceneHookZh": "精准命中",
+      "illustration": "illus/accurate.webp",
+      "verifiedAt": "2026-11-06T09:58:55.745Z"
+    },
+    "maintain": {
+      "index": 33,
+      "status": "live",
+      "sceneHook": "maintain balance",
+      "sceneHookZh": "保持平衡",
+      "illustration": "illus/maintain.webp",
+      "verifiedAt": "2026-11-06T09:58:55.746Z"
+    },
+    "indicate": {
+      "index": 34,
+      "status": "live",
+      "sceneHook": "indicate direction",
+      "sceneHookZh": "指示方向",
+      "illustration": "illus/indicate.webp",
+      "verifiedAt": "2026-11-06T09:58:55.746Z"
+    },
+    "achieve": {
+      "index": 35,
+      "status": "live",
+      "sceneHook": "achieve a goal",
+      "sceneHookZh": "实现目标",
+      "illustration": "illus/achieve.webp",
+      "verifiedAt": "2026-11-06T09:58:55.747Z"
     }
   }
 }
