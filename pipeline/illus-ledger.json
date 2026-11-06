@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T00:24:00.360Z",
+  "updatedAt": "2026-11-06T00:38:17.709Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -168,7 +168,7 @@
       "sceneHook": "natural resource",
       "sceneHookZh": "珍贵水源",
       "illustration": "illus/resource.webp",
-      "verifiedAt": "2026-11-06T00:24:00.347Z"
+      "verifiedAt": "2026-11-06T00:38:17.692Z"
     },
     "access": {
       "index": 22,
@@ -176,7 +176,7 @@
       "sceneHook": "gain access",
       "sceneHookZh": "获准通行",
       "illustration": "illus/access.webp",
-      "verifiedAt": "2026-11-06T00:24:00.359Z"
+      "verifiedAt": "2026-11-06T00:38:17.704Z"
     },
     "potential": {
       "index": 23,
@@ -184,7 +184,7 @@
       "sceneHook": "hidden potential",
       "sceneHookZh": "潜力深藏",
       "illustration": "illus/potential.webp",
-      "verifiedAt": "2026-11-06T00:24:00.359Z"
+      "verifiedAt": "2026-11-06T00:38:17.704Z"
     },
     "method": {
       "index": 24,
@@ -192,7 +192,7 @@
       "sceneHook": "smart method",
       "sceneHookZh": "巧妙方法",
       "illustration": "illus/method.webp",
-      "verifiedAt": "2026-11-06T00:24:00.360Z"
+      "verifiedAt": "2026-11-06T00:38:17.705Z"
     },
     "appropriate": {
       "index": 25,
@@ -200,7 +200,7 @@
       "sceneHook": "appropriate attire",
       "sceneHookZh": "穿着得体",
       "illustration": "illus/appropriate.webp",
-      "verifiedAt": "2026-11-06T00:24:00.360Z"
+      "verifiedAt": "2026-11-06T00:38:17.705Z"
     }
   }
 }
