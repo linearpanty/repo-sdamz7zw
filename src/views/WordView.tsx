@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { hasScene, WordMotionStage } from '../components/WordMotionStage'
 import { illustrationUrl, videoUrl, type Sense, type Word } from '../data/types'
-import { autoSpeakWord, speakWord } from '../lib/audio'
+import { autoSpeakWord, speakWord, subscribeSpeaking, type SpeakingEvent } from '../lib/audio'
 import { gradeExact, maskWordHint } from '../lib/grader'
 import type { CardMode } from '../lib/model'
 import { isSoundMuted, setSoundMuted, subscribeMute } from '../lib/sfx'
+import { splitWordSyllables } from '../lib/syllables'
 
 export type SessionCapsule = {
   id: string
@@ -166,10 +167,10 @@ function Swap({ show, before, after, className = '' }: { show: boolean; before: 
   )
 }
 
-/** Success hold before auto-advance. Enter (after PASS_ENTER_GUARD_MS) or 下一词 skips it. */
+/** Success hold before auto-advance. Enter (after PASS_ENTER_GUARD_MS) skips it. */
 const HOLD_SCENE_MS = 1350
-const HOLD_POSTER_MS = 1100
-const HOLD_TEXT_MS = 900
+const HOLD_POSTER_MS = 1250
+const HOLD_TEXT_MS = 1100
 const HOLD_RECALL_MS = 1400
 /** Long enough to read and hit 撤回 on the auto-graduated badge. */
 const HOLD_MASTERED_MS = 2400
@@ -181,6 +182,17 @@ const MOUNT_ENTER_GUARD_MS = 300
 const PASS_ENTER_GUARD_MS = 250
 
 type Completion = { at: number; typingMs: number; revealedBefore: boolean }
+
+function computeMatchedPrefixLen(input: string, target: string): number {
+  const cleanIn = input.trimStart().toLowerCase()
+  const cleanTarget = target.toLowerCase()
+  let i = 0
+  const max = Math.min(cleanIn.length, cleanTarget.length)
+  while (i < max && cleanIn[i] === cleanTarget[i]) {
+    i += 1
+  }
+  return i
+}
 
 export function WordView({
   word,
@@ -199,6 +211,7 @@ export function WordView({
   const [completion, setCompletion] = useState<Completion | null>(null)
   const [autoMastered, setAutoMastered] = useState(false)
   const [masteryUndone, setMasteryUndone] = useState(false)
+  const [speaking, setSpeaking] = useState<SpeakingEvent>({ id: null, durationMs: 0, seq: 0 })
   // examples[0] is the simple i+1 sentence; examples[1] (if any) is the authentic IELTS one.
   // Every new word opens on the simple sentence.
   const [exampleIdx, setExampleIdx] = useState(0)
@@ -214,6 +227,7 @@ export function WordView({
   const firstKeyAtRef = useRef<number | null>(null)
   const typoCountRef = useRef(0)
   const mountedAtRef = useRef(0)
+  const lastSpokenAtRef = useRef(0)
   const missedRef = useRef(false)
   const masteredRef = useRef(false)
 
@@ -229,6 +243,11 @@ export function WordView({
   const example = word.examples[hasExampleToggle ? Math.min(exampleIdx, 1) : 0]
   const collocations = (word.collocations ?? []).slice(0, 3)
   const senses = groupSenses(word.senses)
+  const syllables = splitWordSyllables(word.word)
+  const matchedLen = passed ? word.word.length : computeMatchedPrefixLen(spellInput, word.word)
+  const trimmedLen = spellInput.trim().length
+  const hasTypo = !passed && trimmedLen > matchedLen
+  const isWordSpeaking = speaking.id === word.id.trim().toLowerCase()
   const fraction = `${index}/${total}`
   const showMasteryBadge = passed && autoMastered
 
@@ -255,9 +274,12 @@ export function WordView({
     }, ms)
   }
 
+  useEffect(() => subscribeSpeaking(setSpeaking), [])
+
   useEffect(() => {
     mountedAtRef.current = performance.now()
     if (learn) {
+      lastSpokenAtRef.current = performance.now()
       autoSpeakWord(word.word, word.id)
     }
     return () => {
@@ -340,6 +362,9 @@ export function WordView({
       typingMs: firstKeyAtRef.current === null ? 0 : Math.round(now - firstKeyAtRef.current),
       revealedBefore: probeRevealed,
     })
+    // Hand-eye-ear closure: replay the full word pronunciation as soon as the final letter locks in.
+    lastSpokenAtRef.current = now
+    autoSpeakWord(word.word, word.id)
     if (timerRef.current !== null) window.clearTimeout(timerRef.current)
     timerRef.current = window.setTimeout(triggerAdvance, holdMsFor(mastered))
   }
@@ -378,7 +403,7 @@ export function WordView({
       </div>
 
       <article
-        className={`cw-lexicon-folio${hasMedia ? '' : ' is-text-only'}${passed ? ' is-passed' : ''}`}
+        className={`cw-lexicon-folio${hasMedia ? '' : ' is-text-only'}${passed ? ' is-passed' : ''}${isWordSpeaking ? ' is-speaking' : ''}`}
         aria-label="词"
         data-typing-ms={completion?.typingMs}
         data-mastered={passed ? String(autoMastered && !masteryUndone) : undefined}
@@ -418,10 +443,13 @@ export function WordView({
                   <h1 className="cw-sr">词</h1>
                   <button
                     type="button"
-                    className="cw-btn-speak btn-speak"
+                    className={`cw-btn-speak btn-speak${isWordSpeaking ? ' is-speaking' : ''}`}
                     tabIndex={showHead ? -1 : 0}
                     onPointerDown={(e) => e.preventDefault()}
-                    onClick={() => speakWord(word.word, word.id)}
+                    onClick={() => {
+                      lastSpokenAtRef.current = performance.now()
+                      speakWord(word.word, word.id)
+                    }}
                     aria-label="听发音"
                   >
                     <SpeakIcon />
@@ -431,14 +459,71 @@ export function WordView({
               }
               after={
                 <div className="cw-headword-row headword-row">
-                  <h1 className="cw-headword-serif headword">{word.word}</h1>
+                  <h1
+                    className={`cw-headword-serif headword${isWordSpeaking ? ' is-speaking' : ''}${passed ? ' is-complete' : ''}`}
+                    data-speak-seq={isWordSpeaking ? speaking.seq : undefined}
+                  >
+                    {syllables.map((syl, sylIdx) => {
+                      if (syl.isSeparator) {
+                        return (
+                          <span key={sylIdx} className="cw-syl-sep">
+                            {syl.text}
+                          </span>
+                        )
+                      }
+                      const totalLen = Math.max(1, word.word.length)
+                      const durMs = Math.max(420, speaking.durationMs || 720)
+                      const delayMs = Math.round((syl.start / totalLen) * durMs * 0.78)
+                      const spanMs = Math.max(
+                        180,
+                        Math.round(((syl.end - syl.start) / totalLen) * durMs * 0.95),
+                      )
+                      const isSylDone = matchedLen >= syl.end
+                      const isSylCurrent =
+                        !passed &&
+                        (matchedLen > 0 || hasTypo) &&
+                        matchedLen >= syl.start &&
+                        matchedLen < syl.end
+                      const isSylError = hasTypo && matchedLen >= syl.start && matchedLen < syl.end
+                      const hasNextSyllable =
+                        sylIdx < syllables.length - 1 && !syllables[sylIdx + 1]?.isSeparator
+                      const sylStyle = {
+                        '--cw-syl-delay': `${delayMs}ms`,
+                        '--cw-syl-dur': `${spanMs}ms`,
+                      } as CSSProperties
+                      return (
+                        <span
+                          key={`${sylIdx}:${isWordSpeaking ? speaking.seq : 0}`}
+                          className={`cw-syl${hasNextSyllable ? ' has-dot' : ''}${isSylDone ? ' is-syl-done' : ''}${isSylCurrent ? ' is-syl-active' : ''}${isSylError ? ' is-syl-error' : ''}${isWordSpeaking ? ' is-syl-speaking' : ''}`}
+                          style={sylStyle}
+                        >
+                          {Array.from(syl.text).map((ch, cIdx) => {
+                            const charPos = syl.start + cIdx
+                            const isTyped = charPos < matchedLen
+                            const isErrorChar = hasTypo && charPos === matchedLen
+                            return (
+                              <span
+                                key={cIdx}
+                                className={`cw-char${isTyped ? ' is-typed' : ''}${isErrorChar ? ' is-char-error' : ''}`}
+                              >
+                                {ch}
+                              </span>
+                            )
+                          })}
+                        </span>
+                      )
+                    })}
+                  </h1>
                   <span className="cw-ipa-pill ipa">{word.ipa}</span>
                   <button
                     type="button"
-                    className="cw-btn-speak btn-speak"
+                    className={`cw-btn-speak btn-speak${isWordSpeaking ? ' is-speaking' : ''}`}
                     tabIndex={showHead ? 0 : -1}
                     onPointerDown={(e) => e.preventDefault()}
-                    onClick={() => speakWord(word.word, word.id)}
+                    onClick={() => {
+                      lastSpokenAtRef.current = performance.now()
+                      speakWord(word.word, word.id)
+                    }}
                     aria-label="听发音"
                   >
                     <SpeakIcon />
@@ -535,6 +620,11 @@ export function WordView({
                     if (learn && !probeRevealed) {
                       clearProbeTimer()
                       setProbeRevealed(true)
+                    }
+                    const now = performance.now()
+                    if (now - lastSpokenAtRef.current > 900) {
+                      lastSpokenAtRef.current = now
+                      autoSpeakWord(word.word, word.id)
                     }
                   } else if (learn && !probeRevealed && !isOk) {
                     // Typing blind: hold the headword back while keys keep coming,

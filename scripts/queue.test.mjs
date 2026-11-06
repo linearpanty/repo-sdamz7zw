@@ -209,5 +209,18 @@ const diskMp3Ids = readdirSync('public/audio/us')
   .sort()
 assert.deepEqual([...LOCAL_US_AUDIO_IDS].sort(), diskMp3Ids)
 
+// Verify splitWordSyllables preserves exact word spelling and character offsets for all active WORDS
+const sylOut = join(mkdtempSync(join(tmpdir(), 'cw-syl-')), 'syllables.mjs')
+const sylBundle = await rolldown({ input: 'src/lib/syllables.ts' })
+await sylBundle.write({ file: sylOut, format: 'esm' })
+await sylBundle.close()
+const { splitWordSyllables } = await import(pathToFileURL(sylOut).href)
+for (const w of WORDS) {
+  const segs = splitWordSyllables(w.word)
+  assert.equal(segs.map((s) => s.text).join(''), w.word)
+  assert.equal(segs[0].start, 0)
+  assert.equal(segs.at(-1).end, w.word.length)
+}
+
 writeFileSync(join(tmpdir(), 'cw-queue-ok'), 'ok')
 console.log('queue tests ok')

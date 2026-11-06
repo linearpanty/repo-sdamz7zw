@@ -3409,8 +3409,40 @@ export const LOCAL_US_AUDIO_IDS: ReadonlySet<string> = new Set([
   'zoo',
 ])
 
+export type SpeakingEvent = {
+  id: string | null
+  durationMs: number
+  seq: number
+}
+
 let activeAudio: HTMLAudioElement | null = null
+let speakSeq = 0
+let speakClearTimer: number | null = null
+const speakingListeners = new Set<(ev: SpeakingEvent) => void>()
 const preloadedAudioMap = new Map<string, HTMLAudioElement>()
+
+export function subscribeSpeaking(fn: (ev: SpeakingEvent) => void): () => void {
+  speakingListeners.add(fn)
+  return () => {
+    speakingListeners.delete(fn)
+  }
+}
+
+function emitSpeaking(id: string | null, durationMs = 0): void {
+  if (speakClearTimer !== null && typeof window !== 'undefined') {
+    window.clearTimeout(speakClearTimer)
+    speakClearTimer = null
+  }
+  const seq = id ? ++speakSeq : speakSeq
+  const ev: SpeakingEvent = { id, durationMs, seq }
+  for (const fn of speakingListeners) fn(ev)
+  if (id && durationMs > 0 && typeof window !== 'undefined') {
+    speakClearTimer = window.setTimeout(() => {
+      speakClearTimer = null
+      for (const fn of speakingListeners) fn({ id: null, durationMs: 0, seq })
+    }, durationMs + 60)
+  }
+}
 
 export function preloadWordAudio(text: string, id?: string): void {
   if (typeof Audio === 'undefined') return
@@ -3430,7 +3462,7 @@ export function preloadWordAudio(text: string, id?: string): void {
   }
 }
 
-function playAudioUrl(url: string): Promise<void> {
+function playAudioUrl(url: string, wordId: string): Promise<void> {
   return new Promise((resolve, reject) => {
     if (typeof Audio === 'undefined') {
       reject(new Error('audio-unavailable'))
@@ -3451,20 +3483,39 @@ function playAudioUrl(url: string): Promise<void> {
     }
     activeAudio = audio
     let settled = false
+    const notifyPlay = () => {
+      const rawDur = audio.duration
+      const durMs =
+        Number.isFinite(rawDur) && rawDur > 0.15 && rawDur < 6
+          ? Math.round(rawDur * 1000)
+          : 720
+      emitSpeaking(wordId, durMs)
+    }
     const finish = (err?: unknown) => {
       if (settled) return
       settled = true
-      if (err) reject(err)
-      else resolve()
+      if (err) {
+        reject(err)
+      } else {
+        notifyPlay()
+        resolve()
+      }
     }
     audio.addEventListener('error', () => finish(new Error('audio-error')), { once: true })
     audio.addEventListener('playing', () => finish(), { once: true })
+    audio.addEventListener(
+      'ended',
+      () => {
+        if (activeAudio === audio) emitSpeaking(null, 0)
+      },
+      { once: true },
+    )
     const pending = audio.play()
     if (pending !== undefined) pending.then(() => finish()).catch((err) => finish(err))
   })
 }
 
-function speakWithWebSpeech(text: string): void {
+function speakWithWebSpeech(text: string, wordId: string): void {
   try {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
     window.speechSynthesis.cancel()
@@ -3475,6 +3526,7 @@ function speakWithWebSpeech(text: string): void {
       voices.find((v) => v.lang === 'en-US') ?? voices.find((v) => v.lang.startsWith('en'))
     if (enVoice) utter.voice = enVoice
     utter.rate = 0.95
+    emitSpeaking(wordId, Math.max(550, text.length * 85))
     window.speechSynthesis.speak(utter)
   } catch {
     // Speech synthesis is optional.
@@ -3509,14 +3561,15 @@ export function speakWord(text: string, id?: string): void {
   }
 
   const attempt = LOCAL_US_AUDIO_IDS.has(cleanId)
-    ? playAudioUrl(import.meta.env.BASE_URL + 'audio/us/' + encodeURIComponent(cleanId) + '.mp3').catch(() =>
-        playAudioUrl(remoteUrl),
-      )
-    : playAudioUrl(remoteUrl)
+    ? playAudioUrl(
+        import.meta.env.BASE_URL + 'audio/us/' + encodeURIComponent(cleanId) + '.mp3',
+        cleanId,
+      ).catch(() => playAudioUrl(remoteUrl, cleanId))
+    : playAudioUrl(remoteUrl, cleanId)
 
   attempt
-    .catch(() => playAudioUrl(youdaoUsUrl))
+    .catch(() => playAudioUrl(youdaoUsUrl, cleanId))
     .catch(() => {
-      speakWithWebSpeech(text)
+      speakWithWebSpeech(text, cleanId)
     })
 }
