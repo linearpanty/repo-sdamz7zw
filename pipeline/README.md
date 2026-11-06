@@ -16,12 +16,13 @@ Every word in `ClawWords` goes through a strict **3-Stage Production & Multimoda
 
 2. **Stage 2: Strict Multimodal Visual & Semantic QA (`严苛质检员 / Antigravity Multimodal Vision`)**
    - Inspect every final `640x800` `.webp` image in `public/illus/` directly via `read_file`.
-   - **5-Point Scoring Rubric (Must score `>= 9.0 / 10` to pass; `< 9.0` is immediately rejected and regenerated)**:
-     1. **Zero text/gibberish** anywhere in the artwork.
-     2. **Flawless physical & narrative logic** (no duplicate shadows, no weird water physics, clear protagonist focus).
-     3. **Top 18–20% cream paper breathing room** so the top-centered bilingual header sits cleanly.
-     4. **1-second semantic recognition** of the target word's core meaning.
-     5. **House style consistency**: warm cream paper (`#FAF6EE`), expressive dark slate ink outlines (`#1C1917`), terracotta (`#D97757`) & slate-blue (`#2D5A7B`) watercolor wash.
+   - **6-Point Scoring Rubric (Must score `>= 9.0 / 10` to pass; `< 9.0` is immediately rejected and regenerated)**:
+     1. **Visual Focal Point == Word Meaning (80% Rule)**: If you cover the word, the #1 visual focal point occupying 80% of the frame must immediately evoke the word's core meaning itself—never let a large human portrait, face, or bystander torso hijack the center of the frame (e.g., `process` must focus on the 3-stage transformation flow, not a smiling baker's portrait).
+     2. **Zero text/gibberish** anywhere in the artwork.
+     3. **Flawless physical & narrative logic** (no duplicate shadows, no inverted scales, no weird pipes).
+     4. **Top 25–28% cream paper breathing room** so the top-centered bilingual header sits cleanly.
+     5. **1-second semantic recognition** of the target word's core meaning.
+     6. **House style consistency**: warm cream paper (`#FAF6EE`), expressive dark slate ink outlines (`#1C1917`), terracotta (`#D97757`) & slate-blue (`#2D5A7B`) watercolor wash.
 
 3. **Stage 3: Automated Gate & Live Deployment (`合格上线`)**
    - Run `node scripts/illus-pipeline.mjs verify <id1> <id2> ...` to update `pipeline/illus-ledger.json`.
