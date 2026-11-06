@@ -5,7 +5,7 @@ import { autoSpeakWord, speakWord, subscribeSpeaking, type SpeakingEvent } from 
 import { gradeExact, maskWordHint } from '../lib/grader'
 import type { CardMode } from '../lib/model'
 import { isSoundMuted, setSoundMuted, subscribeMute } from '../lib/sfx'
-import { splitWordSyllables } from '../lib/syllables'
+import { getStressedSyllableIndex, splitWordSyllables } from '../lib/syllables'
 
 export type SessionCapsule = {
   id: string
@@ -244,6 +244,9 @@ export function WordView({
   const collocations = (word.collocations ?? []).slice(0, 3)
   const senses = groupSenses(word.senses)
   const syllables = splitWordSyllables(word.word)
+  const nonSepSyllables = syllables.filter((s) => !s.isSeparator)
+  const isMultiSyllable = nonSepSyllables.length > 1
+  const stressedSylIdx = isMultiSyllable ? getStressedSyllableIndex(word.word, word.ipa) : -1
   const matchedLen = passed ? word.word.length : computeMatchedPrefixLen(spellInput, word.word)
   const trimmedLen = spellInput.trim().length
   const hasTypo = !passed && trimmedLen > matchedLen
@@ -462,59 +465,88 @@ export function WordView({
                   <h1
                     className={`cw-headword-serif headword${isWordSpeaking ? ' is-speaking' : ''}${passed ? ' is-complete' : ''}`}
                     data-speak-seq={isWordSpeaking ? speaking.seq : undefined}
+                    onPointerDown={(e) => e.preventDefault()}
+                    onClick={() => {
+                      lastSpokenAtRef.current = performance.now()
+                      speakWord(word.word, word.id)
+                    }}
                   >
-                    {syllables.map((syl, sylIdx) => {
-                      if (syl.isSeparator) {
+                    {(() => {
+                      let nonSepOrd = -1
+                      const weights = syllables.map((s) => {
+                        if (s.isSeparator) return 0
+                        nonSepOrd += 1
+                        const base = Math.max(1, s.end - s.start)
+                        return nonSepOrd === stressedSylIdx ? base * 1.3 : base
+                      })
+                      const totalWeight = Math.max(1, weights.reduce((a, b) => a + b, 0))
+                      let cumWeight = 0
+                      nonSepOrd = -1
+                      return syllables.map((syl, sylIdx) => {
+                        if (syl.isSeparator) {
+                          return (
+                            <span key={sylIdx} className="cw-syl-sep">
+                              {syl.text}
+                            </span>
+                          )
+                        }
+                        nonSepOrd += 1
+                        const isStressed = isMultiSyllable && nonSepOrd === stressedSylIdx
+                        const w = weights[sylIdx]
+                        const durMs = Math.max(420, speaking.durationMs || 720)
+                        const delayMs = Math.round((cumWeight / totalWeight) * durMs * 0.78)
+                        const spanMs = Math.max(
+                          180,
+                          Math.round((w / totalWeight) * durMs * 0.98),
+                        )
+                        cumWeight += w
+                        const isSylDone = matchedLen >= syl.end
+                        const isSylCurrent =
+                          !passed &&
+                          (matchedLen > 0 || hasTypo) &&
+                          matchedLen >= syl.start &&
+                          matchedLen < syl.end
+                        const isSylError = hasTypo && matchedLen >= syl.start && matchedLen < syl.end
+                        const hasNextSyllable =
+                          sylIdx < syllables.length - 1 && !syllables[sylIdx + 1]?.isSeparator
+                        const sylStyle = {
+                          '--cw-syl-delay': `${delayMs}ms`,
+                          '--cw-syl-dur': `${spanMs}ms`,
+                        } as CSSProperties
                         return (
-                          <span key={sylIdx} className="cw-syl-sep">
-                            {syl.text}
+                          <span
+                            key={`${sylIdx}:${isWordSpeaking ? speaking.seq : 0}`}
+                            className={`cw-syl${hasNextSyllable ? ' has-dot' : ''}${isStressed ? ' is-syl-stressed' : ''}${isSylDone ? ' is-syl-done' : ''}${isSylCurrent ? ' is-syl-active' : ''}${isSylError ? ' is-syl-error' : ''}${isWordSpeaking ? ' is-syl-speaking' : ''}`}
+                            style={sylStyle}
+                          >
+                            {Array.from(syl.text).map((ch, cIdx) => {
+                              const charPos = syl.start + cIdx
+                              const isTyped = charPos < matchedLen
+                              const isErrorChar = hasTypo && charPos === matchedLen
+                              return (
+                                <span
+                                  key={cIdx}
+                                  className={`cw-char${isTyped ? ' is-typed' : ''}${isErrorChar ? ' is-char-error' : ''}`}
+                                >
+                                  {ch}
+                                </span>
+                              )
+                            })}
                           </span>
                         )
-                      }
-                      const totalLen = Math.max(1, word.word.length)
-                      const durMs = Math.max(420, speaking.durationMs || 720)
-                      const delayMs = Math.round((syl.start / totalLen) * durMs * 0.78)
-                      const spanMs = Math.max(
-                        180,
-                        Math.round(((syl.end - syl.start) / totalLen) * durMs * 0.95),
-                      )
-                      const isSylDone = matchedLen >= syl.end
-                      const isSylCurrent =
-                        !passed &&
-                        (matchedLen > 0 || hasTypo) &&
-                        matchedLen >= syl.start &&
-                        matchedLen < syl.end
-                      const isSylError = hasTypo && matchedLen >= syl.start && matchedLen < syl.end
-                      const hasNextSyllable =
-                        sylIdx < syllables.length - 1 && !syllables[sylIdx + 1]?.isSeparator
-                      const sylStyle = {
-                        '--cw-syl-delay': `${delayMs}ms`,
-                        '--cw-syl-dur': `${spanMs}ms`,
-                      } as CSSProperties
-                      return (
-                        <span
-                          key={`${sylIdx}:${isWordSpeaking ? speaking.seq : 0}`}
-                          className={`cw-syl${hasNextSyllable ? ' has-dot' : ''}${isSylDone ? ' is-syl-done' : ''}${isSylCurrent ? ' is-syl-active' : ''}${isSylError ? ' is-syl-error' : ''}${isWordSpeaking ? ' is-syl-speaking' : ''}`}
-                          style={sylStyle}
-                        >
-                          {Array.from(syl.text).map((ch, cIdx) => {
-                            const charPos = syl.start + cIdx
-                            const isTyped = charPos < matchedLen
-                            const isErrorChar = hasTypo && charPos === matchedLen
-                            return (
-                              <span
-                                key={cIdx}
-                                className={`cw-char${isTyped ? ' is-typed' : ''}${isErrorChar ? ' is-char-error' : ''}`}
-                              >
-                                {ch}
-                              </span>
-                            )
-                          })}
-                        </span>
-                      )
-                    })}
+                      })
+                    })()}
                   </h1>
-                  <span className="cw-ipa-pill ipa">{word.ipa}</span>
+                  <span
+                    className="cw-ipa-pill ipa"
+                    onPointerDown={(e) => e.preventDefault()}
+                    onClick={() => {
+                      lastSpokenAtRef.current = performance.now()
+                      speakWord(word.word, word.id)
+                    }}
+                  >
+                    {word.ipa}
+                  </span>
                   <button
                     type="button"
                     className={`cw-btn-speak btn-speak${isWordSpeaking ? ' is-speaking' : ''}`}

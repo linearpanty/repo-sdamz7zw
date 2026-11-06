@@ -3,7 +3,7 @@
  * whose concatenation `.join('')` is strictly identical to `word`.
  */
 
-const EXACT_SYLLABLES: Record<string, string[]> = {
+export const EXACT_SYLLABLES: Record<string, string[]> = {
   abandon: ['a', 'ban', 'don'],
   challenge: ['chal', 'lenge'],
   benefit: ['ben', 'e', 'fit'],
@@ -20,7 +20,7 @@ const EXACT_SYLLABLES: Record<string, string[]> = {
   impact: ['im', 'pact'],
   strategy: ['strat', 'e', 'gy'],
   arbitrary: ['ar', 'bi', 'trar', 'y'],
-  process: ['proc', 'ess'],
+  process: ['pro', 'cess'],
   authority: ['au', 'thor', 'i', 'ty'],
   feature: ['fea', 'ture'],
   capacity: ['ca', 'pac', 'i', 'ty'],
@@ -57,7 +57,7 @@ const EXACT_SYLLABLES: Record<string, string[]> = {
   support: ['sup', 'port'],
   issue: ['is', 'sue'],
   create: ['cre', 'ate'],
-  recreate: ['rec', 're', 'ate'],
+  recreate: ['re', 'cre', 'ate'],
   community: ['com', 'mu', 'ni', 'ty'],
   source: ['source'],
   policy: ['pol', 'i', 'cy'],
@@ -101,9 +101,38 @@ const EXACT_SYLLABLES: Record<string, string[]> = {
   journal: ['jour', 'nal'],
   mental: ['men', 'tal'],
   survive: ['sur', 'vive'],
-  progress: ['prog', 'ress'],
+  progress: ['pro', 'gress'],
   plane: ['plane'],
   encourage: ['en', 'cour', 'age'],
+  zone: ['zone'],
+  wild: ['wild'],
+  prefer: ['pre', 'fer'],
+  obtain: ['ob', 'tain'],
+  shift: ['shift'],
+  accident: ['ac', 'ci', 'dent'],
+  port: ['port'],
+  theme: ['theme'],
+  quote: ['quote'],
+  fee: ['fee'],
+  faith: ['faith'],
+  desire: ['de', 'sire'],
+  task: ['task'],
+  theatre: ['the', 'a', 'tre'],
+  prime: ['prime'],
+  appeal: ['ap', 'peal'],
+  variety: ['va', 'ri', 'e', 'ty'],
+  net: ['net'],
+  advance: ['ad', 'vance'],
+  audience: ['au', 'di', 'ence'],
+  combine: ['com', 'bine'],
+  background: ['back', 'ground'],
+  command: ['com', 'mand'],
+  van: ['van'],
+  balance: ['bal', 'ance'],
+  fellow: ['fel', 'low'],
+  silver: ['sil', 'ver'],
+  tear: ['tear'],
+  signal: ['sig', 'nal'],
 }
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u', 'y'])
@@ -243,4 +272,22 @@ export function splitWordSyllables(word: string): SyllableSegment[] {
     }
   }
   return out
+}
+
+const IPA_VOWEL_RE = /[ɑæʌɔəɛɜɪiʊuɒeaouɐɚɝ]+/g
+
+/**
+ * Returns the 0-based syllable index (among non-separator segments of `splitWordSyllables(word)`)
+ * that carries primary lexical stress (`ˈ`) according to `ipa`.
+ */
+export function getStressedSyllableIndex(word: string, ipa?: string): number {
+  const syls = splitWordSyllables(word).filter((s) => !s.isSeparator)
+  if (syls.length <= 1) return 0
+  if (!ipa) return 0
+  const stressPos = ipa.indexOf('ˈ')
+  if (stressPos < 0) return 0
+  const prefix = ipa.slice(0, stressPos)
+  const matches = prefix.match(IPA_VOWEL_RE)
+  const countBefore = matches ? matches.length : 0
+  return Math.min(syls.length - 1, countBefore)
 }

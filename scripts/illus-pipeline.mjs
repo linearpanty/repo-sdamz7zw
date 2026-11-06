@@ -20,6 +20,19 @@ const LEDGER_PATH = join(LEDGER_DIR, 'illus-ledger.json')
 const MAX_BATCH_SIZE = 5
 const INCLUDED_LEVELS = new Set(['A2', 'B1', 'B2', 'C1', 'C2'])
 
+function loadExactSyllables() {
+  try {
+    const src = readFileSync('src/lib/syllables.ts', 'utf8')
+    const m = src.match(/EXACT_SYLLABLES[^{]*(\{[\s\S]*?\n\})/)
+    if (!m) return {}
+    return Function(`"use strict"; return (${m[1]});`)()
+  } catch {
+    return {}
+  }
+}
+
+const EXACT_SYLLABLES = loadExactSyllables()
+
 function fnv1a32(str) {
   let h = 0x811c9dc5
   for (let i = 0; i < str.length; i++) {
@@ -104,6 +117,30 @@ function auditWord(w) {
   }
   if (w.sceneHook && (!Array.isArray(w.collocations) || !w.collocations.some((c) => c.toLowerCase() === w.sceneHook.trim().toLowerCase()))) {
     issues.push(`collocations must include sceneHook ("${w.sceneHook}")`)
+  }
+  // Sound-spelling sync (音形同步) QA checks:
+  const lower = (w.word ?? '').toLowerCase()
+  const exactSyls = EXACT_SYLLABLES[lower] ?? (lower.length <= 4 && (lower.match(/[aeiouy]+/gi) ?? []).length === 1 ? [lower] : undefined)
+  if (!Array.isArray(exactSyls) || exactSyls.length === 0) {
+    issues.push(`missing explicit EXACT_SYLLABLES entry in src/lib/syllables.ts for "${lower}"`)
+  } else {
+    if (exactSyls.join('').toLowerCase() !== lower) {
+      issues.push(`EXACT_SYLLABLES["${lower}"] join mismatch ("${exactSyls.join('')}" !== "${lower}")`)
+    }
+    for (const part of exactSyls) {
+      if (!/[aeiouy]/i.test(part)) {
+        issues.push(`syllable chunk "${part}" in EXACT_SYLLABLES["${lower}"] lacks a vowel`)
+      }
+    }
+  }
+  if (!w.ipa || !w.ipa.startsWith('/') || !w.ipa.endsWith('/')) {
+    issues.push(`missing or invalid ipa ("${w.ipa ?? ''}")`)
+  }
+  const audioPath = join('public', 'audio', 'us', `${w.id}.mp3`)
+  if (!existsSync(audioPath)) {
+    issues.push(`missing audio file ${audioPath}`)
+  } else if (statSync(audioPath).size < 1000) {
+    issues.push(`suspiciously small audio file ${audioPath}`)
   }
   return issues
 }

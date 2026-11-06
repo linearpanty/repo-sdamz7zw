@@ -361,6 +361,7 @@ mark.cw-target-hl {
   display: inline-flex;
   align-items: baseline;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 
 .cw-syl {
@@ -400,6 +401,12 @@ mark.cw-target-hl {
 
 .cw-syl:last-child::before {
   right: 1px;
+}
+
+.cw-syl.is-syl-stressed::before {
+  background: rgba(194, 92, 62, 0.38);
+  transform: scaleX(0.42);
+  opacity: 1;
 }
 
 .cw-syl.is-syl-active::before {
@@ -520,6 +527,14 @@ mark.cw-target-hl {
   border: 1px solid var(--cw-border-hairline);
   padding: 4px 9px;
   border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.16s ease, color 0.16s ease;
+}
+
+.cw-ipa-pill:hover,
+.ipa:hover {
+  border-color: var(--cw-border-strong);
+  color: var(--cw-text-primary);
 }
 
 .cw-btn-speak,
