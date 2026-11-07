@@ -49,7 +49,7 @@ function parseActiveWords() {
     const lines = raw.split('\n')
     for (let i = 0; i < lines.length; i += 1) {
       const trimmed = lines[i].trim()
-      if (!trimmed.startsWith('{"id":')) continue
+      if (!trimmed.startsWith('{"')) continue
       const jsonText = trimmed.replace(/,\s*$/, '')
       try {
         const obj = JSON.parse(jsonText)
