@@ -614,6 +614,11 @@ export const EXACT_SYLLABLES: Record<string, string[]> = {
   assessment: ["as","sess","ment"],
   preserve: ["pre","serve"],
   enterprise: ["en","ter","prise"],
+  charity: ["cha", "ri", "ty"],
+  cancel: ["can","cel"],
+  musical: ["mu","si","cal"],
+  valuable: ["va", "lu", "a", "ble"],
+  hardly: ["hard","ly"],
 }
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u', 'y'])
