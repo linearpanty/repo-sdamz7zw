@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import type { Word } from '../data/types'
 import { speakWord } from '../lib/audio'
 import { maskWordHint } from '../lib/grader'
@@ -11,6 +11,8 @@ type TodayViewProps = {
   onStart: () => void
 }
 
+const ENTER_GUARD_MS = 300
+
 export function TodayView({
   progress,
   doneWords = [],
@@ -21,9 +23,17 @@ export function TodayView({
   const quiet = progress.finished || remaining === 0
   const label = quiet ? '再来 5 个词' : progress.started ? '继续' : '开始'
 
+  // Guard against a late / held Enter from finishing the last word starting a bonus round.
+  const mountedAtRef = useRef<number | null>(null)
   useEffect(() => {
+    mountedAtRef.current ??= performance.now()
+    const mountedAt = mountedAtRef.current
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
+        if (e.repeat || performance.now() - mountedAt < ENTER_GUARD_MS) {
+          e.preventDefault()
+          return
+        }
         e.preventDefault()
         onStart()
       }

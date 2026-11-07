@@ -11,9 +11,8 @@ import {
 } from './lib/model'
 import { TodayView } from './views/TodayView'
 import { WordView } from './views/WordView'
-import { DoneView } from './views/DoneView'
 
-type Route = 'today' | 'word' | 'done'
+type Route = 'today' | 'word'
 type RuntimeModule = typeof import('./lib/runtime')
 
 let cachedRuntimePromise: Promise<RuntimeModule> | null = null
@@ -27,13 +26,11 @@ function loadRuntime(): Promise<RuntimeModule> {
 function readRoute(): Route {
   const raw = window.location.hash.replace(/^#/, '').replace(/^\//, '').split('?')[0]
   if (raw === 'word') return 'word'
-  if (raw === 'done') return 'done'
   return 'today'
 }
 
 function hashFor(route: Route): string {
   if (route === 'word') return '#/word'
-  if (route === 'done') return '#/done'
   return '#/'
 }
 
@@ -136,8 +133,6 @@ export default function App() {
     if (!runtime) return
     if (route === 'word' && (progress.finished || progress.queue.length === 0)) {
       go('today', 'replace')
-    } else if (route === 'done' && !progress.finished) {
-      go('today', 'replace')
     }
   }, [go, progress.finished, progress.queue.length, route, runtime])
 
@@ -184,7 +179,7 @@ export default function App() {
     if (!runtime) return
     const next = runtime.settleCard(progress, hadMiss, undefined, mastered)
     commit(runtime, next)
-    if (next.finished) go('done')
+    if (next.finished) go('today')
   }
 
   const card = progress.queue[0]
@@ -256,15 +251,6 @@ export default function App() {
               doneWords={roundDoneWords}
               queueWords={queueWords}
               onStart={handleStart}
-            />
-          )}
-          {route === 'done' && progress.finished && (
-            <DoneView
-              words={doneWords.slice(-progress.dailyCount)}
-              onMore={handleStart}
-              onBack={() => {
-                go('today')
-              }}
             />
           )}
           {showWord && word && card && (

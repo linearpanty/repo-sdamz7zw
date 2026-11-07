@@ -30,7 +30,7 @@ const REQUIRED_IN_JS = [
   '继续',
   '今天好了',
   '还有',
-  '回今天',
+  '再来 5 个词',
   '输入这个词',
   'ClawWords',
   'abandon the dog',
