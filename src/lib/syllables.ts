@@ -599,9 +599,16 @@ export const EXACT_SYLLABLES: Record<string, string[]> = {
   bush: ["bush"],
   trigger: ["trig","ger"],
   acknowledge: ["ac","know","ledge"],
-  vessel: ['ves', 'sel'],
-  widely: ['wide', 'ly'],
+  vessel: ["ves","sel"],
+  widely: ["wide","ly"],
   spinning: ['spin', 'ning'],
+  formation: ["for","ma","tion"],
+  significantly: ["sig","ni","fi","cant","ly"],
+  expansion: ["ex","pan","sion"],
+  arrangement: ["ar","range","ment"],
+  achievement: ["a","chieve","ment"],
+  intention: ["in","ten","tion"],
+  bind: ["bind"],
 }
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u', 'y'])

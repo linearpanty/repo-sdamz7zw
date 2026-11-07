@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T16:23:54.076Z",
+  "updatedAt": "2026-11-07T16:29:47.832Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -4777,6 +4777,78 @@
       "sceneHookZh": "点头致意",
       "illustration": "illus/acknowledge.webp",
       "verifiedAt": "2026-11-07T16:23:54.075Z"
+    },
+    "vessel": {
+      "index": 594,
+      "status": "live",
+      "sceneHook": "sailing vessel",
+      "sceneHookZh": "远航帆船",
+      "illustration": "illus/vessel.webp",
+      "verifiedAt": "2026-11-07T16:29:47.826Z"
+    },
+    "widely": {
+      "index": 595,
+      "status": "live",
+      "sceneHook": "spread widely",
+      "sceneHookZh": "广泛传播",
+      "illustration": "illus/widely.webp",
+      "verifiedAt": "2026-11-07T16:29:47.830Z"
+    },
+    "formation": {
+      "index": 596,
+      "status": "live",
+      "sceneHook": "flight formation",
+      "sceneHookZh": "雁群编队",
+      "illustration": "illus/formation.webp",
+      "verifiedAt": "2026-11-07T16:29:47.831Z"
+    },
+    "significantly": {
+      "index": 597,
+      "status": "live",
+      "sceneHook": "grow significantly",
+      "sceneHookZh": "显著长高",
+      "illustration": "illus/significantly.webp",
+      "verifiedAt": "2026-11-07T16:29:47.831Z"
+    },
+    "expansion": {
+      "index": 598,
+      "status": "live",
+      "sceneHook": "rapid expansion",
+      "sceneHookZh": "迅速膨胀",
+      "illustration": "illus/expansion.webp",
+      "verifiedAt": "2026-11-07T16:29:47.831Z"
+    },
+    "arrangement": {
+      "index": 599,
+      "status": "live",
+      "sceneHook": "seating arrangement",
+      "sceneHookZh": "座位安排",
+      "illustration": "illus/arrangement.webp",
+      "verifiedAt": "2026-11-07T16:29:47.831Z"
+    },
+    "achievement": {
+      "index": 600,
+      "status": "live",
+      "sceneHook": "proud achievement",
+      "sceneHookZh": "骄傲成就",
+      "illustration": "illus/achievement.webp",
+      "verifiedAt": "2026-11-07T16:29:47.831Z"
+    },
+    "intention": {
+      "index": 601,
+      "status": "live",
+      "sceneHook": "clear intention",
+      "sceneHookZh": "明确意图",
+      "illustration": "illus/intention.webp",
+      "verifiedAt": "2026-11-07T16:29:47.832Z"
+    },
+    "bind": {
+      "index": 602,
+      "status": "live",
+      "sceneHook": "bind together",
+      "sceneHookZh": "捆绑成束",
+      "illustration": "illus/bind.webp",
+      "verifiedAt": "2026-11-07T16:29:47.832Z"
     }
   }
 }
