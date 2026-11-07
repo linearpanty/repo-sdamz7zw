@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T15:56:15.294Z",
+  "updatedAt": "2026-11-07T16:07:03.378Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -4657,6 +4657,46 @@
       "sceneHookZh": "黑色碳块",
       "illustration": "illus/carbon.webp",
       "verifiedAt": "2026-11-07T15:56:15.294Z"
+    },
+    "visual": {
+      "index": 579,
+      "status": "live",
+      "sceneHook": "visual chart",
+      "sceneHookZh": "视觉图表",
+      "illustration": "illus/visual.webp",
+      "verifiedAt": "2026-11-07T16:07:03.373Z"
+    },
+    "maintenance": {
+      "index": 580,
+      "status": "live",
+      "sceneHook": "routine maintenance",
+      "sceneHookZh": "日常维护",
+      "illustration": "illus/maintenance.webp",
+      "verifiedAt": "2026-11-07T16:07:03.377Z"
+    },
+    "employer": {
+      "index": 581,
+      "status": "live",
+      "sceneHook": "kind employer",
+      "sceneHookZh": "友善雇主",
+      "illustration": "illus/employer.webp",
+      "verifiedAt": "2026-11-07T16:07:03.377Z"
+    },
+    "arrange": {
+      "index": 582,
+      "status": "live",
+      "sceneHook": "arrange flowers",
+      "sceneHookZh": "插花布置",
+      "illustration": "illus/arrange.webp",
+      "verifiedAt": "2026-11-07T16:07:03.377Z"
+    },
+    "constant": {
+      "index": 583,
+      "status": "live",
+      "sceneHook": "constant drip",
+      "sceneHookZh": "持续滴水",
+      "illustration": "illus/constant.webp",
+      "verifiedAt": "2026-11-07T16:07:03.378Z"
     }
   }
 }
