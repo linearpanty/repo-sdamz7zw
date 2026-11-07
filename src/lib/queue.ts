@@ -280,7 +280,12 @@ export function settleCard(
   const replayed = [...progress.replayed]
   let queue = rest
 
-  const isFirstLearn = !existing && current.mode === 'learn'
+  const isFirstLearn = current.mode === 'learn'
+  const isSameDayLearnVerify =
+    current.mode === 'recall' &&
+    Boolean(existing) &&
+    existing?.reps === 0 &&
+    existing?.lastReview === today
   const effectiveGrade: Grade = hadMiss
     ? 1
     : grade !== undefined
@@ -289,13 +294,49 @@ export function settleCard(
         ? 4
         : 3
 
-  if (hadMiss || effectiveGrade === 1) {
+  if (isFirstLearn) {
+    const isMasteredLearn = !hadMiss && (mastered || effectiveGrade === 4)
+    if (isMasteredLearn) {
+      // Mastered on first sight: exempt from same-round blind recall, jump straight to 21d
+      const d = initDifficulty(4)
+      memory[current.id] = {
+        interval: MASTERED_INTERVAL,
+        next: addDays(today, MASTERED_INTERVAL),
+        misses: 0,
+        stability: MASTERED_INTERVAL,
+        difficulty: d,
+        lastReview: today,
+        reps: 1,
+      }
+    } else {
+      // Normal or missed learn card: save provisional Day-0 state (reps: 0)
+      // and queue a blind recall check at the end of this round.
+      const prevMisses = existing?.misses ?? 0
+      const d = initDifficulty(hadMiss ? 1 : effectiveGrade)
+      memory[current.id] = {
+        interval: 1,
+        next: addDays(today, 1),
+        misses: hadMiss ? prevMisses + 1 : prevMisses,
+        stability: hadMiss ? round2(W[0]) : 1,
+        difficulty: d,
+        lastReview: today,
+        reps: 0,
+      }
+      const alreadyQueued = queue.some((card) => card.id === current.id)
+      if (!alreadyQueued) {
+        queue = [...queue, { id: current.id, mode: 'recall' }]
+      }
+      if (hadMiss && !replayed.includes(current.id)) {
+        replayed.push(current.id)
+      }
+    }
+  } else if (hadMiss || effectiveGrade === 1) {
     const prevMisses = existing?.misses ?? 0
     const prevReps = existing?.reps ?? 0
     let d: number
     let s: number
-    if (!existing) {
-      d = initDifficulty(1)
+    if (!existing || isSameDayLearnVerify) {
+      d = nextDifficulty(existing?.difficulty ?? initDifficulty(3), 1)
       s = round2(W[0])
     } else {
       const prevS = existing.stability ?? Math.max(1, existing.interval || 1)
@@ -321,15 +362,17 @@ export function settleCard(
       queue = [...queue, { id: current.id, mode: 'recall' }]
       replayed.push(current.id)
     }
-  } else if (isFirstLearn) {
-    const isMasteredLearn = mastered || effectiveGrade === 4
-    const d = initDifficulty(isMasteredLearn ? 4 : effectiveGrade)
-    const s = isMasteredLearn ? MASTERED_INTERVAL : 1
-    const interval = isMasteredLearn ? MASTERED_INTERVAL : 1
+  } else if (isSameDayLearnVerify && existing) {
+    // Passed the same-round blind recall check for a newly learned word
+    const recallGrade: 2 | 3 | 4 =
+      effectiveGrade === 2 ? 2 : effectiveGrade === 4 && grade === 4 ? 4 : 3
+    const d = nextDifficulty(existing.difficulty ?? initDifficulty(3), recallGrade)
+    const s = recallGrade === 4 ? round2(W[2]) : 1
+    const interval = recallGrade === 4 ? intervalFromStability(s) : 1
     memory[current.id] = {
       interval,
       next: addDays(today, interval),
-      misses: 0,
+      misses: existing.misses ?? 0,
       stability: s,
       difficulty: d,
       lastReview: today,
@@ -384,12 +427,7 @@ export function settleCard(
 }
 
 export function startBonusRound(progress: Progress, today = progress.todayKey): Progress {
-  const fresh = WORDS.filter((w) => !progress.memory[w.id])
-  const bonus: QueueCard[] = []
-  for (const w of fresh) {
-    if (bonus.length >= progress.dailyCount) break
-    bonus.push({ id: w.id, mode: 'learn' })
-  }
+  const bonus = selectQueue(progress.memory, progress.dailyCount, today)
   if (bonus.length === 0) return progress
   return {
     ...progress,

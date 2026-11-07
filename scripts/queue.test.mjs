@@ -96,10 +96,23 @@ const again = settleCard(
 assert.equal(again.queue.filter((card) => card.id === 'arbitrary').length, 0)
 
 let clean = ensureToday(blank, today)
+// Phase 1: 5 learn cards -> each transitions to a same-round blind recall card at the end of the queue
+for (let i = 0; i < 5; i += 1) clean = settleCard(clean, false, today)
+assert.equal(clean.finished, false, 'round continues into blind recall verification after learn pass')
+assert.equal(clean.queue.length, 5)
+assert.deepEqual(
+  clean.queue.map((card) => card.mode),
+  ['recall', 'recall', 'recall', 'recall', 'recall'],
+)
+assert.equal(clean.doneIds.length, 0, 'words are not marked done until blind recall passes')
+assert.equal(clean.memory.abandon.reps, 0)
+
+// Phase 2: 5 blind recall cards -> completes the 5-word round
 for (let i = 0; i < 5; i += 1) clean = settleCard(clean, false, today)
 assert.equal(clean.finished, true)
 assert.equal(clean.queue.length, 0)
 assert.equal(clean.doneIds.length, 5)
+assert.equal(clean.memory.abandon.reps, 1)
 assert.equal(clean.memory.abandon.next, '2026-10-28')
 
 const bonus = startBonusRound(clean, today)
@@ -108,30 +121,55 @@ assert.deepEqual(bonus.doneIds, [], 'bonus round resets doneIds so slip shows on
 assert.equal(bonus.doneCount, 0)
 assert.deepEqual(bonus.replayed, [])
 
+// Bonus round prioritizes any remaining due recall words before pulling unseen learn words
+const bonusWithDue = startBonusRound(
+  {
+    ...clean,
+    memory: {
+      ...clean.memory,
+      arbitrary: { interval: 2, next: today, misses: 0, stability: 2, difficulty: 5, reps: 1 },
+    },
+  },
+  today,
+)
+assert.deepEqual([bonusWithDue.queue[0].id, bonusWithDue.queue[0].mode], ['arbitrary', 'recall'])
+assert.equal(bonusWithDue.queue[1].mode, 'learn')
+
 const nextDay = ensureToday(clean, '2026-10-28')
 assert.equal(nextDay.finished, false)
 assert.equal(nextDay.queue[0].mode, 'recall')
 assert.equal(nextDay.queue.filter((card) => card.mode === 'recall').length, 5)
 
-// System-judged mastery: honoured on learn cards only.
+// System-judged mastery on learn: exempt from same-round blind recall, jumps straight to 21d.
 const { nextInterval } = queue
 const masteredLearn = settleCard(ensureToday(blank, today), false, today, true)
 assert.equal(masteredLearn.memory.abandon.interval, 21)
 assert.equal(masteredLearn.memory.abandon.next, '2026-11-17')
+assert.equal(masteredLearn.queue.some((c) => c.id === 'abandon'), false, 'mastered learn card skips same-round recall')
+assert.equal(masteredLearn.doneIds.includes('abandon'), true)
 
 const undone = settleCard(ensureToday(blank, today), false, today, false)
-assert.equal(undone.memory.abandon.interval, 1, 'undo / no mastery falls back to the normal first rung')
+assert.equal(undone.memory.abandon.interval, 1, 'undo / no mastery falls back to normal 1d')
+assert.equal(undone.queue.at(-1)?.id, 'abandon', 'non-mastered learn card queues same-round blind recall')
+assert.equal(undone.queue.at(-1)?.mode, 'recall')
 
 const recallCard = {
   ...blank,
-  memory: { abandon: { interval: 1, next: today, misses: 0 } },
+  memory: { abandon: { interval: 1, next: today, misses: 0, reps: 1 } },
   queue: [{ id: 'abandon', mode: 'recall' }],
 }
 const recallMastered = settleCard(recallCard, false, today, true)
 assert.equal(recallMastered.memory.abandon.interval, 4, 'recall cards use DSR stability growth rather than learn mastery jump')
 
-// DSR Recall progression (Good = 3): 1 -> 4 -> 14 -> 43 -> 121 -> 311
+// DSR Recall progression (Good = 3): Day 0 (learn + same-round recall -> 1d) -> 4d -> 14d -> 43d -> 122d -> 320d
 let dsrProgress = settleCard(ensureToday(blank, today), false, today)
+dsrProgress = settleCard(
+  { ...dsrProgress, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
+  false,
+  today,
+  false,
+  3,
+)
 const dsrIntervals = [dsrProgress.memory.abandon.interval]
 for (let i = 0; i < 5; i += 1) {
   const row = dsrProgress.memory.abandon
@@ -147,7 +185,14 @@ for (let i = 0; i < 5; i += 1) {
 assert.deepEqual(dsrIntervals, [1, 4, 14, 43, 122, 320])
 
 // DSR Grade differentiation: Hard (2) < Good (3) < Easy (4)
-const baseLearn = settleCard(ensureToday(blank, today), false, today)
+let baseLearn = settleCard(ensureToday(blank, today), false, today)
+baseLearn = settleCard(
+  { ...baseLearn, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
+  false,
+  today,
+  false,
+  3,
+)
 const dueDay = baseLearn.memory.abandon.next
 const hardRecall = settleCard(
   { ...baseLearn, todayKey: dueDay, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },

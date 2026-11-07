@@ -19,6 +19,7 @@ type WordViewProps = {
   mode: CardMode
   index: number
   total: number
+  stepProgress?: number
   canReplay: boolean
   capsules?: SessionCapsule[]
   onAdvance: (hadMiss: boolean, mastered?: boolean, grade?: Grade) => void
@@ -199,6 +200,7 @@ export function WordView({
   mode,
   index,
   total,
+  stepProgress,
   onAdvance,
   onExit,
 }: WordViewProps) {
@@ -252,7 +254,11 @@ export function WordView({
   const trimmedLen = spellInput.trim().length
   const hasTypo = !passed && trimmedLen > matchedLen
   const isWordSpeaking = speaking.id === word.id.trim().toLowerCase()
-  const fraction = `${index}/${total}`
+  const fraction = `${learn ? '认读' : '默写'} ${index}/${total}`
+  const beamPct = Math.min(
+    100,
+    Math.max(8, (stepProgress ?? index / Math.max(1, total)) * 100),
+  )
   const showMasteryBadge = passed && autoMastered
 
   function holdMsFor(mastered: boolean): number {
@@ -420,7 +426,7 @@ export function WordView({
       >
         <div
           className="cw-flow-beam"
-          style={{ width: `${Math.min(100, (index / Math.max(1, total)) * 100)}%` }}
+          style={{ width: `${beamPct}%` }}
         />
       </div>
 

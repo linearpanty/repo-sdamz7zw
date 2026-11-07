@@ -205,6 +205,15 @@ export default function App() {
   const doneSlots = Math.max(0, progress.dailyCount - progress.queue.length)
   const roundDoneWords =
     doneSlots > 0 ? doneWords.filter((w) => !queuedIdSet.has(w.id)).slice(-doneSlots) : []
+  const totalWords = Math.max(1, roundDoneWords.length + progress.queue.length)
+  const learnRemaining = progress.queue.filter((c) => c.mode === 'learn').length
+  const currentOrd =
+    card?.mode === 'learn'
+      ? Math.max(1, totalWords - learnRemaining + 1)
+      : Math.max(1, roundDoneWords.length + 1)
+  const remainingSteps = progress.queue.reduce((sum, c) => sum + (c.mode === 'learn' ? 2 : 1), 0)
+  const stepProgress =
+    (progress.doneCount + 1) / Math.max(1, progress.doneCount + remainingSteps)
 
   const sessionCapsules = runtime
     ? [
@@ -259,8 +268,9 @@ export default function App() {
               key={`${card.id}:${card.mode}:${progress.doneCount}`}
               word={word}
               mode={card.mode}
-              index={roundDoneWords.length + 1}
-              total={roundDoneWords.length + progress.queue.length}
+              index={currentOrd}
+              total={totalWords}
+              stepProgress={stepProgress}
               canReplay={!progress.replayed.includes(card.id)}
               capsules={sessionCapsules}
               onAdvance={handleAdvance}
