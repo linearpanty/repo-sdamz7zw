@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T16:14:05.427Z",
+  "updatedAt": "2026-11-07T16:23:54.076Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -4729,6 +4729,54 @@
       "sceneHookZh": "煤矿开采",
       "illustration": "illus/mining.webp",
       "verifiedAt": "2026-11-07T16:14:05.426Z"
+    },
+    "spin": {
+      "index": 584,
+      "status": "live",
+      "sceneHook": "spin a top",
+      "sceneHookZh": "旋转陀螺",
+      "illustration": "illus/spin.webp",
+      "verifiedAt": "2026-11-07T16:14:56.557Z"
+    },
+    "log": {
+      "index": 589,
+      "status": "live",
+      "sceneHook": "fallen log",
+      "sceneHookZh": "倒木横桥",
+      "illustration": "illus/log.webp",
+      "verifiedAt": "2026-11-07T16:23:54.071Z"
+    },
+    "outcome": {
+      "index": 590,
+      "status": "live",
+      "sceneHook": "fruitful outcome",
+      "sceneHookZh": "丰硕成果",
+      "illustration": "illus/outcome.webp",
+      "verifiedAt": "2026-11-07T16:23:54.075Z"
+    },
+    "bush": {
+      "index": 591,
+      "status": "live",
+      "sceneHook": "berry bush",
+      "sceneHookZh": "浆果灌木",
+      "illustration": "illus/bush.webp",
+      "verifiedAt": "2026-11-07T16:23:54.075Z"
+    },
+    "trigger": {
+      "index": 592,
+      "status": "live",
+      "sceneHook": "pull a trigger",
+      "sceneHookZh": "触发机关",
+      "illustration": "illus/trigger.webp",
+      "verifiedAt": "2026-11-07T16:23:54.075Z"
+    },
+    "acknowledge": {
+      "index": 593,
+      "status": "live",
+      "sceneHook": "acknowledge with a nod",
+      "sceneHookZh": "点头致意",
+      "illustration": "illus/acknowledge.webp",
+      "verifiedAt": "2026-11-07T16:23:54.075Z"
     }
   }
 }
