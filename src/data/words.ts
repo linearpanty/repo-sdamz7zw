@@ -51,7 +51,27 @@ export function buildActiveWords(pool: readonly Word[], config: LexiconConfig = 
     return fnv1a32(a.id) - fnv1a32(b.id)
   })
 
-  return [...legacy, ...graded]
+  if (!config.includeGreenBook) {
+    return [...legacy, ...graded]
+  }
+
+  const seenIds = new Set<string>()
+  for (const w of legacy) seenIds.add(w.id)
+  for (const w of graded) seenIds.add(w.id)
+
+  const greenTier = pool.slice(LEGACY_COUNT).filter((w) => {
+    if (seenIds.has(w.id)) return false
+    return (w.lists ?? []).includes("green")
+  })
+
+  greenTier.sort((a, b) => {
+    const za = a.zipf ?? 0
+    const zb = b.zipf ?? 0
+    if (zb !== za) return zb - za
+    return fnv1a32(a.id) - fnv1a32(b.id)
+  })
+
+  return [...legacy, ...graded, ...greenTier]
 }
 
 export const RAW_WORD_POOL: Word[] = (CHUNK_0 as Word[]).concat(CHUNK_1, CHUNK_2, CHUNK_3, CHUNK_4, CHUNK_5, CHUNK_6, CHUNK_7)

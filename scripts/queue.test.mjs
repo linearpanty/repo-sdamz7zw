@@ -256,20 +256,28 @@ await wordsBundle.write({ file: wordsOut, format: 'esm' })
 await wordsBundle.close()
 const { WORDS, RAW_WORD_POOL, buildActiveWords } = await import(pathToFileURL(wordsOut).href)
 
-assert.equal(WORDS.length, 2185)
+const CORE_GRADED_LEN = 2185
+assert.ok(WORDS.length > CORE_GRADED_LEN, 'Expected Green Book expansion tier after core 2,185 words')
 assert.deepEqual(
   WORDS.slice(0, 15).map((w) => w.id),
   intro,
 )
-for (let i = 51; i < WORDS.length; i += 1) {
+for (let i = 51; i < CORE_GRADED_LEN; i += 1) {
   assert.ok((WORDS[i - 1].zipf ?? 0) >= (WORDS[i].zipf ?? 0), `Expected descending zipf at ${i}`)
-  assert.notEqual(WORDS[i].level, 'A1', 'Default config should exclude A1')
+  assert.notEqual(WORDS[i].level, 'A1', 'Default core tier should exclude A1')
+}
+for (let i = CORE_GRADED_LEN; i < WORDS.length; i += 1) {
+  assert.ok((WORDS[i].lists ?? []).includes('green'), `Expected green list tag at ${i}`)
+  if (i > CORE_GRADED_LEN) {
+    assert.ok((WORDS[i - 1].zipf ?? 0) >= (WORDS[i].zipf ?? 0), `Expected descending zipf in green tier at ${i}`)
+  }
 }
 
 const withBasic = buildActiveWords(RAW_WORD_POOL, {
   wordlistSource: 'cefrj-octanove-nawl',
   includedLevels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
   groupByLevel: false,
+  includeGreenBook: true,
 })
 assert.ok(withBasic.length > WORDS.length)
 

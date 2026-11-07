@@ -21,10 +21,15 @@ export type LexiconConfig = {
    * - true: group by includedLevels order, sorting by wordfreq Zipf descending within each level
    */
   groupByLevel: boolean
+  /**
+   * 4. 是否收录新东方绿宝书扩展词汇 (Whether to append remaining Green Book IELTS words after the core graded queue):
+   */
+  includeGreenBook?: boolean
 }
 
 export const LEXICON_CONFIG: LexiconConfig = {
   wordlistSource: 'cefrj-octanove-nawl',
   includedLevels: ['A2', 'B1', 'B2', 'C1', 'C2'],
   groupByLevel: false,
+  includeGreenBook: true,
 }

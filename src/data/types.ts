@@ -10,7 +10,7 @@ export type WordExample = {
   mt?: boolean
 }
 
-export type WordListTag = 'cefrj' | 'nawl' | 'atlas'
+export type WordListTag = 'cefrj' | 'nawl' | 'atlas' | 'green'
 
 export type Word = {
   id: string

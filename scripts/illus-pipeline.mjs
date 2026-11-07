@@ -71,7 +71,18 @@ function parseActiveWords() {
     if (zb !== za) return zb - za
     return fnv1a32(a.id) - fnv1a32(b.id)
   })
-  return [...legacy, ...graded].map((w, idx) => ({ index: idx + 1, ...w }))
+  const seenIds = new Set([...legacy, ...graded].map((w) => w.id))
+  const greenTier = pool.slice(50).filter((w) => {
+    if (seenIds.has(w.id)) return false
+    return (w.lists ?? []).includes('green')
+  })
+  greenTier.sort((a, b) => {
+    const za = a.zipf ?? 0
+    const zb = b.zipf ?? 0
+    if (zb !== za) return zb - za
+    return fnv1a32(a.id) - fnv1a32(b.id)
+  })
+  return [...legacy, ...graded, ...greenTier].map((w, idx) => ({ index: idx + 1, ...w }))
 }
 
 function loadLedger() {
