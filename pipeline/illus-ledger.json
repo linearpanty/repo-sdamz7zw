@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T16:29:47.832Z",
+  "updatedAt": "2026-11-07T16:33:05.424Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -4849,6 +4849,46 @@
       "sceneHookZh": "捆绑成束",
       "illustration": "illus/bind.webp",
       "verifiedAt": "2026-11-07T16:29:47.832Z"
+    },
+    "heavily": {
+      "index": 603,
+      "status": "live",
+      "sceneHook": "rain heavily",
+      "sceneHookZh": "倾盆大雨",
+      "illustration": "illus/heavily.webp",
+      "verifiedAt": "2026-11-07T16:33:05.419Z"
+    },
+    "breed": {
+      "index": 604,
+      "status": "live",
+      "sceneHook": "dog breed",
+      "sceneHookZh": "犬类品种",
+      "illustration": "illus/breed.webp",
+      "verifiedAt": "2026-11-07T16:33:05.423Z"
+    },
+    "assessment": {
+      "index": 605,
+      "status": "live",
+      "sceneHook": "careful assessment",
+      "sceneHookZh": "仔细评估",
+      "illustration": "illus/assessment.webp",
+      "verifiedAt": "2026-11-07T16:33:05.423Z"
+    },
+    "preserve": {
+      "index": 606,
+      "status": "live",
+      "sceneHook": "preserve fruit",
+      "sceneHookZh": "保存鲜果",
+      "illustration": "illus/preserve.webp",
+      "verifiedAt": "2026-11-07T16:33:05.423Z"
+    },
+    "enterprise": {
+      "index": 607,
+      "status": "live",
+      "sceneHook": "growing enterprise",
+      "sceneHookZh": "蓬勃企业",
+      "illustration": "illus/enterprise.webp",
+      "verifiedAt": "2026-11-07T16:33:05.423Z"
     }
   }
 }
