@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T16:07:03.378Z",
+  "updatedAt": "2026-11-07T16:14:05.427Z",
   "batchSizeCap": 5,
   "items": {
     "abandon": {
@@ -4697,6 +4697,38 @@
       "sceneHookZh": "持续滴水",
       "illustration": "illus/constant.webp",
       "verifiedAt": "2026-11-07T16:07:03.378Z"
+    },
+    "breath": {
+      "index": 585,
+      "status": "live",
+      "sceneHook": "warm breath",
+      "sceneHookZh": "温暖气息",
+      "illustration": "illus/breath.webp",
+      "verifiedAt": "2026-11-07T16:14:05.425Z"
+    },
+    "athlete": {
+      "index": 586,
+      "status": "live",
+      "sceneHook": "track athlete",
+      "sceneHookZh": "径赛选手",
+      "illustration": "illus/athlete.webp",
+      "verifiedAt": "2026-11-07T16:14:05.426Z"
+    },
+    "immigrant": {
+      "index": 587,
+      "status": "live",
+      "sceneHook": "new immigrant",
+      "sceneHookZh": "新来移民",
+      "illustration": "illus/immigrant.webp",
+      "verifiedAt": "2026-11-07T16:14:05.426Z"
+    },
+    "mining": {
+      "index": 588,
+      "status": "live",
+      "sceneHook": "coal mining",
+      "sceneHookZh": "煤矿开采",
+      "illustration": "illus/mining.webp",
+      "verifiedAt": "2026-11-07T16:14:05.426Z"
     }
   }
 }
