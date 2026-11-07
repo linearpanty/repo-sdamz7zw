@@ -3,7 +3,7 @@ import { hasScene, WordMotionStage } from '../components/WordMotionStage'
 import { illustrationUrl, videoUrl, type Sense, type Word } from '../data/types'
 import { autoSpeakWord, speakWord, subscribeSpeaking, type SpeakingEvent } from '../lib/audio'
 import { gradeExact, maskWordHint } from '../lib/grader'
-import type { CardMode } from '../lib/model'
+import type { CardMode, Grade } from '../lib/model'
 import { isSoundMuted, setSoundMuted, subscribeMute } from '../lib/sfx'
 import { getStressedSyllableIndex, splitWordSyllables } from '../lib/syllables'
 
@@ -21,7 +21,7 @@ type WordViewProps = {
   total: number
   canReplay: boolean
   capsules?: SessionCapsule[]
-  onAdvance: (hadMiss: boolean, mastered?: boolean) => void
+  onAdvance: (hadMiss: boolean, mastered?: boolean, grade?: Grade) => void
   onExit: () => void
 }
 
@@ -225,6 +225,7 @@ export function WordView({
   const timerRef = useRef<number | null>(null)
   const probeTimerRef = useRef<number | null>(null)
   const firstKeyAtRef = useRef<number | null>(null)
+  const typingMsRef = useRef(0)
   const typoCountRef = useRef(0)
   const mountedAtRef = useRef(0)
   const lastSpokenAtRef = useRef(0)
@@ -317,6 +318,18 @@ export function WordView({
     }
   }, [])
 
+  function computeImplicitGrade(hadMiss: boolean, mastered: boolean): Grade {
+    if (hadMiss) return 1
+    if (typoCountRef.current > 0) return 2
+    if (mastered) return 4
+    if (!learn && firstKeyAtRef.current !== null && typingMsRef.current > 0) {
+      const reactionMs = firstKeyAtRef.current - mountedAtRef.current
+      const perCharMs = typingMsRef.current / Math.max(1, word.word.length - 1)
+      if (reactionMs <= 1600 && perCharMs <= 220) return 4
+    }
+    return 3
+  }
+
   function triggerAdvance() {
     if (advancedRef.current) return
     advancedRef.current = true
@@ -326,19 +339,23 @@ export function WordView({
     }
     clearProbeTimer()
     const hadMiss = missedRef.current
-    onAdvance(hadMiss, !hadMiss && masteredRef.current)
+    const mastered = !hadMiss && masteredRef.current
+    const grade = computeImplicitGrade(hadMiss, mastered)
+    onAdvance(hadMiss, mastered, grade)
   }
 
   /**
    * System-judged mastery, decided at the moment of completion:
-   * a brand-new (learn) word, typed blind before the headword surfaced, with no typo or miss.
-   * Copy-typing a visible word — however fast — never counts, and recall cards never qualify.
+   * a brand-new (learn) word typed immediately and smoothly with zero typos or misses.
    */
-  function computeSystemMastered(): boolean {
+  function computeSystemMastered(now: number): boolean {
     if (!learn) return false
-    if (probeRevealed) return false
-    if (missedRef.current) return false
-    return typoCountRef.current === 0
+    if (missedRef.current || typoCountRef.current > 0) return false
+    if (firstKeyAtRef.current === null) return false
+    const reactionMs = firstKeyAtRef.current - mountedAtRef.current
+    const typingMs = Math.max(1, now - firstKeyAtRef.current)
+    const perCharMs = typingMs / Math.max(1, word.word.length - 1)
+    return reactionMs <= 1600 && perCharMs <= 220
   }
 
   function noteMiss() {
@@ -357,12 +374,14 @@ export function WordView({
   function onComplete() {
     const now = performance.now()
     clearProbeTimer()
-    const mastered = computeSystemMastered()
+    const mastered = computeSystemMastered(now)
     masteredRef.current = mastered
     setAutoMastered(mastered)
+    const typingMs = firstKeyAtRef.current === null ? 0 : Math.round(now - firstKeyAtRef.current)
+    typingMsRef.current = typingMs
     setCompletion({
       at: now,
-      typingMs: firstKeyAtRef.current === null ? 0 : Math.round(now - firstKeyAtRef.current),
+      typingMs,
       revealedBefore: probeRevealed,
     })
     // Hand-eye-ear closure: replay the full word pronunciation as soon as the final letter locks in.

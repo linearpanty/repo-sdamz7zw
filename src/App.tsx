@@ -6,6 +6,7 @@ import {
   DAILY_COUNT,
   dateKey,
   PROGRESS_KEY,
+  type Grade,
   type Progress,
   type QueueCard,
 } from './lib/model'
@@ -175,9 +176,9 @@ export default function App() {
     })
   }
 
-  function handleAdvance(hadMiss: boolean, mastered = false) {
+  function handleAdvance(hadMiss: boolean, mastered = false, grade?: Grade) {
     if (!runtime) return
-    const next = runtime.settleCard(progress, hadMiss, undefined, mastered)
+    const next = runtime.settleCard(progress, hadMiss, undefined, mastered, grade)
     commit(runtime, next)
     if (next.finished) go('today')
   }

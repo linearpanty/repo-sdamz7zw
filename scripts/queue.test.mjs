@@ -128,25 +128,72 @@ const recallCard = {
   queue: [{ id: 'abandon', mode: 'recall' }],
 }
 const recallMastered = settleCard(recallCard, false, today, true)
-assert.equal(recallMastered.memory.abandon.interval, 2, 'recall cards never jump to 21 via mastery')
+assert.equal(recallMastered.memory.abandon.interval, 4, 'recall cards use DSR stability growth rather than learn mastery jump')
 
-// Recall ladder: 1 -> 2 -> 4 -> 8 -> 21 -> 21
-let ladderProgress = settleCard(ensureToday(blank, today), false, today)
-const ladder = [ladderProgress.memory.abandon.interval]
+// DSR Recall progression (Good = 3): 1 -> 4 -> 14 -> 43 -> 121 -> 311
+let dsrProgress = settleCard(ensureToday(blank, today), false, today)
+const dsrIntervals = [dsrProgress.memory.abandon.interval]
 for (let i = 0; i < 5; i += 1) {
-  const row = ladderProgress.memory.abandon
-  ladderProgress = settleCard(
-    { ...ladderProgress, todayKey: row.next, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
+  const row = dsrProgress.memory.abandon
+  dsrProgress = settleCard(
+    { ...dsrProgress, todayKey: row.next, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
     false,
     row.next,
-    true,
+    false,
+    3,
   )
-  ladder.push(ladderProgress.memory.abandon.interval)
+  dsrIntervals.push(dsrProgress.memory.abandon.interval)
 }
-assert.deepEqual(ladder, [1, 2, 4, 8, 21, 21])
-assert.equal(nextInterval(0), 1)
-assert.equal(nextInterval(3), 4)
-assert.equal(nextInterval(16), 21)
+assert.deepEqual(dsrIntervals, [1, 4, 14, 43, 122, 320])
+
+// DSR Grade differentiation: Hard (2) < Good (3) < Easy (4)
+const baseLearn = settleCard(ensureToday(blank, today), false, today)
+const dueDay = baseLearn.memory.abandon.next
+const hardRecall = settleCard(
+  { ...baseLearn, todayKey: dueDay, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
+  false,
+  dueDay,
+  false,
+  2,
+)
+const goodRecall = settleCard(
+  { ...baseLearn, todayKey: dueDay, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
+  false,
+  dueDay,
+  false,
+  3,
+)
+const easyRecall = settleCard(
+  { ...baseLearn, todayKey: dueDay, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
+  false,
+  dueDay,
+  false,
+  4,
+)
+assert.ok(hardRecall.memory.abandon.interval < goodRecall.memory.abandon.interval)
+assert.ok(goodRecall.memory.abandon.interval < easyRecall.memory.abandon.interval)
+assert.ok(hardRecall.memory.abandon.difficulty > goodRecall.memory.abandon.difficulty)
+assert.ok(easyRecall.memory.abandon.difficulty < goodRecall.memory.abandon.difficulty)
+
+// Overdue bonus: recalling a card late yields higher stability than recalling on time
+const overdueRecall = settleCard(
+  { ...baseLearn, todayKey: '2026-11-05', queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
+  false,
+  '2026-11-05',
+  false,
+  3,
+)
+assert.ok(overdueRecall.memory.abandon.stability > goodRecall.memory.abandon.stability)
+
+// Post-lapse stability: a mature card that lapses retains higher stability than a fresh card that lapses
+const matureLapse = settleCard(
+  { ...dsrProgress, todayKey: dsrProgress.memory.abandon.next, queue: [{ id: 'abandon', mode: 'recall' }], finished: false },
+  true,
+  dsrProgress.memory.abandon.next,
+)
+assert.equal(matureLapse.memory.abandon.interval, 1)
+assert.ok(matureLapse.memory.abandon.stability > 2, 'mature card post-lapse stability stays above 2d')
+assert.equal( nextInterval(0), 1)
 
 const kept = ensureToday(first, today)
 assert.equal(kept.queue[0].id, 'abandon')

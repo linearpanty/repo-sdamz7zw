@@ -1,15 +1,22 @@
 export type CardMode = 'learn' | 'recall'
 
+/** Implicit 4-point recall grade: 1=Again, 2=Hard, 3=Good, 4=Easy */
+export type Grade = 1 | 2 | 3 | 4
+
 export type QueueCard = {
   id: string
   mode: CardMode
 }
 
-/** Internal spacing record. Never rendered. */
+/** Internal DSR spacing record (Difficulty, Stability, Retrievability). Never rendered. */
 export type Memory = {
   interval: number
   next: string
   misses: number
+  stability?: number
+  difficulty?: number
+  lastReview?: string
+  reps?: number
 }
 
 export type Progress = {
