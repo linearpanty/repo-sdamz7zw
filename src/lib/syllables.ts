@@ -654,6 +654,11 @@ export const EXACT_SYLLABLES: Record<string, string[]> = {
   automatically: ["au","to","ma","ti","cal","ly"],
   construct: ["con","struct"],
   equivalent: ["e","qui","va","lent"],
+  moral: ["mo","ral"],
+  commitment: ["com","mit","ment"],
+  lab: ["lab"],
+  explanation: ["ex","pla","na","tion"],
+  researcher: ["re","sear","cher"],
 }
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u', 'y'])
